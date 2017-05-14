@@ -7,6 +7,8 @@
     <Authors>Evgenii Butorin</Authors>
     <Company />
     <Description>Serilog sink for writing to PostgreSQL table</Description>
+    <PackageProjectUrl>https://github.com/b00ted/serilog-sinks-postgresql</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">

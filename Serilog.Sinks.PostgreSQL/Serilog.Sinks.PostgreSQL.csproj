@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp1.1;net45</TargetFrameworks>
+    <AssemblyName>Serilog.Sinks.PostgreSQL</AssemblyName>
+    <RootNamespace>Serilog</RootNamespace>
+    <Authors>Evgenii Butorin</Authors>
+    <Company />
+    <Description>Serilog sink for writing to PostgreSQL table</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp1.1\Serilog.Sinks.PostgreSQL.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp1.1\Serilog.Sinks.PostgreSQL.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="3.2.2" />
+    <PackageReference Include="Serilog" Version="2.4.0" />
+    <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="2.1.0" />
+  </ItemGroup>
+
+</Project>

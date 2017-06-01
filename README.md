@@ -11,17 +11,18 @@ string connectionstring = "User ID=serilog;Password=serilog;Host=localhost;Port=
 
 string tableName = "logs";
 
-//Used columns (Key is a column name)
+//Used columns (Key is a column name) 
+//Column type is writer's constructor parameter
 IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
 {
-    {"message", new RenderedMessageColumnWriter() },
-    {"message_template", new MessageTemplateColumnWriter() },
+    {"message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+    {"message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
     {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-    {"raise_date", new TimeStampColumnWriter() },
-    {"exception", new ExceptionColumnWriter() },
-    {"properties", new LogEventSerializedColumnWriter() },
-    {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-    {"machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.Raw) }
+    {"raise_date", new TimeStampColumnWriter(NpgsqlDbType.Timestamp) },
+    {"exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+    {"properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
+    {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
+    {"machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.Raw, NpgsqlDbType.Text) }
 };
 
 var logger = new LoggerConfiguration()

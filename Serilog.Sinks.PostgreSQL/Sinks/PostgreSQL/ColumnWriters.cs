@@ -31,9 +31,9 @@ namespace Serilog.Sinks.PostgreSQL
     /// <summary>
     /// Writes timespan part
     /// </summary>
-    public class TimeStampColumnWriter : ColumnWriterBase
+    public class TimestampColumnWriter : ColumnWriterBase
     {
-        public TimeStampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Timestamp) : base(dbType)
+        public TimestampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Timestamp) : base(dbType)
         {
         }
 

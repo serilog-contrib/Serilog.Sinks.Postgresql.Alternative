@@ -18,7 +18,7 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
     {"message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
     {"message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
     {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-    {"raise_date", new TimeStampColumnWriter(NpgsqlDbType.Timestamp) },
+    {"raise_date", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
     {"exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     {"properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
     {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },

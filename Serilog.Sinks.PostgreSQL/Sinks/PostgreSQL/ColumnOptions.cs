@@ -9,7 +9,7 @@ namespace Serilog.Sinks.PostgreSQL
             {DefaultColumnNames.RenderedMesssage,new RenderedMessageColumnWriter()},
             {DefaultColumnNames.MessageTemplate, new MessageTemplateColumnWriter()},
             {DefaultColumnNames.Level, new LevelColumnWriter()},
-            {DefaultColumnNames.TimeStamp, new TimestampColumnWriter()},
+            {DefaultColumnNames.Timestamp, new TimestampColumnWriter()},
             {DefaultColumnNames.Exception, new ExceptionColumnWriter()},
             {DefaultColumnNames.LogEventSerialized, new LogEventSerializedColumnWriter()}
 
@@ -24,7 +24,7 @@ namespace Serilog.Sinks.PostgreSQL
 
         public const string Level = "level";
 
-        public const string TimeStamp = "timestamp";
+        public const string Timestamp = "timestamp";
 
         public const string Exception = "exception";
 

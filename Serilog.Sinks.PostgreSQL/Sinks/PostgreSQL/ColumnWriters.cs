@@ -29,7 +29,7 @@ namespace Serilog.Sinks.PostgreSQL
     }
 
     /// <summary>
-    /// Writes timespan part
+    /// Writes timestamp part
     /// </summary>
     public class TimestampColumnWriter : ColumnWriterBase
     {
@@ -112,7 +112,7 @@ namespace Serilog.Sinks.PostgreSQL
     }
 
     /// <summary>
-    /// Writes props as json
+    /// Writes all event properties as json
     /// </summary>
     public class PropertiesColumnWriter : ColumnWriterBase
     {

@@ -114,7 +114,7 @@ namespace Serilog.Sinks.PostgreSQL
 
                 foreach (var columnKey in _columnOptions.Keys)
                 {
-                    writer.Write(_columnOptions[columnKey].GetValue(entity), _columnOptions[columnKey].DbType);
+                    writer.Write(_columnOptions[columnKey].GetValue(entity, _formatProvider), _columnOptions[columnKey].DbType);
                 }
             }
         }

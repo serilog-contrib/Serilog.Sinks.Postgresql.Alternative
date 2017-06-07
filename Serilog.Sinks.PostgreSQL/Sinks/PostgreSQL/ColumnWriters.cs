@@ -19,7 +19,7 @@ namespace Serilog.Sinks.PostgreSQL
         }
 
         /// <summary>
-        /// Gets part of log event to write in the column
+        /// Gets part of log event to write to the column
         /// </summary>
         /// <param name="logEvent"></param>
         /// <param name="formatProvider"></param>

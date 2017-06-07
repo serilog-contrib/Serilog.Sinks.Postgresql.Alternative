@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Npgsql;
-using Serilog.Debugging;
 using Serilog.Events;
 using Serilog.Sinks.PeriodicBatching;
 
@@ -43,25 +42,18 @@ namespace Serilog.Sinks.PostgreSQL
 
         protected override void EmitBatch(IEnumerable<LogEvent> events)
         {
-            try
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
-                using (var connection = new NpgsqlConnection(_connectionString))
-                {
-                    connection.Open();
+                connection.Open();
 
-                    if (_useCopy)
-                    {
-                        ProcessEventsByCopyCommand(events, connection);
-                    }
-                    else
-                    {
-                        ProcessEventsByInsertStatements(events, connection);
-                    }
+                if (_useCopy)
+                {
+                    ProcessEventsByCopyCommand(events, connection);
                 }
-            }
-            catch (Exception e)
-            {
-                SelfLog.WriteLine("Unable to write {0} log events to the database due to following error: {1}", events.Count(), e.Message);
+                else
+                {
+                    ProcessEventsByInsertStatements(events, connection);
+                }
             }
         }
 

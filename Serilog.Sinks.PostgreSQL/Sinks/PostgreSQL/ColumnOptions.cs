@@ -9,7 +9,7 @@ namespace Serilog.Sinks.PostgreSQL
             {DefaultColumnNames.RenderedMesssage,new RenderedMessageColumnWriter()},
             {DefaultColumnNames.MessageTemplate, new MessageTemplateColumnWriter()},
             {DefaultColumnNames.Level, new LevelColumnWriter()},
-            {DefaultColumnNames.TimeStamp, new TimeStampColumnWriter()},
+            {DefaultColumnNames.TimeStamp, new TimestampColumnWriter()},
             {DefaultColumnNames.Exception, new ExceptionColumnWriter()},
             {DefaultColumnNames.LogEventSerialized, new LogEventSerializedColumnWriter()}
 

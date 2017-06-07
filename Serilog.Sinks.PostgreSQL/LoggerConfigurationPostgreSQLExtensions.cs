@@ -7,7 +7,7 @@ using Serilog.Sinks.PostgreSQL;
 
 namespace Serilog
 {
-    public static class LoggerConfigurationPostgresSQLExtensions
+    public static class LoggerConfigurationPostgreSQLExtensions
     {
         /// <summary>
         /// Default time to wait between checking for event batches.

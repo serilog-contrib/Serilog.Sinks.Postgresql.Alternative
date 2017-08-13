@@ -28,6 +28,7 @@ namespace Serilog
         /// <param name="queueLimit">Maximum number of events in the queue.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO satement </param>
+        /// <param name="schemaName">Schema name</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         public static LoggerConfiguration PostgreSQL(this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
@@ -39,7 +40,8 @@ namespace Serilog
             int batchSizeLimit = PostgreSQLSink.DefaultBatchSizeLimit,
             int queueLimit = PostgreSQLSink.DefaultQueueLimit,
             LoggingLevelSwitch levelSwitch = null,
-            bool useCopy = true)
+            bool useCopy = true,
+            string schemaName = "")
         {
             if (sinkConfiguration == null)
             {
@@ -56,7 +58,8 @@ namespace Serilog
                                                                 columnOptions,
                                                                 batchSizeLimit,
                                                                 queueLimit,
-                                                                useCopy
+                                                                useCopy,
+                                                                schemaName
                                                                 ), restrictedToMinimumLevel, levelSwitch);
         }
 

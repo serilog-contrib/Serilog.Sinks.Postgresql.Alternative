@@ -16,6 +16,7 @@ namespace Serilog.Sinks.PostgreSQL
         private readonly IFormatProvider _formatProvider;
         private readonly bool _useCopy;
 
+        private readonly string _schemaName;
 
         public const int DefaultBatchSizeLimit = 30;
         public const int DefaultQueueLimit = Int32.MaxValue;
@@ -28,10 +29,13 @@ namespace Serilog.Sinks.PostgreSQL
             IDictionary<string, ColumnWriterBase> columnOptions = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
             int queueLimit = DefaultQueueLimit,
-            bool useCopy = true) : base(batchSizeLimit, period, queueLimit)
+            bool useCopy = true,
+            string schemaName = "") : base(batchSizeLimit, period, queueLimit)
         {
             _connectionString = connectionString;
             _tableName = tableName;
+
+            _schemaName = schemaName;
 
             _formatProvider = formatProvider;
             _useCopy = useCopy;
@@ -89,20 +93,34 @@ namespace Serilog.Sinks.PostgreSQL
 
         private string GetCopyCommand()
         {
+            string schemaPrefix = GetSchemaPrefix();
+
             var columns = String.Join(", ", _columnOptions.Keys);
 
-            return $"COPY {_tableName}({columns}) FROM STDIN BINARY;";
+            return $"COPY {schemaPrefix}{_tableName}({columns}) FROM STDIN BINARY;";
 
         }
 
         private string GetInsertQuery()
         {
+            string schemaPrefix = GetSchemaPrefix();
+
             var columns = String.Join(", ", _columnOptions.Keys);
 
             var parameters = String.Join(", ", _columnOptions.Keys.Select(cn => ":" + cn));
 
-            return $@"INSERT INTO {_tableName} ({columns})
+            return $@"INSERT INTO {schemaPrefix}{_tableName} ({columns})
                                         VALUES ({parameters})";
+        }
+
+        private string GetSchemaPrefix()
+        {
+            if (!String.IsNullOrEmpty(_schemaName))
+            {
+                return _schemaName + ".";
+            }
+
+            return String.Empty;
         }
 
 

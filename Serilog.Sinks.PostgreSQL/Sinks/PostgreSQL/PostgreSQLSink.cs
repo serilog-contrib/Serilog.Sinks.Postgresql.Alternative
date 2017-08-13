@@ -18,7 +18,7 @@ namespace Serilog.Sinks.PostgreSQL
 
 
         public const int DefaultBatchSizeLimit = 30;
-        public const int DefaultQueueLimit = 30;
+        public const int DefaultQueueLimit = Int32.MaxValue;
 
 
         public PostgreSQLSink(string connectionString,

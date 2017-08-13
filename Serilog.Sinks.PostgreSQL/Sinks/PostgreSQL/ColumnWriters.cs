@@ -187,11 +187,14 @@ namespace Serilog.Sinks.PostgreSQL
     {
         public string Name { get; }
         public PropertyWriteMethod WriteMethod { get; }
+        public string Format { get; }
 
-        public SinglePropertyColumnWriter(string propertyName, PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString, NpgsqlDbType dbType = NpgsqlDbType.Text) : base(dbType)
+        public SinglePropertyColumnWriter(string propertyName, PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString, 
+                                            NpgsqlDbType dbType = NpgsqlDbType.Text, string format = null) : base(dbType)
         {
             Name = propertyName;
             WriteMethod = writeMethod;
+            Format = format;
         }
 
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
@@ -218,7 +221,7 @@ namespace Serilog.Sinks.PostgreSQL
                     return sb.ToString();
 
                 default:
-                    return logEvent.Properties[Name].ToString();
+                    return logEvent.Properties[Name].ToString(Format, formatProvider);
             }
 
         }

@@ -127,6 +127,9 @@ namespace Serilog.Sinks.PostgreSQL
 
         private object PropertiesToJson(LogEvent logEvent)
         {
+            if (logEvent.Properties.Count == 0)
+                return "{}";
+
             var valuesFormatter = new JsonValueFormatter();
 
             var sb = new StringBuilder();
@@ -145,7 +148,7 @@ namespace Serilog.Sinks.PostgreSQL
                 }
             }
 
-            sb.Remove(sb.Length - 2, 1);
+            sb.Remove(sb.Length - 2, 2);
             sb.Append("}");
 
             return sb.ToString();

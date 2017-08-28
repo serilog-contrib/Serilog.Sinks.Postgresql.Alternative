@@ -28,6 +28,27 @@ namespace Serilog.Sinks.PostgreSQL
             IFormatProvider formatProvider = null,
             IDictionary<string, ColumnWriterBase> columnOptions = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
+            bool useCopy = true,
+            string schemaName = "") : base(batchSizeLimit, period)
+        {
+            _connectionString = connectionString;
+            _tableName = tableName;
+
+            _schemaName = schemaName;
+
+            _formatProvider = formatProvider;
+            _useCopy = useCopy;
+
+            _columnOptions = columnOptions ?? ColumnOptions.Default;
+        }
+
+
+        public PostgreSQLSink(string connectionString,
+            string tableName,
+            TimeSpan period,
+            IFormatProvider formatProvider = null,
+            IDictionary<string, ColumnWriterBase> columnOptions = null,
+            int batchSizeLimit = DefaultBatchSizeLimit,
             int queueLimit = DefaultQueueLimit,
             bool useCopy = true,
             string schemaName = "") : base(batchSizeLimit, period, queueLimit)

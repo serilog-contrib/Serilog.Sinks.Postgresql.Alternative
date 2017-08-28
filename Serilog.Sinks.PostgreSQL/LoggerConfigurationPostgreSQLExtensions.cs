@@ -25,7 +25,6 @@ namespace Serilog
         /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
-        /// <param name="queueLimit">Maximum number of events in the queue.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO satement </param>
         /// <param name="schemaName">Schema name</param>
@@ -38,7 +37,6 @@ namespace Serilog
             TimeSpan? period = null,
             IFormatProvider formatProvider = null,
             int batchSizeLimit = PostgreSQLSink.DefaultBatchSizeLimit,
-            int queueLimit = PostgreSQLSink.DefaultQueueLimit,
             LoggingLevelSwitch levelSwitch = null,
             bool useCopy = true,
             string schemaName = "")
@@ -57,7 +55,6 @@ namespace Serilog
                                                                 formatProvider,
                                                                 columnOptions,
                                                                 batchSizeLimit,
-                                                                queueLimit,
                                                                 useCopy,
                                                                 schemaName
                                                                 ), restrictedToMinimumLevel, levelSwitch);

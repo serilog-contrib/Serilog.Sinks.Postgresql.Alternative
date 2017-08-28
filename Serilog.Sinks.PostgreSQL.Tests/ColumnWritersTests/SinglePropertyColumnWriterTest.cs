@@ -1,0 +1,29 @@
+﻿using System;
+using System.Linq;
+using Serilog.Events;
+using Serilog.Parsing;
+using Xunit;
+
+namespace Serilog.Sinks.PostgreSQL.Tests
+{
+    public class SinglePropertyColumnWriterTest
+    {
+        [Fact]
+        public void WithToStringSeleted_ShouldRespectFormatPassed()
+        {
+            string propertyName = "TestProperty";
+
+            string propertyValue = "TestValue";
+
+            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
+
+            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
+
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), new []{ property });
+
+            var result = writer.GetValue(testEvent);
+
+            Assert.Equal(propertyValue, result);
+        }
+    }
+}

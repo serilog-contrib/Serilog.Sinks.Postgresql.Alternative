@@ -95,13 +95,18 @@ namespace Serilog.Sinks.PostgreSQL
                     command.Parameters.Clear();
                     foreach (var columnOption in _columnOptions)
                     {
-                        command.Parameters.AddWithValue(columnOption.Key, columnOption.Value.DbType,
+                        command.Parameters.AddWithValue(ClearColumnNameForParameterName(columnOption.Key), columnOption.Value.DbType,
                             columnOption.Value.GetValue(logEvent, _formatProvider));
                     }
 
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        private static string ClearColumnNameForParameterName(string columnName)
+        {
+            return columnName?.Replace("\"", "");
         }
 
         private void ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
@@ -128,7 +133,7 @@ namespace Serilog.Sinks.PostgreSQL
 
             var columns = String.Join(", ", _columnOptions.Keys);
 
-            var parameters = String.Join(", ", _columnOptions.Keys.Select(cn => ":" + cn));
+            var parameters = String.Join(", ", _columnOptions.Keys.Select(cn => ":" + ClearColumnNameForParameterName(cn)));
 
             return $@"INSERT INTO {schemaPrefix}{_tableName} ({columns})
                                         VALUES ({parameters})";

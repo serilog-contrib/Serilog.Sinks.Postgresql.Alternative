@@ -22,7 +22,7 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
     {"exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     {"properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
     {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
-    {"machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.Raw, NpgsqlDbType.Text) }
+    {"machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l") }
 };
 
 var logger = new LoggerConfiguration()

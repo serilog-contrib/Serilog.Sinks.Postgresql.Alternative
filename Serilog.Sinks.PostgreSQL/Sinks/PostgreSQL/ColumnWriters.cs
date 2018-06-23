@@ -201,7 +201,7 @@ namespace Serilog.Sinks.PostgreSQL
         {
             if (!logEvent.Properties.ContainsKey(Name))
             {
-                return null;
+                return DBNull.Value;
             }
 
             switch (WriteMethod)

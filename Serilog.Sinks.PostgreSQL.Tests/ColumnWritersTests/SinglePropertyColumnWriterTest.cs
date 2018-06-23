@@ -25,5 +25,23 @@ namespace Serilog.Sinks.PostgreSQL.Tests
 
             Assert.Equal(propertyValue, result);
         }
+
+        [Fact]
+        public void PropertyIsNotPeresent_ShouldReturnDbNullValue()
+        {
+            string propertyName = "TestProperty";
+
+            string propertyValue = "TestValue";
+
+            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
+
+            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
+
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+
+            var result = writer.GetValue(testEvent);
+
+            Assert.Equal(DBNull.Value, result);
+        }
     }
 }

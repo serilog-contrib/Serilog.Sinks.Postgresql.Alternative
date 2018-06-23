@@ -56,5 +56,98 @@ namespace Serilog.Sinks.PostgreSQL.IntegrationTests
 
         }
 
+        [Fact]
+        public void WriteEventWithZeroCodeCharInJson_ShouldInsertEventToDb()
+        {
+            _dbHelper.ClearTable(_tableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test\u0000" };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+            {
+                {"message", new RenderedMessageColumnWriter() },
+                {"message_template", new MessageTemplateColumnWriter() },
+                {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                {"raise_date", new TimestampColumnWriter() },
+                {"exception", new ExceptionColumnWriter() },
+                {"properties", new LogEventSerializedColumnWriter() },
+                {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Text) }
+            };
+
+            var logger =
+                new LoggerConfiguration().WriteTo.PostgreSQL(_connectionString, _tableName, columnProps)
+                    .CreateLogger();
+
+            logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
+
+            logger.Dispose();
+
+            var actualRowsCount = _dbHelper.GetTableRowsCount(_tableName);
+
+            Assert.Equal(1, actualRowsCount);
+        }
+
+        [Fact]
+        public void QuotedColumnNamesWithInsertStatements_ShouldInsertEventToDb()
+        {
+            _dbHelper.ClearTable(_tableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+            {
+                {"message", new RenderedMessageColumnWriter() },
+                {"\"message_template\"", new MessageTemplateColumnWriter() },
+                {"\"level\"", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                {"raise_date", new TimestampColumnWriter() },
+                {"exception", new ExceptionColumnWriter() },
+                {"properties", new LogEventSerializedColumnWriter() },
+                {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Text) }
+            };
+
+            var logger =
+                new LoggerConfiguration().WriteTo.PostgreSQL(_connectionString, _tableName, columnProps, useCopy: false)
+                    .CreateLogger();
+
+            logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
+
+            logger.Dispose();
+
+            var actualRowsCount = _dbHelper.GetTableRowsCount(_tableName);
+
+            Assert.Equal(1, actualRowsCount);
+        }
+
+        [Fact]
+        public void PropertyForSinglePropertyColumnWriterDoesNotExistsWithInsertStatements_ShouldInsertEventToDb()
+        {
+            _dbHelper.ClearTable(_tableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+            {
+                {"message", new RenderedMessageColumnWriter() },
+                {"message_template", new MessageTemplateColumnWriter() },
+                {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                {"raise_date", new TimestampColumnWriter() },
+                {"exception", new ExceptionColumnWriter() },
+                {"properties", new LogEventSerializedColumnWriter() },
+                {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                {"machine_name", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
+
+            var logger =
+                new LoggerConfiguration().WriteTo.PostgreSQL(_connectionString, _tableName, columnProps, useCopy: false)
+                    .CreateLogger();
+
+            logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
+
+            logger.Dispose();
+
+            var actualRowsCount = _dbHelper.GetTableRowsCount(_tableName);
+
+            Assert.Equal(1, actualRowsCount);
+        }
     }
 }

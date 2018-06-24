@@ -28,6 +28,7 @@ namespace Serilog
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO satement </param>
         /// <param name="schemaName">Schema name</param>
+        /// <param name="needAutoCreateTable">Set if sink should create table</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         public static LoggerConfiguration PostgreSQL(this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
@@ -39,7 +40,8 @@ namespace Serilog
             int batchSizeLimit = PostgreSQLSink.DefaultBatchSizeLimit,
             LoggingLevelSwitch levelSwitch = null,
             bool useCopy = true,
-            string schemaName = "")
+            string schemaName = "",
+            bool needAutoCreateTable = false)
         {
             if (sinkConfiguration == null)
             {
@@ -56,8 +58,8 @@ namespace Serilog
                                                                 columnOptions,
                                                                 batchSizeLimit,
                                                                 useCopy,
-                                                                schemaName
-                                                                ), restrictedToMinimumLevel, levelSwitch);
+                                                                schemaName,
+                                                                needAutoCreateTable), restrictedToMinimumLevel, levelSwitch);
         }
 
     }

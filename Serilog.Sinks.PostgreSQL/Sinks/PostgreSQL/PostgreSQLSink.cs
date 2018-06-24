@@ -21,6 +21,8 @@ namespace Serilog.Sinks.PostgreSQL
         public const int DefaultBatchSizeLimit = 30;
         public const int DefaultQueueLimit = Int32.MaxValue;
 
+        private bool _isTableCreated;
+
 
         public PostgreSQLSink(string connectionString,
             string tableName,
@@ -29,7 +31,8 @@ namespace Serilog.Sinks.PostgreSQL
             IDictionary<string, ColumnWriterBase> columnOptions = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
             bool useCopy = true,
-            string schemaName = "") : base(batchSizeLimit, period)
+            string schemaName = "",
+            bool needAutoCreateTable = false) : base(batchSizeLimit, period)
         {
             _connectionString = connectionString;
             _tableName = tableName;
@@ -40,6 +43,8 @@ namespace Serilog.Sinks.PostgreSQL
             _useCopy = useCopy;
 
             _columnOptions = columnOptions ?? ColumnOptions.Default;
+
+            _isTableCreated = !needAutoCreateTable;
         }
 
 
@@ -51,7 +56,8 @@ namespace Serilog.Sinks.PostgreSQL
             int batchSizeLimit = DefaultBatchSizeLimit,
             int queueLimit = DefaultQueueLimit,
             bool useCopy = true,
-            string schemaName = "") : base(batchSizeLimit, period, queueLimit)
+            string schemaName = "",
+            bool needAutoCreateTable = false) : base(batchSizeLimit, period, queueLimit)
         {
             _connectionString = connectionString;
             _tableName = tableName;
@@ -62,6 +68,8 @@ namespace Serilog.Sinks.PostgreSQL
             _useCopy = useCopy;
 
             _columnOptions = columnOptions ?? ColumnOptions.Default;
+
+            _isTableCreated = !needAutoCreateTable;
         }
 
 
@@ -70,6 +78,12 @@ namespace Serilog.Sinks.PostgreSQL
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
+
+                if (!_isTableCreated)
+                {
+                    TableCreator.CreateTable(connection, _tableName, _columnOptions);
+                    _isTableCreated = true;
+                }
 
                 if (_useCopy)
                 {

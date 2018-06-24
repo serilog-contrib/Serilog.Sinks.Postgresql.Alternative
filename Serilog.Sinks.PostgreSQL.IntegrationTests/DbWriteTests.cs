@@ -149,5 +149,46 @@ namespace Serilog.Sinks.PostgreSQL.IntegrationTests
 
             Assert.Equal(1, actualRowsCount);
         }
+
+        [Fact]
+        public void AutoCreateTableIsTrue_ShouldCreateTable()
+        {
+            var tableName = "logs_auto_created";
+
+            _dbHelper.RemoveTable(tableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+            var testObj2 = new TestObjectType2 { DateProp1 = DateTime.Now, NestedProp = testObject };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+            {
+                {"message", new RenderedMessageColumnWriter() },
+                {"message_template", new MessageTemplateColumnWriter() },
+                {"level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                {"raise_date", new TimestampColumnWriter() },
+                {"exception", new ExceptionColumnWriter() },
+                {"properties", new LogEventSerializedColumnWriter() },
+                {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                {"machine_name", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
+
+            var logger =
+                new LoggerConfiguration().WriteTo.PostgreSQL(_connectionString, tableName, columnProps, needAutoCreateTable: true)
+                    .Enrich.WithMachineName()
+                    .CreateLogger();
+
+            int rowsCount = 50;
+            for (int i = 0; i < rowsCount; i++)
+            {
+                logger.Information("Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}", i, testObject, testObj2, "stringValue");
+            }
+
+            logger.Dispose();
+
+            var actualRowsCount = _dbHelper.GetTableRowsCount(tableName);
+
+            Assert.Equal(rowsCount, actualRowsCount);
+        }
     }
 }

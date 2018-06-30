@@ -33,7 +33,7 @@ var logger = new LoggerConfiguration()
 
 ##### Table auto creation
 If you set parameter `needAutoCreateTable` to `true` sink automatically create table.
-You can change column sizes by setting values in TableCreator class
+You can change column sizes by setting values in `TableCreator` class:
 ```csharp
 //Sets size of all BIT and BIT VARYING columns to 20
 TableCreator.DefaultBitColumnsLength = 20;

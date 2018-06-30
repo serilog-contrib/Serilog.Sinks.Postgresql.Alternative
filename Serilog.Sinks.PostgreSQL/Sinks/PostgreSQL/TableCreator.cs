@@ -10,7 +10,7 @@ namespace Serilog.Sinks.PostgreSQL
     public class TableCreator
     {
         public static int DefaultCharColumnsLength = 50;
-        public static int DefaultVarCharColumnsLength = 50;
+        public static int DefaultVarcharColumnsLength = 50;
         public static int DefaultBitColumnsLength = 8;
 
         public static void CreateTable(NpgsqlConnection connection, string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
@@ -61,7 +61,7 @@ namespace Serilog.Sinks.PostgreSQL
                 case NpgsqlDbType.Text:
                     return "text";
                 case NpgsqlDbType.Varchar:
-                    return $"character varying({DefaultVarCharColumnsLength})";
+                    return $"character varying({DefaultVarcharColumnsLength})";
                 case NpgsqlDbType.Bytea:
                     return "bytea";
                 case NpgsqlDbType.Date:

@@ -29,3 +29,18 @@ var logger = new LoggerConfiguration()
 			        .WriteTo.PostgreSQL(connectionstring, tableName, columnWriters)
 			        .CreateLogger();
 ```
+
+
+##### Table auto creation
+If you set parameter `needAutoCreateTable` to `true` sink automatically create table.
+You can change column sizes by setting values in `TableCreator` class:
+```csharp
+//Sets size of all BIT and BIT VARYING columns to 20
+TableCreator.DefaultBitColumnsLength = 20;
+
+//Sets size of all CHAR columns to 30
+TableCreator.DefaultCharColumnsLength = 30;
+
+//Sets size of all VARCHAR columns to 50
+TableCreator.DefaultVarcharColumnsLength = 50;
+```

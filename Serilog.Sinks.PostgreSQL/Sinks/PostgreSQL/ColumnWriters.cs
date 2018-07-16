@@ -39,6 +39,11 @@ namespace Serilog.Sinks.PostgreSQL
 
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
+            if (DbType == NpgsqlDbType.Timestamp)
+            {
+                return logEvent.Timestamp.DateTime;
+            }
+
             return logEvent.Timestamp;
         }
     }

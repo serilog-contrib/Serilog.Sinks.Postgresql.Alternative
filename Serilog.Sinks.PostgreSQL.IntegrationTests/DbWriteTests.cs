@@ -61,7 +61,7 @@ namespace Serilog.Sinks.PostgreSQL.IntegrationTests
         {
             _dbHelper.ClearTable(_tableName);
 
-            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test\u0000" };
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test\\u0000" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
             {

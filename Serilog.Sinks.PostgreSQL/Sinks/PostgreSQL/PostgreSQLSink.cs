@@ -128,6 +128,7 @@ namespace Serilog.Sinks.PostgreSQL
             using (var binaryCopyWriter = connection.BeginBinaryImport(GetCopyCommand()))
             {
                 WriteToStream(binaryCopyWriter, events);
+                binaryCopyWriter.Complete();
             }
         }
 

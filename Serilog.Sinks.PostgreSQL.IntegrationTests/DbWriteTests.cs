@@ -170,6 +170,7 @@ namespace Serilog.Sinks.PostgreSQL.IntegrationTests
                 {"exception", new ExceptionColumnWriter() },
                 {"properties", new LogEventSerializedColumnWriter() },
                 {"props_test", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                {"int_prop_test", new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) },
                 {"machine_name", new SinglePropertyColumnWriter("MachineName", format: "l") }
             };
 

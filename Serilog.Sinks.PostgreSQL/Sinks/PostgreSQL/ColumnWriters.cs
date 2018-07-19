@@ -212,7 +212,7 @@ namespace Serilog.Sinks.PostgreSQL
             switch (WriteMethod)
             {
                 case PropertyWriteMethod.Raw:
-                    return logEvent.Properties[Name];
+                    return GetPropertyValue(logEvent.Properties[Name]);
                 case PropertyWriteMethod.Json:
                     var valuesFormatter = new JsonValueFormatter();
 
@@ -229,6 +229,17 @@ namespace Serilog.Sinks.PostgreSQL
                     return logEvent.Properties[Name].ToString(Format, formatProvider);
             }
 
+        }
+
+        private object GetPropertyValue(LogEventPropertyValue logEventProperty)
+        {
+            //TODO: Add support for arrays
+            if (logEventProperty is ScalarValue scalarValue)
+            {
+                return scalarValue.Value;
+            }
+
+            return logEventProperty;
         }
     }
 

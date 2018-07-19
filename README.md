@@ -2,7 +2,7 @@
 A [Serilog](https://github.com/serilog/serilog) sink that writes to PostgreSQL
 
 **Package** - [Serilog.Sinks.PostgreSQL](https://www.nuget.org/packages/Serilog.Sinks.PostgreSQL/)
-| **Platforms** - .NET 4.5, .NET Standard 1.3
+| **Platforms** - .NET 4.5, .NET Standard 2.0
 
 #### Code
 

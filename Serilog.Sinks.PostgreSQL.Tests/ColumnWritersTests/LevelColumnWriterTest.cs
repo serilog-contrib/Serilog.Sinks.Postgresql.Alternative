@@ -2,19 +2,20 @@
 using System.Linq;
 using Serilog.Events;
 using Serilog.Parsing;
+using Serilog.Sinks.PostgreSQL;
 using Xunit;
 
-namespace Serilog.Sinks.PostgreSQL.Tests
+namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     public class LevelColumnWriterTest
     {
-        
         [Fact]
         public void ByDefault_ShouldWriteLevelNo()
         {
             var writer = new LevelColumnWriter();
 
-            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
 
             var result = writer.GetValue(testEvent);
 
@@ -26,7 +27,8 @@ namespace Serilog.Sinks.PostgreSQL.Tests
         {
             var writer = new LevelColumnWriter(true);
 
-            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
 
             var result = writer.GetValue(testEvent);
 

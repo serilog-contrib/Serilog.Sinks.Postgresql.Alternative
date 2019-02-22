@@ -7,22 +7,21 @@ using Serilog.Sinks.PeriodicBatching;
 
 namespace Serilog.Sinks.PostgreSQL
 {
-    public class PostgreSQLSink : PeriodicBatchingSink
+    public class PostgreSqlSink : PeriodicBatchingSink
     {
+        public const int DefaultBatchSizeLimit = 30;
+        public const int DefaultQueueLimit = int.MaxValue;
+        private readonly IDictionary<string, ColumnWriterBase> _columnOptions;
         private readonly string _connectionString;
+        private readonly IFormatProvider _formatProvider;
 
         private readonly string _fullTableName;
-        private readonly IDictionary<string, ColumnWriterBase> _columnOptions;
-        private readonly IFormatProvider _formatProvider;
         private readonly bool _useCopy;
-
-        public const int DefaultBatchSizeLimit = 30;
-        public const int DefaultQueueLimit = Int32.MaxValue;
 
         private bool _isTableCreated;
 
 
-        public PostgreSQLSink(string connectionString,
+        public PostgreSqlSink(string connectionString,
             string tableName,
             TimeSpan period,
             IFormatProvider formatProvider = null,
@@ -44,7 +43,7 @@ namespace Serilog.Sinks.PostgreSQL
             _isTableCreated = !needAutoCreateTable;
         }
 
-        public PostgreSQLSink(string connectionString,
+        public PostgreSqlSink(string connectionString,
             string tableName,
             TimeSpan period,
             IFormatProvider formatProvider = null,
@@ -69,15 +68,12 @@ namespace Serilog.Sinks.PostgreSQL
 
         private string GetFullTableName(string tableName, string schemaName)
         {
-            var schemaPrefix = String.Empty;
-            if (!String.IsNullOrEmpty(schemaName))
-            {
+            var schemaPrefix = string.Empty;
+            if (!string.IsNullOrEmpty(schemaName))
                 schemaPrefix = schemaName + ".";
-            }
 
             return schemaPrefix + tableName;
         }
-
 
         protected override void EmitBatch(IEnumerable<LogEvent> events)
         {
@@ -92,13 +88,9 @@ namespace Serilog.Sinks.PostgreSQL
                 }
 
                 if (_useCopy)
-                {
                     ProcessEventsByCopyCommand(events, connection);
-                }
                 else
-                {
                     ProcessEventsByInsertStatements(events, connection);
-                }
             }
         }
 
@@ -114,10 +106,9 @@ namespace Serilog.Sinks.PostgreSQL
                     //TODO: Init once
                     command.Parameters.Clear();
                     foreach (var columnOption in _columnOptions)
-                    {
-                        command.Parameters.AddWithValue(ClearColumnNameForParameterName(columnOption.Key), columnOption.Value.DbType,
+                        command.Parameters.AddWithValue(ClearColumnNameForParameterName(columnOption.Key),
+                            columnOption.Value.DbType,
                             columnOption.Value.GetValue(logEvent, _formatProvider));
-                    }
 
                     command.ExecuteNonQuery();
                 }
@@ -140,17 +131,17 @@ namespace Serilog.Sinks.PostgreSQL
 
         private string GetCopyCommand()
         {
-            var columns = String.Join(", ", _columnOptions.Keys);
+            var columns = string.Join(", ", _columnOptions.Keys);
 
             return $"COPY {_fullTableName}({columns}) FROM STDIN BINARY;";
-
         }
 
         private string GetInsertQuery()
         {
-            var columns = String.Join(", ", _columnOptions.Keys);
+            var columns = string.Join(", ", _columnOptions.Keys);
 
-            var parameters = String.Join(", ", _columnOptions.Keys.Select(cn => ":" + ClearColumnNameForParameterName(cn)));
+            var parameters = string.Join(", ",
+                _columnOptions.Keys.Select(cn => ":" + ClearColumnNameForParameterName(cn)));
 
             return $@"INSERT INTO {_fullTableName} ({columns})
                                         VALUES ({parameters})";
@@ -163,9 +154,8 @@ namespace Serilog.Sinks.PostgreSQL
                 writer.StartRow();
 
                 foreach (var columnKey in _columnOptions.Keys)
-                {
-                    writer.Write(_columnOptions[columnKey].GetValue(entity, _formatProvider), _columnOptions[columnKey].DbType);
-                }
+                    writer.Write(_columnOptions[columnKey].GetValue(entity, _formatProvider),
+                        _columnOptions[columnKey].DbType);
             }
         }
     }

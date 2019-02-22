@@ -1,4 +1,4 @@
-﻿namespace Serilog.Sinks.PostgreSQL.IntegrationTests.Objects
+﻿namespace SerilogSinksPostgreSQL.IntegrationTests.Objects
 {
     public class TestObjectType1
     {

@@ -1,10 +1,10 @@
 ﻿using Npgsql;
 
-namespace Serilog.Sinks.PostgreSQL.IntegrationTests
+namespace SerilogSinksPostgreSQL.IntegrationTests
 {
     public class DbHelper
     {
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public DbHelper(string connectionString)
         {

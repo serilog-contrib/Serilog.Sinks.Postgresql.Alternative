@@ -2,42 +2,26 @@
 using System.Linq;
 using Serilog.Events;
 using Serilog.Parsing;
+using Serilog.Sinks.PostgreSQL;
 using Xunit;
 
-namespace Serilog.Sinks.PostgreSQL.Tests
+namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     public class SinglePropertyColumnWriterTest
     {
         [Fact]
-        public void WithToStringSeleted_ShouldRespectFormatPassed()
-        {
-            string propertyName = "TestProperty";
-
-            string propertyValue = "TestValue";
-
-            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
-
-            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
-
-            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), new []{ property });
-
-            var result = writer.GetValue(testEvent);
-
-            Assert.Equal(propertyValue, result);
-        }
-
-        [Fact]
         public void PropertyIsNotPeresent_ShouldReturnDbNullValue()
         {
-            string propertyName = "TestProperty";
+            var propertyName = "TestProperty";
 
-            string propertyValue = "TestValue";
+            var propertyValue = "TestValue";
 
             var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
 
             var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
 
-            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
 
             var result = writer.GetValue(testEvent);
 
@@ -47,15 +31,35 @@ namespace Serilog.Sinks.PostgreSQL.Tests
         [Fact]
         public void RawSelectedForScalarProperty_ShouldReturnPropertyValue()
         {
-            string propertyName = "TestProperty";
+            var propertyName = "TestProperty";
 
-            int propertyValue = 42;
+            var propertyValue = 42;
 
             var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
 
             var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.Raw);
 
-            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null, new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), new[] { property });
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), new[] {property});
+
+            var result = writer.GetValue(testEvent);
+
+            Assert.Equal(propertyValue, result);
+        }
+
+        [Fact]
+        public void WithToStringSeleted_ShouldRespectFormatPassed()
+        {
+            var propertyName = "TestProperty";
+
+            var propertyValue = "TestValue";
+
+            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
+
+            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
+
+            var testEvent = new LogEvent(DateTime.Now, LogEventLevel.Debug, null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), new[] {property});
 
             var result = writer.GetValue(testEvent);
 

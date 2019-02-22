@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Sinks.PostgreSQL", "Serilog.Sinks.PostgreSQL\Serilog.Sinks.PostgreSQL.csproj", "{69627EEF-98B1-4DD5-9B15-269FC99EA24D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogSinksPostgreSQL", "Serilog.Sinks.PostgreSQL\SerilogSinksPostgreSQL.csproj", "{69627EEF-98B1-4DD5-9B15-269FC99EA24D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Sinks.PostgreSQL.Tests", "Serilog.Sinks.PostgreSQL.Tests\Serilog.Sinks.PostgreSQL.Tests.csproj", "{0BABE88C-2115-4CA4-A834-FE1DE6A757EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogSinksPostgreSQL.Tests", "Serilog.Sinks.PostgreSQL.Tests\SerilogSinksPostgreSQL.Tests.csproj", "{0BABE88C-2115-4CA4-A834-FE1DE6A757EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Sinks.PostgreSQL.IntegrationTests", "Serilog.Sinks.PostgreSQL.IntegrationTests\Serilog.Sinks.PostgreSQL.IntegrationTests.csproj", "{0C0B147E-5AC2-4419-8BC5-54299F78E3AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogSinksPostgreSQL.IntegrationTests", "Serilog.Sinks.PostgreSQL.IntegrationTests\SerilogSinksPostgreSQL.IntegrationTests.csproj", "{0C0B147E-5AC2-4419-8BC5-54299F78E3AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D3B84F0-0AD6-4B43-89F2-40F164C98081}
 	EndGlobalSection
 EndGlobal

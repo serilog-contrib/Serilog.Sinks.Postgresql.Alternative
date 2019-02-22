@@ -13,7 +13,8 @@ namespace Serilog.Sinks.PostgreSQL
         public static int DefaultVarcharColumnsLength = 50;
         public static int DefaultBitColumnsLength = 8;
 
-        public static void CreateTable(NpgsqlConnection connection, string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
+        public static void CreateTable(NpgsqlConnection connection, string tableName,
+            IDictionary<string, ColumnWriterBase> columnsInfo)
         {
             using (var command = connection.CreateCommand())
             {
@@ -29,7 +30,8 @@ namespace Serilog.Sinks.PostgreSQL
             builder.Append(tableName);
             builder.AppendLine(" (");
 
-            builder.AppendLine(String.Join(",\n", columnsInfo.Select(r => $" {r.Key} {GetSqlTypeStr(r.Value.DbType)} ")));
+            builder.AppendLine(
+                string.Join(",\n", columnsInfo.Select(r => $" {r.Key} {GetSqlTypeStr(r.Value.DbType)} ")));
 
             builder.AppendLine(")");
 
@@ -95,7 +97,8 @@ namespace Serilog.Sinks.PostgreSQL
                 case NpgsqlDbType.Jsonb:
                     return "jsonb";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(dbType), dbType, "Cannot atomatically create column of type " + dbType);
+                    throw new ArgumentOutOfRangeException(nameof(dbType), dbType,
+                        "Cannot atomatically create column of type " + dbType);
             }
         }
     }

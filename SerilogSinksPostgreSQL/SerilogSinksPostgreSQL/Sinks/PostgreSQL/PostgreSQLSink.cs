@@ -10,6 +10,8 @@ namespace Serilog.Sinks.PostgreSQL
     public class PostgreSqlSink : PeriodicBatchingSink
     {
         public const int DefaultBatchSizeLimit = 30;
+
+        // ReSharper disable once MemberCanBePrivate.Global
         public const int DefaultQueueLimit = int.MaxValue;
         private readonly IDictionary<string, ColumnWriterBase> _columnOptions;
         private readonly string _connectionString;
@@ -19,7 +21,6 @@ namespace Serilog.Sinks.PostgreSQL
         private readonly bool _useCopy;
 
         private bool _isTableCreated;
-
 
         public PostgreSqlSink(string connectionString,
             string tableName,

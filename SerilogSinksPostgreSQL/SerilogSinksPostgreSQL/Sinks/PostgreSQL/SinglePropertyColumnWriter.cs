@@ -21,8 +21,13 @@ namespace Serilog.Sinks.PostgreSQL
             Format = format;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public string Name { get; }
+
+        // ReSharper disable once MemberCanBePrivate.Global
         public PropertyWriteMethod WriteMethod { get; }
+
+        // ReSharper disable once MemberCanBePrivate.Global
         public string Format { get; }
 
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)

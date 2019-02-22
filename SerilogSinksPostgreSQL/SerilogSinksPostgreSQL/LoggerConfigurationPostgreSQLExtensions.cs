@@ -12,6 +12,7 @@ namespace Serilog
         /// <summary>
         ///     Default time to wait between checking for event batches.
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(5);
 
         /// <summary>

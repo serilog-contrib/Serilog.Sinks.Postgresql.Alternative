@@ -2,20 +2,19 @@
 
   <PropertyGroup>    
     <TargetFramework>netcoreapp2.1</TargetFramework>    
-    <AssemblyName>SerilogSinksPostgreSQL.IntegrationTests</AssemblyName>
+    <AssemblyName>SerilogSinksPostgreSQL.Tests</AssemblyName>    
+    <RootNamespace>SerilogSinksPostgreSQL.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Npgsql" Version="4.0.2" />
-    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.2" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Serilog.Sinks.PostgreSQL\SerilogSinksPostgreSQL.csproj" />
+    <ProjectReference Include="..\SerilogSinksPostgreSQL\SerilogSinksPostgreSQL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

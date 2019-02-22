@@ -3,7 +3,9 @@
     public enum PropertyWriteMethod
     {
         Raw,
+
         ToString,
+
         Json
     }
 }

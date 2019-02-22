@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SerilogSinksPostgreSQL.IntegrationTests.Objects
+﻿namespace SerilogSinksPostgreSQL.IntegrationTests.Objects
 {
+    using System;
+
     public class TestObjectType2
     {
         public DateTime DateProp1 { get; set; }

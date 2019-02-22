@@ -1,9 +1,11 @@
-﻿using System;
-using NpgsqlTypes;
-using Serilog.Events;
-
-namespace Serilog.Sinks.PostgreSQL
+﻿namespace Serilog.Sinks.PostgreSQL
 {
+    using System;
+
+    using NpgsqlTypes;
+
+    using Serilog.Events;
+
     /// <summary>
     ///     Writes log level
     /// </summary>
@@ -11,17 +13,18 @@ namespace Serilog.Sinks.PostgreSQL
     {
         private readonly bool _renderAsText;
 
-        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer) : base(dbType)
+        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer)
+            : base(dbType)
         {
-            _renderAsText = renderAsText;
+            this._renderAsText = renderAsText;
         }
 
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            if (_renderAsText)
+            if (this._renderAsText)
                 return logEvent.Level.ToString();
 
-            return (int) logEvent.Level;
+            return (int)logEvent.Level;
         }
     }
 }

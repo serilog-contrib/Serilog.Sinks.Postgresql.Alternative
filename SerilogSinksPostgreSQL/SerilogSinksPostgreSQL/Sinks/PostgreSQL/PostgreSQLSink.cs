@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Npgsql;
-using Serilog.Events;
-using Serilog.Sinks.PeriodicBatching;
-
-namespace Serilog.Sinks.PostgreSQL
+﻿namespace Serilog.Sinks.PostgreSQL
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Npgsql;
+
+    using Serilog.Events;
+    using Serilog.Sinks.PeriodicBatching;
+
     public class PostgreSqlSink : PeriodicBatchingSink
     {
         public const int DefaultBatchSizeLimit = 30;
 
         // ReSharper disable once MemberCanBePrivate.Global
         public const int DefaultQueueLimit = int.MaxValue;
+
         private readonly IDictionary<string, ColumnWriterBase> _columnOptions;
+
         private readonly string _connectionString;
+
         private readonly IFormatProvider _formatProvider;
 
         private readonly string _fullTableName;
+
         private readonly bool _useCopy;
 
         private bool _isTableCreated;
 
-        public PostgreSqlSink(string connectionString,
+        public PostgreSqlSink(
+            string connectionString,
             string tableName,
             TimeSpan period,
             IFormatProvider formatProvider = null,
@@ -30,21 +37,23 @@ namespace Serilog.Sinks.PostgreSQL
             int batchSizeLimit = DefaultBatchSizeLimit,
             bool useCopy = true,
             string schemaName = "",
-            bool needAutoCreateTable = false) : base(batchSizeLimit, period)
+            bool needAutoCreateTable = false)
+            : base(batchSizeLimit, period)
         {
-            _connectionString = connectionString;
+            this._connectionString = connectionString;
 
-            _fullTableName = GetFullTableName(tableName, schemaName);
+            this._fullTableName = this.GetFullTableName(tableName, schemaName);
 
-            _formatProvider = formatProvider;
-            _useCopy = useCopy;
+            this._formatProvider = formatProvider;
+            this._useCopy = useCopy;
 
-            _columnOptions = columnOptions ?? ColumnOptions.Default;
+            this._columnOptions = columnOptions ?? ColumnOptions.Default;
 
-            _isTableCreated = !needAutoCreateTable;
+            this._isTableCreated = !needAutoCreateTable;
         }
 
-        public PostgreSqlSink(string connectionString,
+        public PostgreSqlSink(
+            string connectionString,
             string tableName,
             TimeSpan period,
             IFormatProvider formatProvider = null,
@@ -53,18 +62,48 @@ namespace Serilog.Sinks.PostgreSQL
             int queueLimit = DefaultQueueLimit,
             bool useCopy = true,
             string schemaName = "",
-            bool needAutoCreateTable = false) : base(batchSizeLimit, period, queueLimit)
+            bool needAutoCreateTable = false)
+            : base(batchSizeLimit, period, queueLimit)
         {
-            _connectionString = connectionString;
+            this._connectionString = connectionString;
 
-            _fullTableName = GetFullTableName(tableName, schemaName);
+            this._fullTableName = this.GetFullTableName(tableName, schemaName);
 
-            _formatProvider = formatProvider;
-            _useCopy = useCopy;
+            this._formatProvider = formatProvider;
+            this._useCopy = useCopy;
 
-            _columnOptions = columnOptions ?? ColumnOptions.Default;
+            this._columnOptions = columnOptions ?? ColumnOptions.Default;
 
-            _isTableCreated = !needAutoCreateTable;
+            this._isTableCreated = !needAutoCreateTable;
+        }
+
+        protected override void EmitBatch(IEnumerable<LogEvent> events)
+        {
+            using (var connection = new NpgsqlConnection(this._connectionString))
+            {
+                connection.Open();
+
+                if (!this._isTableCreated)
+                {
+                    TableCreator.CreateTable(connection, this._fullTableName, this._columnOptions);
+                    this._isTableCreated = true;
+                }
+
+                if (this._useCopy) this.ProcessEventsByCopyCommand(events, connection);
+                else this.ProcessEventsByInsertStatements(events, connection);
+            }
+        }
+
+        private static string ClearColumnNameForParameterName(string columnName)
+        {
+            return columnName?.Replace("\"", string.Empty);
+        }
+
+        private string GetCopyCommand()
+        {
+            var columns = string.Join(", ", this._columnOptions.Keys);
+
+            return $"COPY {this._fullTableName}({columns}) FROM STDIN BINARY;";
         }
 
         private string GetFullTableName(string tableName, string schemaName)
@@ -76,22 +115,24 @@ namespace Serilog.Sinks.PostgreSQL
             return schemaPrefix + tableName;
         }
 
-        protected override void EmitBatch(IEnumerable<LogEvent> events)
+        private string GetInsertQuery()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var columns = string.Join(", ", this._columnOptions.Keys);
+
+            var parameters = string.Join(
+                ", ",
+                this._columnOptions.Keys.Select(cn => ":" + ClearColumnNameForParameterName(cn)));
+
+            return $@"INSERT INTO {this._fullTableName} ({columns})
+                                        VALUES ({parameters})";
+        }
+
+        private void ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
+        {
+            using (var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand()))
             {
-                connection.Open();
-
-                if (!_isTableCreated)
-                {
-                    TableCreator.CreateTable(connection, _fullTableName, _columnOptions);
-                    _isTableCreated = true;
-                }
-
-                if (_useCopy)
-                    ProcessEventsByCopyCommand(events, connection);
-                else
-                    ProcessEventsByInsertStatements(events, connection);
+                this.WriteToStream(binaryCopyWriter, events);
+                binaryCopyWriter.Complete();
             }
         }
 
@@ -99,53 +140,21 @@ namespace Serilog.Sinks.PostgreSQL
         {
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = GetInsertQuery();
-
+                command.CommandText = this.GetInsertQuery();
 
                 foreach (var logEvent in events)
                 {
-                    //TODO: Init once
+                    // TODO: Init once
                     command.Parameters.Clear();
-                    foreach (var columnOption in _columnOptions)
-                        command.Parameters.AddWithValue(ClearColumnNameForParameterName(columnOption.Key),
+                    foreach (var columnOption in this._columnOptions)
+                        command.Parameters.AddWithValue(
+                            ClearColumnNameForParameterName(columnOption.Key),
                             columnOption.Value.DbType,
-                            columnOption.Value.GetValue(logEvent, _formatProvider));
+                            columnOption.Value.GetValue(logEvent, this._formatProvider));
 
                     command.ExecuteNonQuery();
                 }
             }
-        }
-
-        private static string ClearColumnNameForParameterName(string columnName)
-        {
-            return columnName?.Replace("\"", "");
-        }
-
-        private void ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
-        {
-            using (var binaryCopyWriter = connection.BeginBinaryImport(GetCopyCommand()))
-            {
-                WriteToStream(binaryCopyWriter, events);
-                binaryCopyWriter.Complete();
-            }
-        }
-
-        private string GetCopyCommand()
-        {
-            var columns = string.Join(", ", _columnOptions.Keys);
-
-            return $"COPY {_fullTableName}({columns}) FROM STDIN BINARY;";
-        }
-
-        private string GetInsertQuery()
-        {
-            var columns = string.Join(", ", _columnOptions.Keys);
-
-            var parameters = string.Join(", ",
-                _columnOptions.Keys.Select(cn => ":" + ClearColumnNameForParameterName(cn)));
-
-            return $@"INSERT INTO {_fullTableName} ({columns})
-                                        VALUES ({parameters})";
         }
 
         private void WriteToStream(NpgsqlBinaryImporter writer, IEnumerable<LogEvent> entities)
@@ -154,9 +163,10 @@ namespace Serilog.Sinks.PostgreSQL
             {
                 writer.StartRow();
 
-                foreach (var columnKey in _columnOptions.Keys)
-                    writer.Write(_columnOptions[columnKey].GetValue(entity, _formatProvider),
-                        _columnOptions[columnKey].DbType);
+                foreach (var columnKey in this._columnOptions.Keys)
+                    writer.Write(
+                        this._columnOptions[columnKey].GetValue(entity, this._formatProvider),
+                        this._columnOptions[columnKey].DbType);
             }
         }
     }

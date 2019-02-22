@@ -1,13 +1,16 @@
-using System;
-using System.Linq;
-using NpgsqlTypes;
-using Serilog.Events;
-using Serilog.Parsing;
-using Serilog.Sinks.PostgreSQL;
-using Xunit;
-
 namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
+    using System;
+    using System.Linq;
+
+    using NpgsqlTypes;
+
+    using Serilog.Events;
+    using Serilog.Parsing;
+    using Serilog.Sinks.PostgreSQL;
+
+    using Xunit;
+
     public class TimestampColumnWriterTest
     {
         [Fact]
@@ -17,8 +20,12 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var timeStamp = new DateTimeOffset(2017, 8, 13, 11, 11, 11, new TimeSpan());
 
-            var testEvent = new LogEvent(timeStamp, LogEventLevel.Debug, null,
-                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+            var testEvent = new LogEvent(
+                timeStamp,
+                LogEventLevel.Debug,
+                null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
+                Enumerable.Empty<LogEventProperty>());
 
             var result = writer.GetValue(testEvent);
 
@@ -32,8 +39,12 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var timeStamp = new DateTimeOffset(2017, 8, 13, 11, 11, 11, new TimeSpan());
 
-            var testEvent = new LogEvent(timeStamp, LogEventLevel.Debug, null,
-                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()), Enumerable.Empty<LogEventProperty>());
+            var testEvent = new LogEvent(
+                timeStamp,
+                LogEventLevel.Debug,
+                null,
+                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
+                Enumerable.Empty<LogEventProperty>());
 
             var result = writer.GetValue(testEvent);
 

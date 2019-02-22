@@ -1,14 +1,16 @@
-﻿using System;
-using NpgsqlTypes;
-using Serilog.Events;
-
-namespace Serilog.Sinks.PostgreSQL
+﻿namespace Serilog.Sinks.PostgreSQL
 {
+    using System;
+
+    using NpgsqlTypes;
+
+    using Serilog.Events;
+
     public abstract class ColumnWriterBase
     {
         protected ColumnWriterBase(NpgsqlDbType dbType)
         {
-            DbType = dbType;
+            this.DbType = dbType;
         }
 
         /// <summary>

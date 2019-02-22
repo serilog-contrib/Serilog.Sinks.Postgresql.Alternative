@@ -1,24 +1,27 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using NpgsqlTypes;
-using Serilog.Events;
-using Serilog.Formatting.Json;
-
-namespace Serilog.Sinks.PostgreSQL
+﻿namespace Serilog.Sinks.PostgreSQL
 {
+    using System;
+    using System.IO;
+    using System.Text;
+
+    using NpgsqlTypes;
+
+    using Serilog.Events;
+    using Serilog.Formatting.Json;
+
     /// <summary>
     ///     Writes all event properties as json
     /// </summary>
     public class PropertiesColumnWriter : ColumnWriterBase
     {
-        public PropertiesColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb) : base(dbType)
+        public PropertiesColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb)
+            : base(dbType)
         {
         }
 
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            return PropertiesToJson(logEvent);
+            return this.PropertiesToJson(logEvent);
         }
 
         private object PropertiesToJson(LogEvent logEvent)

@@ -1,25 +1,33 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using NpgsqlTypes;
-using Serilog.Events;
-using Serilog.Formatting.Json;
-
-namespace Serilog.Sinks.PostgreSQL
+﻿namespace Serilog.Sinks.PostgreSQL
 {
+    using System;
+    using System.IO;
+    using System.Text;
+
+    using NpgsqlTypes;
+
+    using Serilog.Events;
+    using Serilog.Formatting.Json;
+
     /// <summary>
     ///     Write single event property
     /// </summary>
     public class SinglePropertyColumnWriter : ColumnWriterBase
     {
-        public SinglePropertyColumnWriter(string propertyName,
+        public SinglePropertyColumnWriter(
+            string propertyName,
             PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString,
-            NpgsqlDbType dbType = NpgsqlDbType.Text, string format = null) : base(dbType)
+            NpgsqlDbType dbType = NpgsqlDbType.Text,
+            string format = null)
+            : base(dbType)
         {
-            Name = propertyName;
-            WriteMethod = writeMethod;
-            Format = format;
+            this.Name = propertyName;
+            this.WriteMethod = writeMethod;
+            this.Format = format;
         }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        public string Format { get; }
 
         // ReSharper disable once MemberCanBePrivate.Global
         public string Name { get; }
@@ -27,18 +35,15 @@ namespace Serilog.Sinks.PostgreSQL
         // ReSharper disable once MemberCanBePrivate.Global
         public PropertyWriteMethod WriteMethod { get; }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public string Format { get; }
-
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            if (!logEvent.Properties.ContainsKey(Name))
+            if (!logEvent.Properties.ContainsKey(this.Name))
                 return DBNull.Value;
 
-            switch (WriteMethod)
+            switch (this.WriteMethod)
             {
                 case PropertyWriteMethod.Raw:
-                    return GetPropertyValue(logEvent.Properties[Name]);
+                    return this.GetPropertyValue(logEvent.Properties[this.Name]);
                 case PropertyWriteMethod.Json:
                     var valuesFormatter = new JsonValueFormatter();
 
@@ -46,19 +51,19 @@ namespace Serilog.Sinks.PostgreSQL
 
                     using (var writer = new StringWriter(sb))
                     {
-                        valuesFormatter.Format(logEvent.Properties[Name], writer);
+                        valuesFormatter.Format(logEvent.Properties[this.Name], writer);
                     }
 
                     return sb.ToString();
 
                 default:
-                    return logEvent.Properties[Name].ToString(Format, formatProvider);
+                    return logEvent.Properties[this.Name].ToString(this.Format, formatProvider);
             }
         }
 
         private object GetPropertyValue(LogEventPropertyValue logEventProperty)
         {
-            //TODO: Add support for arrays
+            // TODO: Add support for arrays
             if (logEventProperty is ScalarValue scalarValue)
                 return scalarValue.Value;
 

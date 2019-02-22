@@ -53,6 +53,9 @@ TableCreator.DefaultCharColumnsLength = 30;
 TableCreator.DefaultVarcharColumnsLength = 50;
 ```
 
+## Further information:
+This project is a fork of https://github.com/b00ted/serilog-sinks-postgresql but is maintained.
+
 Change history
 --------------
 

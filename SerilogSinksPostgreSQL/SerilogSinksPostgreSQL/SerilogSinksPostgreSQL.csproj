@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net472;net45</TargetFrameworks>
     <AssemblyName>SerilogSinksPostgreSQL</AssemblyName>
     <RootNamespace>Serilog</RootNamespace>
     <Authors>SeppPenner</Authors>
@@ -23,6 +23,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
     <DocumentationFile>bin\Release\net472\Serilog.Sinks.PostgreSQL.xml</DocumentationFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>bin\Release\net45\Serilog.Sinks.PostgreSQL.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

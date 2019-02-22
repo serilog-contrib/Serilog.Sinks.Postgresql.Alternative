@@ -22,6 +22,7 @@
 		<file src="README.md" target="lib/" />
 		<file src="License.txt" target="" />
 		<file src="Documentation\**" target="lib\Documentation" />
+		<file src="Source\net45\**" target="lib\net45" />
 		<file src="Source\net472\**" target="lib\net472" />
 		<file src="Source\netstandard2.0\**" target="lib\netstandard2.0" />
     </files>

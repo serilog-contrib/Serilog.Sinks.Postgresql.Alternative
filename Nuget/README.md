@@ -2,7 +2,7 @@ SerilogSinkForPostgreSQL
 ====================================
 
 SerilogSinkForPostgreSQL is a library to save logging information from [Serilog](https://github.com/serilog/serilog) to [PostgreSQL](https://www.postgresql.org/).
-The assembly was written and tested in .Net Framework 4.7.2 and .Net Standard 2.0.
+The assembly was written and tested in .Net Framework 4.7.2, .Net Framework 4.5 and .Net Standard 2.0.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/0ggd9vc0fw9gc92c?svg=true)](https://ci.appveyor.com/project/SeppPenner/serilogsinkforpostgresql)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues)

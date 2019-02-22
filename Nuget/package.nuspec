@@ -9,8 +9,8 @@
 	<license type="file">License.txt</license>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-		SerilogSinkForPostgreSQL is a library to save logging information from [Serilog](https://github.com/serilog/serilog) to [PostgreSQL](https://www.postgresql.org/).
-		The assembly was written and tested in .Net Framework 4.7.2 and .Net Standard 2.0.
+		SerilogSinkForPostgreSQL is a library to save logging information from https://github.com/serilog/serilog to https://www.postgresql.org/.
+		The assembly was written and tested in .Net Framework 4.7.2, .Net Framework 4.5 and .Net Standard 2.0.
 	</description>
     <releaseNotes>
 		Version 1.0.0.0 (2019-02-22)** : 1.0 release.

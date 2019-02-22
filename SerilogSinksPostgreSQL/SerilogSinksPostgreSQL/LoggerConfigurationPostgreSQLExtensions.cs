@@ -48,7 +48,9 @@
             bool needAutoCreateTable = false)
         {
             if (sinkConfiguration == null)
+            {
                 throw new ArgumentNullException(nameof(sinkConfiguration));
+            } 
 
             period = period ?? DefaultPeriod;
 

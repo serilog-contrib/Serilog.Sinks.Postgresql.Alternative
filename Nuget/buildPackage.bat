@@ -1,0 +1,2 @@
+nuget.exe pack
+pause

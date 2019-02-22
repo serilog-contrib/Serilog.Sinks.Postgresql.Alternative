@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SerilogSinksPostgreSQL</name>
+    </assembly>
+    <members>
+        <member name="F:Serilog.LoggerConfigurationPostgreSqlExtensions.DefaultPeriod">
+            <summary>
+                Default time to wait between checking for event batches.
+            </summary>
+        </member>
+        <member name="M:Serilog.LoggerConfigurationPostgreSqlExtensions.PostgreSql(Serilog.Configuration.LoggerSinkConfiguration,System.String,System.String,System.Collections.Generic.IDictionary{System.String,Serilog.Sinks.PostgreSQL.ColumnWriterBase},Serilog.Events.LogEventLevel,System.Nullable{System.TimeSpan},System.IFormatProvider,System.Int32,Serilog.Core.LoggingLevelSwitch,System.Boolean,System.String,System.Boolean)">
+            <summary>
+                Adds a sink which writes to PostgreSQL table
+            </summary>
+            <param name="sinkConfiguration">The logger configuration.</param>
+            <param name="connectionString">The connection string to the database where to store the events.</param>
+            <param name="tableName">Name of the table to store the events in.</param>
+            <param name="columnOptions">Table columns writers</param>
+            <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+            <param name="period">The time to wait between checking for event batches.</param>
+            <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
+            <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+            <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
+            <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO satement </param>
+            <param name="schemaName">Schema name</param>
+            <param name="needAutoCreateTable">Set if sink should create table</param>
+            <returns>Logger configuration, allowing configuration to continue.</returns>
+        </member>
+        <member name="P:Serilog.Sinks.PostgreSQL.ColumnWriterBase.DbType">
+            <summary>
+                Column type
+            </summary>
+        </member>
+        <member name="M:Serilog.Sinks.PostgreSQL.ColumnWriterBase.GetValue(Serilog.Events.LogEvent,System.IFormatProvider)">
+            <summary>
+                Gets part of log event to write to the column
+            </summary>
+            <param name="logEvent"></param>
+            <param name="formatProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.ExceptionColumnWriter">
+            <summary>
+                Writes exception (just it ToString())
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.LevelColumnWriter">
+            <summary>
+                Writes log level
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.LogEventSerializedColumnWriter">
+            <summary>
+                Writes log event as json
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.MessageTemplateColumnWriter">
+            <summary>
+                Writes non rendered message
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.PropertiesColumnWriter">
+            <summary>
+                Writes all event properties as json
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.RenderedMessageColumnWriter">
+            <summary>
+                Writes message part
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.SinglePropertyColumnWriter">
+            <summary>
+                Write single event property
+            </summary>
+        </member>
+        <member name="T:Serilog.Sinks.PostgreSQL.TimestampColumnWriter">
+            <summary>
+                Writes timestamp part
+            </summary>
+        </member>
+    </members>
+</doc>

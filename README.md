@@ -1,13 +1,20 @@
-# Serilog.Sinks.Postgresql
-A [Serilog](https://github.com/serilog/serilog) sink that writes to PostgreSQL
+SerilogSinkForPostgreSQL
+====================================
 
-**Package** - [Serilog.Sinks.PostgreSQL](https://www.nuget.org/packages/Serilog.Sinks.PostgreSQL/)
-| **Platforms** - .NET 4.5, .NET Standard 2.0
+SerilogSinkForPostgreSQL is a library to save logging information from [Serilog](https://github.com/serilog/serilog) to [PostgreSQL](https://www.postgresql.org/).
+The assembly was written and tested in .Net 4.7.2, ASP.NetCore 2.2 and NetStandard 2.0.
 
-#### Code
+[![Build status](https://ci.appveyor.com/api/projects/status/09knyo1qkj6h1s09?svg=true)](https://ci.appveyor.com/project/SeppPenner/serilogsinkforpostgreSQL)
+[![GitHub issues](https://img.shields.io/github/issues/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues)
+[![GitHub forks](https://img.shields.io/github/forks/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/network)
+[![GitHub stars](https://img.shields.io/github/stars/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-AGPL-blue.svg)](https://raw.githubusercontent.com/SeppPenner/SerilogSinkForPostgreSQL/master/License.txt)
+[![Nuget](https://img.shields.io/badge/SerilogSinkForPostgreSQL-Nuget-brightgreen.svg)](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL.svg)](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/)
 
+## Basic usage:
 ```csharp
-string connectionstring = "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=logs";
+string connectionString = "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=logs";
 
 string tableName = "logs";
 
@@ -26,12 +33,15 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
 };
 
 var logger = new LoggerConfiguration()
-			        .WriteTo.PostgreSQL(connectionstring, tableName, columnWriters)
+			        .WriteTo.PostgreSQL(connectionString, tableName, columnWriters)
 			        .CreateLogger();
 ```
 
+The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/).
 
-##### Table auto creation
+
+
+## Table auto creation
 If you set parameter `needAutoCreateTable` to `true` sink automatically create table.
 You can change column sizes by setting values in `TableCreator` class:
 ```csharp
@@ -44,3 +54,13 @@ TableCreator.DefaultCharColumnsLength = 30;
 //Sets size of all VARCHAR columns to 50
 TableCreator.DefaultVarcharColumnsLength = 50;
 ```
+
+## Available on
+.NetFramework 4.7.2
+**Package** - [Serilog.Sinks.PostgreSQL](https://www.nuget.org/packages/Serilog.Sinks.PostgreSQL/)
+| **Platforms** - .NET 4.5, .NET Standard 2.0
+
+Change history
+--------------
+
+* **Version 1.0.0.0 (2019-02-22)** : 1.0 release.

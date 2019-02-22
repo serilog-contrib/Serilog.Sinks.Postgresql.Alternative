@@ -30,6 +30,7 @@ namespace Serilog.Sinks.PostgreSQL
             {
                 jsonFormatter.Format(logEvent, writer);
             }
+
             return sb.ToString();
         }
     }

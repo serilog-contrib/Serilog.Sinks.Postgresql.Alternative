@@ -3,7 +3,10 @@
   <PropertyGroup>    
     <TargetFramework>netcoreapp2.2</TargetFramework>    
     <AssemblyName>SerilogSinksPostgreSQL.Tests</AssemblyName>    
-    <RootNamespace>SerilogSinksPostgreSQL.Tests</RootNamespace>
+    <RootNamespace>SerilogSinksPostgreSQL.Tests</RootNamespace>    
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>    
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>    
+    <FileVersion>1.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

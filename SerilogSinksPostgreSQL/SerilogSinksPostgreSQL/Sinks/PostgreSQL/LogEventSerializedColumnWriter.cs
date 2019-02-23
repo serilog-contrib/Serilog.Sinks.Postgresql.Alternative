@@ -1,4 +1,13 @@
-﻿namespace Serilog.Sinks.PostgreSQL
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LogEventSerializedColumnWriter.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   Defines the LogEventSerializedColumnWriter type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Serilog.Sinks.PostgreSQL
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -10,32 +19,35 @@
     using Serilog.Events;
     using Serilog.Formatting.Json;
 
-    /// <inheritdoc cref="ColumnWriterBase"/>
+    /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>
-    /// This class is used to write the log event as json.
+    ///     This class is used to write the log event as json.
     /// </summary>
     /// <seealso cref="ColumnWriterBase" />
     public class LogEventSerializedColumnWriter : ColumnWriterBase
     {
-        /// <inheritdoc cref="ColumnWriterBase"/>
+        /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogEventSerializedColumnWriter"/> class.
+        ///     Initializes a new instance of the <see cref="LogEventSerializedColumnWriter" /> class.
         /// </summary>
         /// <param name="dbType">The column type.</param>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.NamingRules",
+            "SA1305:FieldNamesMustNotUseHungarianNotation",
+            Justification = "Reviewed. Suppression is OK here.")]
         public LogEventSerializedColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb)
             : base(dbType)
         {
         }
 
-        /// <inheritdoc cref="ColumnWriterBase"/>
+        /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>
-        /// Gets the part of the log event to write to the column.
+        ///     Gets the part of the log event to write to the column.
         /// </summary>
         /// <param name="logEvent">The log event.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// <returns>
-        /// An object value.
+        ///     An object value.
         /// </returns>
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
@@ -43,7 +55,7 @@
         }
 
         /// <summary>
-        /// Converts the log event to json.
+        ///     Converts the log event to json.
         /// </summary>
         /// <param name="logEvent">The log event.</param>
         /// <param name="formatProvider">The format provider.</param>

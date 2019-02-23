@@ -1,4 +1,13 @@
-﻿namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SinglePropertyColumnWriterTest.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class is used to test the SinglePropertyColumnWriter class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;

@@ -1,17 +1,26 @@
-﻿namespace Serilog.Sinks.PostgreSQL
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ColumnOptions.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class contains the column options.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Serilog.Sinks.PostgreSQL
 {
     using System.Collections.Generic;
 
     /// <summary>
-    /// This class contains the column options.
+    ///     This class contains the column options.
     /// </summary>
     public static class ColumnOptions
     {
         /// <summary>
-        /// Gets the default column options.
+        ///     Gets the default column options.
         /// </summary>
         /// <value>
-        /// The default column options.
+        ///     The default column options.
         /// </value>
         public static IDictionary<string, ColumnWriterBase> Default =>
             new Dictionary<string, ColumnWriterBase>

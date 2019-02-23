@@ -1,19 +1,28 @@
-﻿namespace SerilogSinksPostgreSQL.IntegrationTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DbHelper.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class is used as helper class for the database connection.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.IntegrationTests
 {
     using Npgsql;
 
     /// <summary>
-    /// This class is used as helper class for the database connection.
+    ///     This class is used as helper class for the database connection.
     /// </summary>
     public class DbHelper
     {
         /// <summary>
-        /// The connection string.
+        ///     The connection string.
         /// </summary>
         private readonly string connectionString;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DbHelper"/> class.
+        ///     Initializes a new instance of the <see cref="DbHelper" /> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         public DbHelper(string connectionString)
@@ -22,7 +31,7 @@
         }
 
         /// <summary>
-        /// Clears the table.
+        ///     Clears the table.
         /// </summary>
         /// <param name="tableName">Name of the table.</param>
         public void ClearTable(string tableName)
@@ -40,7 +49,7 @@
         }
 
         /// <summary>
-        /// Gets the table rows count.
+        ///     Gets the table rows count.
         /// </summary>
         /// <param name="tableName">Name of the table.</param>
         /// <returns>The table row count.</returns>
@@ -55,14 +64,14 @@
                 using (var command = conn.CreateCommand())
                 {
                     command.CommandText = sql;
-
-                    return (long)command.ExecuteScalar();
+                    var result = command.ExecuteScalar();
+                    return (long?)result ?? 0;
                 }
             }
         }
 
         /// <summary>
-        /// Removes the table.
+        ///     Removes the table.
         /// </summary>
         /// <param name="tableName">Name of the table.</param>
         public void RemoveTable(string tableName)

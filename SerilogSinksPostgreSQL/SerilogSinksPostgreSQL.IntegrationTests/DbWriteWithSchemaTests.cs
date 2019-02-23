@@ -1,4 +1,13 @@
-﻿namespace SerilogSinksPostgreSQL.IntegrationTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DbWriteWithSchemaTests.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class is used to test the writing of data to the database with schemas.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
@@ -14,39 +23,42 @@
     using Xunit;
 
     /// <summary>
-    /// This class is used to test the writing of data to the database with schemas.
+    ///     This class is used to test the writing of data to the database with schemas.
     /// </summary>
     public class DbWriteWithSchemaTests
     {
         /// <summary>
-        /// The connection string.
+        ///     The connection string.
         /// </summary>
         private const string ConnectionString =
             "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=serilog_logs";
 
         /// <summary>
-        /// The schema name.
+        ///     The schema name.
         /// </summary>
         private const string SchemaName = "logs";
 
         /// <summary>
-        /// The table name.
+        ///     The table name.
         /// </summary>
         private const string TableName = "logs_with_schema";
 
         /// <summary>
-        /// The database helper.
+        ///     The database helper.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.NamingRules",
+            "SA1305:FieldNamesMustNotUseHungarianNotation",
+            Justification = "Reviewed. Suppression is OK here.")]
         private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
 
         /// <summary>
-        /// The table full name.
+        ///     The table full name.
         /// </summary>
         private readonly string tableFullName = $"{SchemaName}.{TableName}";
 
         /// <summary>
-        /// This method is used to test the auto create table function.
+        ///     This method is used to test the auto create table function.
         /// </summary>
         [Fact]
         public void AutoCreateTableIsTrueShouldCreateTable()
@@ -105,7 +117,7 @@
         }
 
         /// <summary>
-        /// This method is used to write 50 log events to the database.
+        ///     This method is used to write 50 log events to the database.
         /// </summary>
         [Fact]
         public void Write50EventsShouldInsert50EventsToDb()

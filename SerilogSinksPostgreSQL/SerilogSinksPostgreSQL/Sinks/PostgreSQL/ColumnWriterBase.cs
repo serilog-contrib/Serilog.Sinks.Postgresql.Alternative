@@ -1,4 +1,13 @@
-﻿namespace Serilog.Sinks.PostgreSQL
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ColumnWriterBase.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class contains the column writer base methods.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Serilog.Sinks.PostgreSQL
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -26,10 +35,10 @@
         }
 
         /// <summary>
-        /// Gets the column type.
+        ///     Gets the column type.
         /// </summary>
         /// <value>
-        /// The column type.
+        ///     The column type.
         /// </value>
         public NpgsqlDbType DbType { get; }
 

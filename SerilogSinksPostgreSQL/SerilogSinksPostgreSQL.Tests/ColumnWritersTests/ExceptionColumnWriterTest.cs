@@ -1,4 +1,13 @@
-﻿namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExceptionColumnWriterTest.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class is used to test the ExceptionColumnWriter class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;
@@ -10,12 +19,12 @@
     using Xunit;
 
     /// <summary>
-    /// This class is used to test the <seealso cref="ExceptionColumnWriter"/> class.
+    ///     This class is used to test the <seealso cref="ExceptionColumnWriter" /> class.
     /// </summary>
     public class ExceptionColumnWriterTest
     {
         /// <summary>
-        /// This method is used to test the writer with empty exceptions.
+        ///     This method is used to test the writer with empty exceptions.
         /// </summary>
         [Fact]
         public void ExceptionIsNullShouldReturnDbNullValue()
@@ -35,7 +44,7 @@
         }
 
         /// <summary>
-        /// This method is used to test the writer with valid exceptions.
+        ///     This method is used to test the writer with valid exceptions.
         /// </summary>
         [Fact]
         public void ExceptionIsPresentShouldReturnStringRepresentation()

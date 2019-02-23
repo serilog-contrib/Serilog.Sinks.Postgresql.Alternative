@@ -1,4 +1,13 @@
-﻿namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertiesColumnWriterTest.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class is used to test the PropertiesColumnWriter class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;
@@ -10,12 +19,12 @@
     using Xunit;
 
     /// <summary>
-    /// This class is used to test the <seealso cref="PropertiesColumnWriter"/> class.
+    ///     This class is used to test the <seealso cref="PropertiesColumnWriter" /> class.
     /// </summary>
     public class PropertiesColumnWriterTest
     {
         /// <summary>
-        /// This method is used to test the writer with empty properties.
+        ///     This method is used to test the writer with empty properties.
         /// </summary>
         [Fact]
         public void NoPropertiesShouldReturnEmptyJsonObject()

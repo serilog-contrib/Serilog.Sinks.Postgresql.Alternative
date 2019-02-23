@@ -1,4 +1,13 @@
-﻿namespace Serilog.Sinks.PostgreSQL
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TimestampColumnWriter.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   Defines the TimestampColumnWriter type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Serilog.Sinks.PostgreSQL
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

@@ -1,4 +1,13 @@
-﻿namespace Serilog
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LoggerConfigurationPostgreSQLExtensions.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class contains the PostgreSQL logger configuration.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Serilog
 {
     using System;
     using System.Collections.Generic;

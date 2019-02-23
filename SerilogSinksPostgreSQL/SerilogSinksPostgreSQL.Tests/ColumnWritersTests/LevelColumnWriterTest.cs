@@ -1,4 +1,13 @@
-﻿namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LevelColumnWriterTest.cs" company="Hämmer Electronics">
+// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// </copyright>
+// <summary>
+//   This class is used to test the LevelColumnWriter class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;
@@ -10,12 +19,12 @@
     using Xunit;
 
     /// <summary>
-    /// This class is used to test the <seealso cref="LevelColumnWriter"/> class.
+    ///     This class is used to test the <seealso cref="LevelColumnWriter" /> class.
     /// </summary>
     public class LevelColumnWriterTest
     {
         /// <summary>
-        /// This method is used to test the writer with default values.
+        ///     This method is used to test the writer with default values.
         /// </summary>
         [Fact]
         public void ByDefaultShouldWriteLevelNo()
@@ -35,7 +44,7 @@
         }
 
         /// <summary>
-        /// This method is used to test the writer with the write as text property.
+        ///     This method is used to test the writer with the write as text property.
         /// </summary>
         [Fact]
         public void WriteAsTextIsTrueShouldWriteLevelName()

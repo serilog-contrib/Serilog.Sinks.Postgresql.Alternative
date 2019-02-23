@@ -11,10 +11,16 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
     using Xunit;
 
+    /// <summary>
+    ///     This class is used to test the <seealso cref="TimestampColumnWriter" /> class.
+    /// </summary>
     public class TimestampColumnWriterTest
     {
+        /// <summary>
+        ///     This method is used to test the writer with a timestamp without time zone.
+        /// </summary>
         [Fact]
-        public void ByDefault_ShouldReturnTimestampValueWithoutTimezone()
+        public void ByDefaultShouldReturnTimestampValueWithoutTimezone()
         {
             var writer = new TimestampColumnWriter();
 
@@ -32,10 +38,13 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
             Assert.Equal(timeStamp.DateTime, result);
         }
 
+        /// <summary>
+        ///     This method is used to test the writer with valid timestamp.
+        /// </summary>
         [Fact]
-        public void DbTypeWithTimezoneSelected_ShouldReturnTimestampValue()
+        public void DbTypeWithTimezoneSelectedShouldReturnTimestampValue()
         {
-            var writer = new TimestampColumnWriter(NpgsqlDbType.TimestampTZ);
+            var writer = new TimestampColumnWriter(NpgsqlDbType.TimestampTz);
 
             var timeStamp = new DateTimeOffset(2017, 8, 13, 11, 11, 11, new TimeSpan());
 

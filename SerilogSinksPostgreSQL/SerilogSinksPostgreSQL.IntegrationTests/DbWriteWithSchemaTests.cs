@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
@@ -12,30 +13,52 @@
 
     using Xunit;
 
+    /// <summary>
+    /// This class is used to test the writing of data to the database with schemas.
+    /// </summary>
     public class DbWriteWithSchemaTests
     {
+        /// <summary>
+        /// The connection string.
+        /// </summary>
         private const string ConnectionString =
             "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=serilog_logs";
 
+        /// <summary>
+        /// The schema name.
+        /// </summary>
         private const string SchemaName = "logs";
 
+        /// <summary>
+        /// The table name.
+        /// </summary>
         private const string TableName = "logs_with_schema";
 
-        private readonly DbHelper _dbHelper = new DbHelper(ConnectionString);
+        /// <summary>
+        /// The database helper.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
+        private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
 
-        private readonly string _tableFullName = $"{SchemaName}.{TableName}";
+        /// <summary>
+        /// The table full name.
+        /// </summary>
+        private readonly string tableFullName = $"{SchemaName}.{TableName}";
 
+        /// <summary>
+        /// This method is used to test the auto create table function.
+        /// </summary>
         [Fact]
-        public void AutoCreateTableIsTrue_ShouldCreateTable()
+        public void AutoCreateTableIsTrueShouldCreateTable()
         {
-            var tableName = "logs_auto_created_w_schema";
+            const string LocalTableName = "logs_auto_created_w_schema";
 
-            var fullTableName = $"{SchemaName}.{tableName}";
-            this._dbHelper.RemoveTable(fullTableName);
+            var fullTableName = $"{SchemaName}.{LocalTableName}";
+            this.dbHelper.RemoveTable(fullTableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
-            var testObj2 = new TestObjectType2 { DateProp1 = DateTime.Now, NestedProp = testObject };
+            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
                                   {
@@ -58,35 +81,40 @@
 
             var logger = new LoggerConfiguration().WriteTo.PostgreSql(
                 ConnectionString,
-                tableName,
+                LocalTableName,
                 columnProps,
                 schemaName: SchemaName,
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
 
-            var rowsCount = 50;
-            for (var i = 0; i < rowsCount; i++)
+            const int RowsCount = 50;
+            for (var i = 0; i < RowsCount; i++)
+            {
                 logger.Information(
                     "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
                     i,
                     testObject,
                     testObj2,
                     "stringValue");
+            }
 
             logger.Dispose();
 
-            var actualRowsCount = this._dbHelper.GetTableRowsCount(fullTableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(fullTableName);
 
-            Assert.Equal(rowsCount, actualRowsCount);
+            Assert.Equal(RowsCount, actualRowsCount);
         }
 
+        /// <summary>
+        /// This method is used to write 50 log events to the database.
+        /// </summary>
         [Fact]
-        public void Write50Events_ShouldInsert50EventsToDb()
+        public void Write50EventsShouldInsert50EventsToDb()
         {
-            this._dbHelper.ClearTable(this._tableFullName);
+            this.dbHelper.ClearTable(this.tableFullName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
-            var testObj2 = new TestObjectType2 { DateProp1 = DateTime.Now, NestedProp = testObject };
+            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
                                   {
@@ -105,11 +133,13 @@
                 .CreateLogger();
 
             for (var i = 0; i < 50; i++)
+            {
                 logger.Information("Test{testNo}: {@testObject} test2: {@testObj2}", i, testObject, testObj2);
+            }
 
             logger.Dispose();
 
-            var rowsCount = this._dbHelper.GetTableRowsCount(this._tableFullName);
+            var rowsCount = this.dbHelper.GetTableRowsCount(this.tableFullName);
 
             Assert.Equal(50, rowsCount);
         }

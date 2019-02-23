@@ -9,10 +9,16 @@
 
     using Xunit;
 
+    /// <summary>
+    /// This class is used to test the <seealso cref="PropertiesColumnWriter"/> class.
+    /// </summary>
     public class PropertiesColumnWriterTest
     {
+        /// <summary>
+        /// This method is used to test the writer with empty properties.
+        /// </summary>
         [Fact]
-        public void NoProperties_ShouldReturnEmptyJsonObject()
+        public void NoPropertiesShouldReturnEmptyJsonObject()
         {
             var writer = new PropertiesColumnWriter();
 

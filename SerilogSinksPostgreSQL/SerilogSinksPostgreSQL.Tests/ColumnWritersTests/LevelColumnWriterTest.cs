@@ -9,10 +9,16 @@
 
     using Xunit;
 
+    /// <summary>
+    /// This class is used to test the <seealso cref="LevelColumnWriter"/> class.
+    /// </summary>
     public class LevelColumnWriterTest
     {
+        /// <summary>
+        /// This method is used to test the writer with default values.
+        /// </summary>
         [Fact]
-        public void ByDefault_ShouldWriteLevelNo()
+        public void ByDefaultShouldWriteLevelNo()
         {
             var writer = new LevelColumnWriter();
 
@@ -28,8 +34,11 @@
             Assert.Equal(1, result);
         }
 
+        /// <summary>
+        /// This method is used to test the writer with the write as text property.
+        /// </summary>
         [Fact]
-        public void WriteAsTextIsTrue_ShouldWriteLevelName()
+        public void WriteAsTextIsTrueShouldWriteLevelName()
         {
             var writer = new LevelColumnWriter(true);
 

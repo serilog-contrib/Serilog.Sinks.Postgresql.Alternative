@@ -2,23 +2,30 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     using Serilog.Configuration;
     using Serilog.Core;
     using Serilog.Events;
     using Serilog.Sinks.PostgreSQL;
 
+    /// <summary>
+    ///     This class contains the PostgreSQL logger configuration.
+    /// </summary>
+    [SuppressMessage(
+        "StyleCop.CSharp.DocumentationRules",
+        "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+        Justification = "Reviewed. Suppression is OK here.")]
     public static class LoggerConfigurationPostgreSqlExtensions
     {
         /// <summary>
         ///     Default time to wait between checking for event batches.
         /// </summary>
-
         // ReSharper disable once MemberCanBePrivate.Global
         public static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(5);
 
         /// <summary>
-        ///     Adds a sink which writes to PostgreSQL table
+        ///     Adds a sink which writes to PostgreSQL table.
         /// </summary>
         /// <param name="sinkConfiguration">The logger configuration.</param>
         /// <param name="connectionString">The connection string to the database where to store the events.</param>
@@ -29,10 +36,14 @@
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
-        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO satement </param>
+        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement </param>
         /// <param name="schemaName">Schema name</param>
         /// <param name="needAutoCreateTable">Set if sink should create table</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
+        [SuppressMessage(
+            "StyleCop.CSharp.DocumentationRules",
+            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "Reviewed. Suppression is OK here.")]
         public static LoggerConfiguration PostgreSql(
             this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
@@ -50,7 +61,7 @@
             if (sinkConfiguration == null)
             {
                 throw new ArgumentNullException(nameof(sinkConfiguration));
-            } 
+            }
 
             period = period ?? DefaultPeriod;
 

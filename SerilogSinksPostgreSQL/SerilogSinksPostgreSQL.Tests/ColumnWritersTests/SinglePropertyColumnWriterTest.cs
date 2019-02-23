@@ -9,18 +9,20 @@
 
     using Xunit;
 
+    /// <summary>
+    ///     This class is used to test the <seealso cref="SinglePropertyColumnWriter" /> class.
+    /// </summary>
     public class SinglePropertyColumnWriterTest
     {
+        /// <summary>
+        ///     This method is used to test the writer with not present properties.
+        /// </summary>
         [Fact]
-        public void PropertyIsNotPeresent_ShouldReturnDbNullValue()
+        public void PropertyIsNotPresentShouldReturnDbNullValue()
         {
-            var propertyName = "TestProperty";
+            const string PropertyName = "TestProperty";
 
-            var propertyValue = "TestValue";
-
-            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
-
-            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
+            var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.ToString, format: "l");
 
             var testEvent = new LogEvent(
                 DateTime.Now,
@@ -34,16 +36,19 @@
             Assert.Equal(DBNull.Value, result);
         }
 
+        /// <summary>
+        ///     This method is used to test the writer with the selected for scalar property.
+        /// </summary>
         [Fact]
-        public void RawSelectedForScalarProperty_ShouldReturnPropertyValue()
+        public void RawSelectedForScalarPropertyShouldReturnPropertyValue()
         {
-            var propertyName = "TestProperty";
+            const string PropertyName = "TestProperty";
 
-            var propertyValue = 42;
+            const int PropertyValue = 42;
 
-            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
+            var property = new LogEventProperty(PropertyName, new ScalarValue(PropertyValue));
 
-            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.Raw);
+            var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.Raw);
 
             var testEvent = new LogEvent(
                 DateTime.Now,
@@ -54,19 +59,22 @@
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(propertyValue, result);
+            Assert.Equal(PropertyValue, result);
         }
 
+        /// <summary>
+        ///     This method is used to test the writer with respected format.
+        /// </summary>
         [Fact]
-        public void WithToStringSeleted_ShouldRespectFormatPassed()
+        public void WithToStringSelectedShouldRespectFormatPassed()
         {
-            var propertyName = "TestProperty";
+            const string PropertyName = "TestProperty";
 
-            var propertyValue = "TestValue";
+            const string PropertyValue = "TestValue";
 
-            var property = new LogEventProperty(propertyName, new ScalarValue(propertyValue));
+            var property = new LogEventProperty(PropertyName, new ScalarValue(PropertyValue));
 
-            var writer = new SinglePropertyColumnWriter(propertyName, PropertyWriteMethod.ToString, format: "l");
+            var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.ToString, format: "l");
 
             var testEvent = new LogEvent(
                 DateTime.Now,
@@ -77,7 +85,7 @@
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(propertyValue, result);
+            Assert.Equal(PropertyValue, result);
         }
     }
 }

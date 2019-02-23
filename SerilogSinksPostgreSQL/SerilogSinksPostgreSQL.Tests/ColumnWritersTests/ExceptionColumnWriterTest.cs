@@ -9,10 +9,16 @@
 
     using Xunit;
 
+    /// <summary>
+    /// This class is used to test the <seealso cref="ExceptionColumnWriter"/> class.
+    /// </summary>
     public class ExceptionColumnWriterTest
     {
+        /// <summary>
+        /// This method is used to test the writer with empty exceptions.
+        /// </summary>
         [Fact]
-        public void ExceptionIsNull_ShouldReturnDbNullValue()
+        public void ExceptionIsNullShouldReturnDbNullValue()
         {
             var writer = new ExceptionColumnWriter();
 
@@ -28,8 +34,11 @@
             Assert.Equal(DBNull.Value, result);
         }
 
+        /// <summary>
+        /// This method is used to test the writer with valid exceptions.
+        /// </summary>
         [Fact]
-        public void ExceptionIsPresent_ShouldReturnStringrepresentation()
+        public void ExceptionIsPresentShouldReturnStringRepresentation()
         {
             var writer = new ExceptionColumnWriter();
 

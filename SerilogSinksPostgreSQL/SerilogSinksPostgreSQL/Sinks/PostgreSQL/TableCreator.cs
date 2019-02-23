@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
 
@@ -9,14 +10,35 @@
 
     using NpgsqlTypes;
 
+    /// <summary>
+    ///     This class is used to create the tables.
+    /// </summary>
     public static class TableCreator
     {
-        public static int DefaultBitColumnsLength = 8;
+        /// <summary>
+        ///     The default bit columns length.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public const int DefaultBitColumnsLength = 8;
 
-        public static int DefaultCharColumnsLength = 50;
+        /// <summary>
+        ///     The default character columns length.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public const int DefaultCharColumnsLength = 50;
 
-        public static int DefaultVarcharColumnsLength = 50;
+        /// <summary>
+        ///     The default varchar columns length.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public const int DefaultVarcharColumnsLength = 50;
 
+        /// <summary>
+        ///     Creates the table.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="columnsInfo">The columns information.</param>
         public static void CreateTable(
             NpgsqlConnection connection,
             string tableName,
@@ -29,6 +51,12 @@
             }
         }
 
+        /// <summary>
+        ///     Gets the create table query.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="columnsInfo">The columns information.</param>
+        /// <returns>The create table query string.</returns>
         private static string GetCreateTableQuery(string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
         {
             var builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
@@ -43,8 +71,23 @@
             return builder.ToString();
         }
 
+        /// <summary>
+        ///     Gets the SQL type string.
+        /// </summary>
+        /// <param name="dbType">The column type.</param>
+        /// <returns>The SQL type string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">dbType - Cannot atomatically create column of type " + dbType</exception>
+        [SuppressMessage(
+            "StyleCop.CSharp.NamingRules",
+            "SA1305:FieldNamesMustNotUseHungarianNotation",
+            Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.DocumentationRules",
+            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "Reviewed. Suppression is OK here.")]
         private static string GetSqlTypeStr(NpgsqlDbType dbType)
         {
+            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (dbType)
             {
                 case NpgsqlDbType.Bigint:
@@ -77,11 +120,11 @@
                     return "time";
                 case NpgsqlDbType.Timestamp:
                     return "timestamp";
-                case NpgsqlDbType.TimestampTZ:
+                case NpgsqlDbType.TimestampTz:
                     return "timestamp with time zone";
                 case NpgsqlDbType.Interval:
                     return "interval";
-                case NpgsqlDbType.TimeTZ:
+                case NpgsqlDbType.TimeTz:
                     return "time with time zone";
                 case NpgsqlDbType.Inet:
                     return "inet";

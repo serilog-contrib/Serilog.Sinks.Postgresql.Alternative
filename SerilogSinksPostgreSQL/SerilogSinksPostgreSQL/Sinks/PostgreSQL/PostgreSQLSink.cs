@@ -262,7 +262,6 @@ namespace Serilog.Sinks.PostgreSQL
 
                 foreach (var logEvent in events)
                 {
-                    // TODO: Init once
                     command.Parameters.Clear();
                     foreach (var columnOption in this.columnOptions)
                     {

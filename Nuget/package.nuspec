@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL</id>
-    <version>1.0.0.0</version>
+    <version>1.0.1.0</version>
     <authors>SeppPenner</authors>
     <owners>SeppPenner</owners>
     <projectUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/</projectUrl>
@@ -13,6 +13,7 @@
 		The assembly was written and tested in .Net Framework 4.7.2, .Net Framework 4.5 and .Net Standard 2.0.
 	</description>
     <releaseNotes>
+		Version 1.0.1.0 (2019-02-23)** : Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.
 		Version 1.0.0.0 (2019-02-22)** : 1.0 release.
 	</releaseNotes>
     <copyright>Copyright © Hämmer Electronics 2019</copyright>

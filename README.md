@@ -18,8 +18,6 @@ string connectionString = "User ID=serilog;Password=serilog;Host=localhost;Port=
 
 string tableName = "logs";
 
-//Used columns (Key is a column name) 
-//Column type is writer's constructor parameter
 IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
 {
     { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
@@ -33,30 +31,55 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
 };
 
 var logger = new LoggerConfiguration()
-			        .WriteTo.PostgreSQL(connectionString, tableName, columnWriters)
-			        .CreateLogger();
+	.WriteTo.PostgreSQL(connectionString, tableName, columnWriters)
+	.CreateLogger();
 ```
 
 The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/).
 
 ## Table auto creation:
-If you set parameter `needAutoCreateTable` to `true` sink automatically create table.
-You can change column sizes by setting values in `TableCreator` class:
+If you set parameter `needAutoCreateTable` to `true`, the sink will automatically create the table.
+
 ```csharp
-//Sets size of all BIT and BIT VARYING columns to 20
+string connectionString = "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=logs";
+
+string tableName = "logs";
+
+IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
+{
+    { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+    { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
+    { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+    { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+    { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
+    { "props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
+    { "machine_name", new SinglePropertyColumnWriter("MachineName", PropertyWriteMethod.ToString, NpgsqlDbType.Text, "l") }
+};
+
+var logger = new LoggerConfiguration()
+	.WriteTo.PostgreSQL(connectionString, tableName, columnWriters, needAutoCreateTable: true)
+	.CreateLogger();
+```
+
+You can change column sizes by setting the values in the `TableCreator` class:
+```csharp
+// Sets size of all BIT and BIT VARYING columns to 20
 TableCreator.DefaultBitColumnsLength = 20;
 
-//Sets size of all CHAR columns to 30
+// Sets size of all CHAR columns to 30
 TableCreator.DefaultCharColumnsLength = 30;
 
-//Sets size of all VARCHAR columns to 50
+// Sets size of all VARCHAR columns to 50
 TableCreator.DefaultVarcharColumnsLength = 50;
 ```
 
 ## Further information:
 This project is a fork of https://github.com/b00ted/serilog-sinks-postgresql but is maintained.
+Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues) or [pull requests](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/pulls).
 
 Change history
 --------------
 
+* **Version 1.0.1.0 (2019-02-23)** : Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.
 * **Version 1.0.0.0 (2019-02-22)** : 1.0 release.

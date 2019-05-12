@@ -6,7 +6,8 @@
     <authors>SeppPenner</authors>
     <owners>SeppPenner</owners>
     <projectUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/</projectUrl>
-	<license type="file">License.txt</license>
+	<licenseUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/License.txt</licenseUrl>
+	<iconUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/Icon.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
 		SerilogSinkForPostgreSQL is a library to save logging information from https://github.com/serilog/serilog to https://www.postgresql.org/.

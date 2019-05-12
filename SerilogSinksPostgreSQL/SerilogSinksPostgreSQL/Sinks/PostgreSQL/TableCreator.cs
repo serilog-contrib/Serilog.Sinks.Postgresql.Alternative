@@ -73,7 +73,7 @@ namespace Serilog.Sinks.PostgreSQL
             builder.AppendLine(" (");
 
             builder.AppendLine(
-                string.Join(",\n", columnsInfo.Select(r => $" {r.Key} {GetSqlTypeStr(r.Value.DbType)} ")));
+                string.Join(",\n", columnsInfo.Select(r => $" \"{r.Key}\" {GetSqlTypeStr(r.Value.DbType)} ")));
 
             builder.AppendLine(")");
 

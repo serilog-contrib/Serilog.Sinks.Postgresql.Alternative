@@ -77,9 +77,7 @@ namespace Serilog.Sinks.PostgreSQL
                 foreach (var logEventProperty in logEvent.Properties)
                 {
                     sb.Append($"\"{logEventProperty.Key}\":");
-
                     valuesFormatter.Format(logEventProperty.Value, writer);
-
                     sb.Append(", ");
                 }
             }

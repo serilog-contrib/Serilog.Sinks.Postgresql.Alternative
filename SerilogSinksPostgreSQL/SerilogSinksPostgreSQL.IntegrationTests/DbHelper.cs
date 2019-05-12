@@ -36,14 +36,23 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <param name="tableName">Name of the table.</param>
         public void ClearTable(string tableName)
         {
-            using (var conn = new NpgsqlConnection(this.connectionString))
+            try
             {
-                conn.Open();
-                using (var command = conn.CreateCommand())
+                using (var conn = new NpgsqlConnection(this.connectionString))
                 {
-                    command.CommandText = $"TRUNCATE {tableName}";
-
-                    command.ExecuteNonQuery();
+                    conn.Open();
+                    using (var command = conn.CreateCommand())
+                    {
+                        command.CommandText = tableName.Contains("\"") ? $"TRUNCATE {tableName}" : $"TRUNCATE \"{tableName}\"";
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (PostgresException ex)
+            {
+                if (!ex.Message.Contains("does not exist"))
+                {
+                    throw;
                 }
             }
         }
@@ -55,18 +64,29 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <returns>The table row count.</returns>
         public long GetTableRowsCount(string tableName)
         {
-            var sql = $@"SELECT count(*)
-                         FROM {tableName}";
+            try
+            { 
+                var sql = tableName.Contains("\"") ? $"SELECT count(*) FROM {tableName}" : $"SELECT count(*) FROM \"{tableName}\"";
 
-            using (var conn = new NpgsqlConnection(this.connectionString))
-            {
-                conn.Open();
-                using (var command = conn.CreateCommand())
+                using (var conn = new NpgsqlConnection(this.connectionString))
                 {
-                    command.CommandText = sql;
-                    var result = command.ExecuteScalar();
-                    return (long?)result ?? 0;
+                    conn.Open();
+                    using (var command = conn.CreateCommand())
+                    {
+                        command.CommandText = sql;
+                        var result = command.ExecuteScalar();
+                        return (long?)result ?? 0;
+                    }
                 }
+            }
+            catch (PostgresException ex)
+            {
+                if (ex.Message.Contains("does not exist"))
+                {
+                    return 0;
+                }
+
+                throw;
             }
         }
 
@@ -76,14 +96,25 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <param name="tableName">Name of the table.</param>
         public void RemoveTable(string tableName)
         {
-            using (var conn = new NpgsqlConnection(this.connectionString))
+            try
             {
-                conn.Open();
-                using (var command = conn.CreateCommand())
+                using (var conn = new NpgsqlConnection(this.connectionString))
                 {
-                    command.CommandText = $"DROP TABLE IF EXISTS {tableName}";
-
-                    command.ExecuteNonQuery();
+                    conn.Open();
+                    using (var command = conn.CreateCommand())
+                    {
+                        command.CommandText = tableName.Contains("\"")
+                                                  ? $"DROP TABLE IF EXISTS {tableName}"
+                                                  : $"DROP TABLE IF EXISTS \"{tableName}\"";
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (PostgresException ex)
+            {
+                if (!ex.Message.Contains("does not exist"))
+                {
+                    throw;
                 }
             }
         }

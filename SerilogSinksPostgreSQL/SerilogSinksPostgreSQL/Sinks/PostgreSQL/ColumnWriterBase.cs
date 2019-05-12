@@ -35,12 +35,12 @@ namespace Serilog.Sinks.PostgreSQL
         }
 
         /// <summary>
-        ///     Gets the column type.
+        ///     Gets or sets the column type.
         /// </summary>
         /// <value>
         ///     The column type.
         /// </value>
-        public NpgsqlDbType DbType { get; }
+        public NpgsqlDbType DbType { get; set; }
 
         /// <summary>
         ///     Gets the part of the log event to write to the column.

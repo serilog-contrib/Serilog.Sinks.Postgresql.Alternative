@@ -25,6 +25,7 @@ namespace Serilog
         "StyleCop.CSharp.DocumentationRules",
         "SA1650:ElementDocumentationMustBeSpelledCorrectly",
         Justification = "Reviewed. Suppression is OK here.")]
+    // ReSharper disable once UnusedMember.Global
     public static class LoggerConfigurationPostgreSqlExtensions
     {
         /// <summary>
@@ -53,6 +54,7 @@ namespace Serilog
             "StyleCop.CSharp.DocumentationRules",
             "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
+        // ReSharper disable once UnusedMember.Global
         public static LoggerConfiguration PostgreSql(
             this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,

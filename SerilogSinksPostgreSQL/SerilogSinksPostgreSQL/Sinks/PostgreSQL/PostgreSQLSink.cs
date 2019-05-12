@@ -202,10 +202,10 @@ namespace Serilog.Sinks.PostgreSQL
             var schemaPrefix = string.Empty;
             if (!string.IsNullOrEmpty(schemaName))
             {
-                schemaPrefix = $"{schemaName}.";
+                schemaPrefix = $"\"{schemaName}\".";
             }
 
-            return schemaPrefix + tableName;
+            return $"{schemaPrefix}\"{tableName}\"";
         }
 
         /// <summary>
@@ -214,9 +214,8 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>A SQL string with the copy command.</returns>
         private string GetCopyCommand()
         {
-            var columns = string.Join(", ", this.columnOptions.Keys);
-
-            return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
+            var columns = "\"" + string.Join("\", \"", this.columnOptions.Keys) + "\"";
+           return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
         }
 
         /// <summary>
@@ -225,14 +224,13 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>A SQL string with the insert query.</returns>
         private string GetInsertQuery()
         {
-            var columns = string.Join(", ", this.columnOptions.Keys);
+            var columns = "\"" + string.Join("\", \"", this.columnOptions.Keys) + "\"";
 
             var parameters = string.Join(
                 ", ",
-                this.columnOptions.Keys.Select(cn => ":" + ClearColumnNameForParameterName(cn)));
+                this.columnOptions.Keys.Select(cn => "@" + ClearColumnNameForParameterName(cn)));
 
-            return $@"INSERT INTO {this.fullTableName} ({columns})
-                                        VALUES ({parameters})";
+            return $"INSERT INTO {this.fullTableName}({columns}) VALUES ({parameters})";
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DbWriteTests.cs" company="Hämmer Electronics">
+// <copyright file="DbWriteTests.cs" company="Hï¿½mmer Electronics">
 // The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
 // </copyright>
 // <summary>

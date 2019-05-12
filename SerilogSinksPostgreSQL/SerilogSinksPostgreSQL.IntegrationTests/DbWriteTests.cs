@@ -31,7 +31,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         ///     The connection string.
         /// </summary>
         private const string ConnectionString =
-            "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=serilog_logs";
+            "User ID=postgres;Password=test;Host=localhost;Port=5432;Database=Serilog";
 
         /// <summary>
         ///     The table name.

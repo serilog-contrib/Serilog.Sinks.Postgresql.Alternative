@@ -37,11 +37,6 @@ namespace Serilog.Sinks.PostgreSQL
         public const int DefaultQueueLimit = int.MaxValue;
 
         /// <summary>
-        ///     The column options.
-        /// </summary>
-        private readonly IDictionary<string, ColumnWriterBase> columnOptions;
-
-        /// <summary>
         ///     The connection string.
         /// </summary>
         private readonly string connectionString;
@@ -60,6 +55,11 @@ namespace Serilog.Sinks.PostgreSQL
         ///     A boolean value indicating if the copy is used.
         /// </summary>
         private readonly bool useCopy;
+
+        /// <summary>
+        ///     The column options.
+        /// </summary>
+        private IDictionary<string, ColumnWriterBase> columnOptions;
 
         /// <summary>
         ///     A boolean value indicating whether the table is created or not.
@@ -99,6 +99,8 @@ namespace Serilog.Sinks.PostgreSQL
             this.useCopy = useCopy;
 
             this.columnOptions = columnOptions ?? ColumnOptions.Default;
+
+            this.ClearQuotationMarksFromColumnOptions();
 
             this.isTableCreated = !needAutoCreateTable;
         }
@@ -209,13 +211,34 @@ namespace Serilog.Sinks.PostgreSQL
         }
 
         /// <summary>
+        ///     Clears the quotation marks from the column options.
+        /// </summary>
+        private void ClearQuotationMarksFromColumnOptions()
+        {
+            var result = new Dictionary<string, ColumnWriterBase>(this.columnOptions);
+
+            foreach (var columnOption in this.columnOptions)
+            {
+                if (!columnOption.Key.Contains("\""))
+                {
+                    continue;
+                }
+
+                result.Remove(columnOption.Key);
+                result[columnOption.Key.Replace("\"", string.Empty)] = columnOption.Value;
+            }
+
+            this.columnOptions = result;
+        }
+
+        /// <summary>
         ///     Gets the copy command.
         /// </summary>
         /// <returns>A SQL string with the copy command.</returns>
         private string GetCopyCommand()
         {
             var columns = "\"" + string.Join("\", \"", this.columnOptions.Keys) + "\"";
-           return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
+            return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
         }
 
         /// <summary>

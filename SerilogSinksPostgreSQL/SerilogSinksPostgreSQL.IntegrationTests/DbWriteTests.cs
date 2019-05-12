@@ -79,7 +79,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                   };
 
             var logger = new LoggerConfiguration().WriteTo
-                .PostgreSql(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
+                .PostgreSql(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
                 .WithMachineName().CreateLogger();
 
             const int RowsCount = 1;
@@ -147,7 +147,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var columnProps = new Dictionary<string, ColumnWriterBase>
                                   {
                                       { "Message", new RenderedMessageColumnWriter() },
-                                      { "\"Message_template\"", new MessageTemplateColumnWriter() },
+                                      { "\"MessageTemplate\"", new MessageTemplateColumnWriter() },
                                       { "\"Level\"", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
                                       { "RaiseDate", new TimestampColumnWriter() },
                                       { "Exception", new ExceptionColumnWriter() },

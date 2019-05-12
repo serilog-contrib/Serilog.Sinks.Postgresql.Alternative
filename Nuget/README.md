@@ -84,7 +84,7 @@ TableCreator.DefaultCharColumnsLength = 30;
 TableCreator.DefaultVarcharColumnsLength = 50;
 ```
 
-## Mixed case table or column names
+## Upper or lower case table or column names
 Table or column names are always case-sensitive!
 
 ## Further information:

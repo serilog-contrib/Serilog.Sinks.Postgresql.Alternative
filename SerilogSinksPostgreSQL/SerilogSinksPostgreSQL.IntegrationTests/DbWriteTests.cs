@@ -48,10 +48,63 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
 
         /// <summary>
-        ///     This method is used to test the auto creation of the tables.
+        ///     This method is used to test the auto creation of the tables and adds data with the insert command.
         /// </summary>
         [Fact]
-        public void AutoCreateTableIsTrueShouldCreateTable()
+        public void AutoCreateTableIsTrueShouldCreateTableInsert()
+        {
+            this.dbHelper.RemoveTable(TableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+                                  {
+                                      { "Message", new RenderedMessageColumnWriter() },
+                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
+                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                                      { "RaiseDate", new TimestampColumnWriter() },
+                                      { "Exception", new ExceptionColumnWriter() },
+                                      { "Properties", new LogEventSerializedColumnWriter() },
+                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                                      {
+                                          "IntPropertyTest",
+                                          new SinglePropertyColumnWriter(
+                                              "testNo",
+                                              PropertyWriteMethod.Raw,
+                                              NpgsqlDbType.Integer)
+                                      },
+                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+                                  };
+
+            var logger = new LoggerConfiguration().WriteTo
+                .PostgreSql(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
+                .WithMachineName().CreateLogger();
+
+            const int RowsCount = 1;
+            for (var i = 0; i < RowsCount; i++)
+            {
+                logger.Information(
+                    "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
+                    i,
+                    testObject,
+                    testObj2,
+                    "stringValue");
+            }
+
+            logger.Dispose();
+
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+
+            Assert.Equal(RowsCount, actualRowsCount);
+        }
+
+        /// <summary>
+        ///     This method is used to test the auto creation of the tables and adds data with the copy command.
+        /// </summary>
+        [Fact]
+        public void AutoCreateTableIsTrueShouldCreateTableCopy()
         {
             this.dbHelper.RemoveTable(TableName);
 

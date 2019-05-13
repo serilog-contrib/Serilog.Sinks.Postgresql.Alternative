@@ -29,7 +29,7 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
         ///     This method is used to test the writer with a timestamp without time zone.
         /// </summary>
         [Fact]
-        public void ByDefaultShouldReturnTimestampValueWithoutTimezone()
+        public void ByDefaultShouldReturnTimestampValueWithTimezone()
         {
             var writer = new TimestampColumnWriter();
 

@@ -72,13 +72,13 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         /// <param name="tableName">Name of the table.</param>
-        /// <param name="period">The period.</param>
+        /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="columnOptions">The column options.</param>
-        /// <param name="batchSizeLimit">The batch size limit.</param>
-        /// <param name="useCopy">if set to <c>true</c> [use copy].</param>
+        /// <param name="batchSizeLimit">The maximum number of events to include in a single batch.</param>
+        /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
         /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="needAutoCreateTable">if set to <c>true</c> [need automatic create table].</param>
+        /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
         public PostgreSqlSink(
             string connectionString,
             string tableName,
@@ -111,14 +111,14 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         /// <param name="tableName">Name of the table.</param>
-        /// <param name="period">The period.</param>
+        /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// <param name="columnOptions">The column options.</param>
-        /// <param name="batchSizeLimit">The batch size limit.</param>
-        /// <param name="queueLimit">The queue limit.</param>
-        /// <param name="useCopy">if set to <c>true</c> [use copy].</param>
+        /// <param name="batchSizeLimit">The maximum number of events to include in a single batch.</param>
+        /// <param name="queueLimit">Maximum number of events in the queue.</param>
+        /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
         /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="needAutoCreateTable">if set to <c>true</c> [need automatic create table].</param>
+        /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
         // ReSharper disable once UnusedMember.Global
         public PostgreSqlSink(
             string connectionString,

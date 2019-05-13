@@ -238,11 +238,6 @@
                 The default queue limit.
             </summary>
         </member>
-        <member name="F:Serilog.Sinks.PostgreSQL.PostgreSqlSink.columnOptions">
-            <summary>
-                The column options.
-            </summary>
-        </member>
         <member name="F:Serilog.Sinks.PostgreSQL.PostgreSqlSink.connectionString">
             <summary>
                 The connection string.
@@ -263,6 +258,11 @@
                 A boolean value indicating if the copy is used.
             </summary>
         </member>
+        <member name="F:Serilog.Sinks.PostgreSQL.PostgreSqlSink.columnOptions">
+            <summary>
+                The column options.
+            </summary>
+        </member>
         <member name="F:Serilog.Sinks.PostgreSQL.PostgreSqlSink.isTableCreated">
             <summary>
                 A boolean value indicating whether the table is created or not.
@@ -275,13 +275,13 @@
             </summary>
             <param name="connectionString">The connection string.</param>
             <param name="tableName">Name of the table.</param>
-            <param name="period">The period.</param>
+            <param name="period">The time to wait between checking for event batches.</param>
             <param name="formatProvider">The format provider.</param>
             <param name="columnOptions">The column options.</param>
-            <param name="batchSizeLimit">The batch size limit.</param>
-            <param name="useCopy">if set to <c>true</c> [use copy].</param>
+            <param name="batchSizeLimit">The maximum number of events to include in a single batch.</param>
+            <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
             <param name="schemaName">Name of the schema.</param>
-            <param name="needAutoCreateTable">if set to <c>true</c> [need automatic create table].</param>
+            <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
         </member>
         <member name="M:Serilog.Sinks.PostgreSQL.PostgreSqlSink.#ctor(System.String,System.String,System.TimeSpan,System.IFormatProvider,System.Collections.Generic.IDictionary{System.String,Serilog.Sinks.PostgreSQL.ColumnWriterBase},System.Int32,System.Int32,System.Boolean,System.String,System.Boolean)">
             <inheritdoc cref="T:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink" />
@@ -290,14 +290,14 @@
             </summary>
             <param name="connectionString">The connection string.</param>
             <param name="tableName">Name of the table.</param>
-            <param name="period">The period.</param>
+            <param name="period">The time to wait between checking for event batches.</param>
             <param name="formatProvider">The format provider.</param>
             <param name="columnOptions">The column options.</param>
-            <param name="batchSizeLimit">The batch size limit.</param>
-            <param name="queueLimit">The queue limit.</param>
-            <param name="useCopy">if set to <c>true</c> [use copy].</param>
+            <param name="batchSizeLimit">The maximum number of events to include in a single batch.</param>
+            <param name="queueLimit">Maximum number of events in the queue.</param>
+            <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
             <param name="schemaName">Name of the schema.</param>
-            <param name="needAutoCreateTable">if set to <c>true</c> [need automatic create table].</param>
+            <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
         </member>
         <member name="M:Serilog.Sinks.PostgreSQL.PostgreSqlSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})">
             <inheritdoc cref="T:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink" />
@@ -330,6 +330,11 @@
             <param name="tableName">Name of the table.</param>
             <param name="schemaName">Name of the schema.</param>
             <returns>The full table name.</returns>
+        </member>
+        <member name="M:Serilog.Sinks.PostgreSQL.PostgreSqlSink.ClearQuotationMarksFromColumnOptions">
+            <summary>
+                Clears the quotation marks from the column options.
+            </summary>
         </member>
         <member name="M:Serilog.Sinks.PostgreSQL.PostgreSqlSink.GetCopyCommand">
             <summary>

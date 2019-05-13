@@ -33,7 +33,7 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
     { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
     { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
     { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
     { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
     { "props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
@@ -47,20 +47,34 @@ var logger = new LoggerConfiguration()
 
 The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/).
 
-## Table auto creation:
-If you set parameter `needAutoCreateTable` to `true`, the sink will automatically create the table.
+## Configuration options:
+
+|Parameter|Meaning|Example|Default value|
+|-|-|-|-|
+|connectionString|The connection string to connect to the PostgreSQL database.|`"User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Logs"`|None, is mandatory.|
+|tableName|The table name to write the data to. Is case-sensitive!|`"logs"`|None, is mandatory.|
+|period|The time to wait between checking for event batches.|`period: new TimeSpan(0, 0, 20)`|`00:00:05`|
+|formatProvider|The `IFormatProvider` to use.|Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8|`null`|
+|columnOptions|The column options to do.|See the examples under the `Full example` section below.|`null`|
+|batchSizeLimit|The maximum number of events to include in a single batch.|`batchSizeLimit: 40`|`30`|
+|useCopy|Enables the copy command to allow batch inserting instead of multiple `INSERT` commands.|`useCopy: true`|`true`|
+|schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|
+|needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
+|queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
+
+## Full example
 
 ```csharp
 string connectionString = "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Logs";
 
 string tableName = "logs";
 
-IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
+IDictionary<string, ColumnWriterBase> columnOptions = new Dictionary<string, ColumnWriterBase>
 {
     { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
     { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
     { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
     { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
     { "props_test", new PropertiesColumnWriter(NpgsqlDbType.Jsonb) },
@@ -68,9 +82,11 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
 };
 
 var logger = new LoggerConfiguration()
-	.WriteTo.PostgreSQL(connectionString, tableName, columnWriters, needAutoCreateTable: true)
+	.WriteTo.PostgreSQL(connectionString, tableName, columnOptions, needAutoCreateTable: true, schemaName: "LoggingSchema", useCopy: true, queueLimit: 3000, batchSizeLimit: 40, period: new TimeSpan(0, 0, 10), formatProvider: null)
 	.CreateLogger();
 ```
+
+## Adjusting column sizes
 
 You can change column sizes by setting the values in the `TableCreator` class:
 ```csharp
@@ -94,6 +110,7 @@ Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForP
 Change history
 --------------
 
+* **Version 1.0.2.0 (2019-05-13)** : Updated documentation, fixed some tests.
 * **Version 1.0.1.0 (2019-05-08)** : Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.
 Simplified building and packing scripts. Added support for NetFramework 4.6, NetFramework 4.6.2, NetFramework 4.7 and NetFramework 4.8.
 * **Version 1.0.0.0 (2019-02-22)** : 1.0 release.

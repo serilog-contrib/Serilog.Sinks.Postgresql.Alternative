@@ -34,7 +34,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog";
 
         /// <summary>
-        ///     The schema name.
+        ///     The schema name. This needs to be present in the database, e.g. create it manually.
         /// </summary>
         private const string SchemaName = "Logs";
 
@@ -58,7 +58,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         private readonly string tableFullName = $"\"{SchemaName}\".\"{TableName}\"";
 
         /// <summary>
-        ///     This method is used to test the auto create table function.
+        ///     This method is used to test the auto create table function with a schema name.
+        ///     The schema name needs to be present in the database, e.g. create it manually.
         /// </summary>
         [Fact]
         public void AutoCreateTableIsTrueShouldCreateTable()
@@ -90,7 +91,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             var logger = new LoggerConfiguration().WriteTo.PostgreSql(
                 ConnectionString,
-                this.tableFullName,
+                TableName,
                 columnProps,
                 schemaName: SchemaName,
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
@@ -115,6 +116,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
         /// <summary>
         ///     This method is used to write 50 log events to the database.
+        ///     The schema name needs to be present in the database, e.g. create it manually.
         /// </summary>
         [Fact]
         public void Write50EventsShouldInsert50EventsToDb()

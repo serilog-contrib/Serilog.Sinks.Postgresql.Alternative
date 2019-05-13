@@ -55,7 +55,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |tableName|The table name to write the data to. Is case-sensitive!|`"logs"`|None, is mandatory.|
 |period|The time to wait between checking for event batches.|`period: new TimeSpan(0, 0, 20)`|`00:00:05`|
 |formatProvider|The `IFormatProvider` to use.|Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8|`null`|
-|columnOptions|The column options to use.|See the examples under the `Full example` section below.|`null`|
+|columnOptions|The column options to use.|See the examples under the [Full example](https://github.com/SeppPenner/SerilogSinkForPostgreSQL#full-example) section below.|`null`|
 |batchSizeLimit|The maximum number of events to include in a single batch.|`batchSizeLimit: 40`|`30`|
 |useCopy|Enables the copy command to allow batch inserting instead of multiple `INSERT` commands.|`useCopy: true`|`true`|
 |schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|

@@ -35,7 +35,7 @@ namespace Serilog.Sinks.PostgreSQL
         public TimestampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz)
             : base(dbType)
         {
-            // Current workaround for the issue https://github.com/npgsql/npgsql/issues/2470
+            // Set the DbType to NpgsqlDbType.TimestampTz in any case: Check https://github.com/npgsql/npgsql/issues/2470 for more details.
             this.DbType = NpgsqlDbType.TimestampTz;
         }
 
@@ -50,7 +50,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// </returns>
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            return this.DbType == NpgsqlDbType.Timestamp ? logEvent.Timestamp.DateTime : logEvent.Timestamp;
+            return logEvent.Timestamp;
         }
     }
 }

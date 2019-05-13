@@ -44,7 +44,7 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(timeStamp.DateTime, result);
+            Assert.Equal(timeStamp, result);
         }
 
         /// <summary>

@@ -54,7 +54,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |connectionString|The connection string to connect to the PostgreSQL database.|`"User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Logs"`|None, is mandatory.|
 |tableName|The table name to write the data to. Is case-sensitive!|`"logs"`|None, is mandatory.|
 |period|The time to wait between checking for event batches.|`period: new TimeSpan(0, 0, 20)`|`00:00:05`|
-|formatProvider|The `IFormatProvider` to use.|Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8|`null`|
+|formatProvider|The `IFormatProvider` to use. Supplies culture-specific formatting information. Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8.|`new CultureInfo("de-DE")`|`null`|
 |columnOptions|The column options to use.|See the examples under the [Full example](https://github.com/SeppPenner/SerilogSinkForPostgreSQL#full-example) section below.|`null`|
 |batchSizeLimit|The maximum number of events to include in a single batch.|`batchSizeLimit: 40`|`30`|
 |useCopy|Enables the copy command to allow batch inserting instead of multiple `INSERT` commands.|`useCopy: true`|`true`|

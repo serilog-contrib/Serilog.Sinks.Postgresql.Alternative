@@ -10,11 +10,11 @@
     <PackageProjectUrl>https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/License.txt</PackageLicenseUrl>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
-    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <Version>1.0.3</Version>
     <PackageTags>c# csharp serilog postgresql postgres sink logging log</PackageTags>
-    <PackageReleaseNotes>Added documentation to classes, updated documentation in nuget package.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added icon to the nuget package.</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 

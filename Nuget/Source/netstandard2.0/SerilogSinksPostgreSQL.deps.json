@@ -1,16 +1,16 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "e6a688ee5d83f86f4a4012dc1c510eb2acc82fa4"
+    "signature": "9f5b89b76e1f3e7740367034ce236aea6a33f4f3"
   },
   "compilationOptions": {},
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "SerilogSinksPostgreSQL/1.0.1": {
+      "SerilogSinksPostgreSQL/1.0.3": {
         "dependencies": {
           "NETStandard.Library": "2.0.3",
-          "Npgsql": "4.0.6",
+          "Npgsql": "4.0.7",
           "Serilog": "2.8.0",
           "Serilog.Sinks.PeriodicBatching": "2.2.0"
         },
@@ -25,17 +25,17 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "Npgsql/4.0.6": {
+      "Npgsql/4.0.7": {
         "dependencies": {
-          "System.Memory": "4.5.2",
+          "System.Memory": "4.5.3",
           "System.Runtime.CompilerServices.Unsafe": "4.5.2",
           "System.Threading.Tasks.Extensions": "4.5.2",
           "System.ValueTuple": "4.5.0"
         },
         "runtime": {
           "lib/netstandard2.0/Npgsql.dll": {
-            "assemblyVersion": "4.0.6.0",
-            "fileVersion": "4.0.6.0"
+            "assemblyVersion": "4.0.7.0",
+            "fileVersion": "4.0.7.0"
           }
         }
       },
@@ -144,7 +144,7 @@
           "System.Threading.Tasks": "4.3.0"
         }
       },
-      "System.Memory/4.5.2": {
+      "System.Memory/4.5.3": {
         "dependencies": {
           "System.Buffers": "4.4.0",
           "System.Numerics.Vectors": "4.4.0",
@@ -152,8 +152,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/System.Memory.dll": {
-            "assemblyVersion": "4.0.1.0",
-            "fileVersion": "4.6.27129.4"
+            "assemblyVersion": "4.0.1.1",
+            "fileVersion": "4.6.27617.2"
           }
         }
       },
@@ -259,7 +259,7 @@
     }
   },
   "libraries": {
-    "SerilogSinksPostgreSQL/1.0.1": {
+    "SerilogSinksPostgreSQL/1.0.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -285,12 +285,12 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "Npgsql/4.0.6": {
+    "Npgsql/4.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fOqH85tRp4RZXMdGZAMqpDsSxs32fNWAfwgXnF0ws6hrOnu9JJVsAnuUtbnEPXXesjje+/XI/3Pe+LABMJ/t7A==",
-      "path": "npgsql/4.0.6",
-      "hashPath": "npgsql.4.0.6.nupkg.sha512"
+      "sha512": "sha512-MtKdc1CjuS0BnHti51Skw5A1cbk0JmUxgRIepqq8zkgZ3kYpBOQJcrTGH+305I7kqQBtGs9Y/kpJjv/GBExulw==",
+      "path": "npgsql/4.0.7",
+      "hashPath": "npgsql.4.0.7.nupkg.sha512"
     },
     "Serilog/2.8.0": {
       "type": "package",
@@ -362,12 +362,12 @@
       "path": "system.io/4.3.0",
       "hashPath": "system.io.4.3.0.nupkg.sha512"
     },
-    "System.Memory/4.5.2": {
+    "System.Memory/4.5.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fvq1GNmUFwbKv+aLVYYdgu/+gc8Nu9oFujOxIjPrsf+meis9JBzTPDL6aP/eeGOz9yPj6rRLUbOjKMpsMEWpNg==",
-      "path": "system.memory/4.5.2",
-      "hashPath": "system.memory.4.5.2.nupkg.sha512"
+      "sha512": "sha512-3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "path": "system.memory/4.5.3",
+      "hashPath": "system.memory.4.5.3.nupkg.sha512"
     },
     "System.Numerics.Vectors/4.4.0": {
       "type": "package",

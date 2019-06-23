@@ -2,18 +2,19 @@
 <package >
   <metadata>
     <id>HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL</id>
-    <version>1.0.2.0</version>
+    <version>1.0.3.0</version>
     <authors>SeppPenner</authors>
     <owners>SeppPenner</owners>
     <projectUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/</projectUrl>
 	<licenseUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/License.txt</licenseUrl>
-	<iconUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/Icon.png</iconUrl>
+	<iconUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/Icon.png?raw=true</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
 		SerilogSinkForPostgreSQL is a library to save logging information from https://github.com/serilog/serilog to https://www.postgresql.org/.
 		The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 	</description>
     <releaseNotes>
+	    Version 1.0.3.0 (2019-06-23): Added icon to the nuget package.
 	    Version 1.0.2.0 (2019-05-13): Updated documentation, fixed some tests.
 		Version 1.0.1.0 (2019-02-23): Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.
 		Version 1.0.0.0 (2019-02-22): 1.0 release.

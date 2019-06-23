@@ -110,6 +110,7 @@ Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForP
 Change history
 --------------
 
+* **Version 1.0.3.0 (2019-06-23)** : Added icon to the nuget package.
 * **Version 1.0.2.0 (2019-05-13)** : Updated documentation, fixed some tests.
 * **Version 1.0.1.0 (2019-05-08)** : Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.
 Simplified building and packing scripts. Added support for NetFramework 4.6, NetFramework 4.6.2, NetFramework 4.7 and NetFramework 4.8.

@@ -86,6 +86,25 @@ var logger = new LoggerConfiguration()
 	.CreateLogger();
 ```
 
+## Using the sink with NodaTime in .Net Core 2.2
+For the use with [NodaTime](https://nodatime.org/) in .Net Core 2.2, you need to add a new column writer class for the `DateTimeOffset` values.
+Check the issue https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues/10, too.
+
+```csharp
+public class OffsetDateTimeColumnWriterBase : ColumnWriterBase
+{
+    public OffsetDateTimeColumnWriterBase(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz): base(dbType)
+    {
+        this.DbType = NpgsqlDbType.TimestampTz;
+    }
+
+    public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+    {
+        return OffsetDateTime.FromDateTimeOffset(logEvent.Timestamp);
+    }
+}
+```
+
 ## Adjusting column sizes
 
 You can change column sizes by setting the values in the `TableCreator` class:

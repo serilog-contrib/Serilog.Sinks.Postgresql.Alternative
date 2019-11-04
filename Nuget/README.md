@@ -8,7 +8,7 @@ The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues)
 [![GitHub forks](https://img.shields.io/github/forks/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/network)
 [![GitHub stars](https://img.shields.io/github/stars/SeppPenner/SerilogSinkForPostgreSQL.svg)](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-AGPL-blue.svg)](https://raw.githubusercontent.com/SeppPenner/SerilogSinkForPostgreSQL/master/License.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/SeppPenner/SerilogSinkForPostgreSQL/master/License.txt)
 [![Nuget](https://img.shields.io/badge/SerilogSinkForPostgreSQL-Nuget-brightgreen.svg)](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL.svg)](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/)
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/SerilogSinkForPostgreSQL/badge.svg)](https://snyk.io/test/github/SeppPenner/SerilogSinkForPostgreSQL)

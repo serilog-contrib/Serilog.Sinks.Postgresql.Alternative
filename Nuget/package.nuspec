@@ -78,7 +78,8 @@
     </dependencies>
   </metadata>
   <files>
-	  <file src="README.md" target="lib/" />
+	  <file src="README.md" target="" />
+	  <file src="HowToUse.md" target="" />
 	  <file src="License.txt" target="" />
 	  <file src="Source\net45\**" target="lib\net45" />
 	  <file src="Source\net46\**" target="lib\net46" />

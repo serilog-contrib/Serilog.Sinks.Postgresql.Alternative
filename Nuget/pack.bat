@@ -1,2 +1,2 @@
-nuget pack
+nuget pack -IncludeReferencedProjects
 pause

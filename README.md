@@ -22,6 +22,9 @@ The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 * NetFramework 4.7.2
 * NetFramework 4.8
 * NetStandard 2.0
+* NetStandard 2.1
+* NetCore 2.2
+* NetCore 3.0
 
 ## Basic usage:
 ```csharp
@@ -130,6 +133,7 @@ Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForP
 Change history
 --------------
 
+* **Version 1.0.4.0 (2019-11-08)** : Updated nuget packages.
 * **Version 1.0.3.0 (2019-06-23)** : Added icon to the nuget package.
 * **Version 1.0.2.0 (2019-05-13)** : Updated documentation, fixed some tests.
 * **Version 1.0.1.0 (2019-05-08)** : Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.

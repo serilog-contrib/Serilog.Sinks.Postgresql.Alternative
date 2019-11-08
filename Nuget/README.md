@@ -12,6 +12,7 @@ The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 [![Nuget](https://img.shields.io/badge/SerilogSinkForPostgreSQL-Nuget-brightgreen.svg)](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL.svg)](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/)
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/SerilogSinkForPostgreSQL/badge.svg)](https://snyk.io/test/github/SeppPenner/SerilogSinkForPostgreSQL)
+[![Gitter](https://badges.gitter.im/SerilogSinkForPostgreSQL/community.svg)](https://gitter.im/SerilogSinkForPostgreSQL/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Available for
 * NetFramework 4.5
@@ -21,6 +22,9 @@ The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 * NetFramework 4.7.2
 * NetFramework 4.8
 * NetStandard 2.0
+* NetStandard 2.1
+* NetCore 2.2
+* NetCore 3.0
 
 ## Basic usage:
 ```csharp
@@ -86,6 +90,25 @@ var logger = new LoggerConfiguration()
 	.CreateLogger();
 ```
 
+## Using the sink with NodaTime in .Net Core 2.2
+For the use with [NodaTime](https://nodatime.org/) in .Net Core 2.2, you need to add a new column writer class for the `DateTimeOffset` values.
+Check the issue https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues/10, too.
+
+```csharp
+public class OffsetDateTimeColumnWriterBase : ColumnWriterBase
+{
+    public OffsetDateTimeColumnWriterBase(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz): base(dbType)
+    {
+        this.DbType = NpgsqlDbType.TimestampTz;
+    }
+
+    public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+    {
+        return OffsetDateTime.FromDateTimeOffset(logEvent.Timestamp);
+    }
+}
+```
+
 ## Adjusting column sizes
 
 You can change column sizes by setting the values in the `TableCreator` class:
@@ -110,6 +133,7 @@ Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForP
 Change history
 --------------
 
+* **Version 1.0.4.0 (2019-11-08)** : Updated nuget packages.
 * **Version 1.0.3.0 (2019-06-23)** : Added icon to the nuget package.
 * **Version 1.0.2.0 (2019-05-13)** : Updated documentation, fixed some tests.
 * **Version 1.0.1.0 (2019-05-08)** : Updated documentation, added documentation to the nuget package and all classes, added option to allow upper case table and column names.

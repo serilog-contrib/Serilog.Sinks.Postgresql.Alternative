@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL</id>
-    <version>1.0.4.0</version>
+    <version>1.5.0.0</version>
     <authors>SeppPenner</authors>
     <owners>SeppPenner</owners>
     <projectUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/</projectUrl>
@@ -18,60 +18,55 @@
 	  The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 	</description>
     <releaseNotes>
-	 Version 1.0.4.0 (2019-11-08): Updated nuget packages.
+	 Version 1.5.0.0 (2020-02-09): Updated nuget packages, updated available versions.
 	</releaseNotes>
     <copyright>Copyright © Hämmer Electronics</copyright>
     <tags>c# csharp serilog postgresql postgres sink logging log</tags>
 	<dependencies>
-      <group targetFramework="net45">
-		<dependency id="Npgsql" version="4.0.10" />
-		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
-      </group>
-	  <group targetFramework="net46">
-		<dependency id="Npgsql" version="4.0.10" />
+	  <group targetFramework="net462">
+		<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
       </group>
 	  <group targetFramework="net47">
-		<dependency id="Npgsql" version="4.0.10" />
+		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Serilog" version="2.9.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />	  
+      </group>
+	  <group targetFramework="net472">
+		<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />	  
       </group>
 	  <group targetFramework="net48">
-		<dependency id="Npgsql" version="4.0.10" />
+		<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
-      </group>
-	  <group targetFramework="net462">
-		<dependency id="Npgsql" version="4.0.10" />
-		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
-      </group>
-	  <group targetFramework="net472">
-		<dependency id="Npgsql" version="4.0.10" />
-		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />	  
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="NETStandard.Library" version="2.0.0" />
-		<dependency id="Npgsql" version="4.0.10" />
+		<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
       </group>
 	  <group targetFramework="netstandard2.1">
         <dependency id="NETStandard.Library" version="2.1.0" />
-		<dependency id="Npgsql" version="4.0.10" />
+		<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
       </group>
-      <group targetFramework="netcoreapp2.2">
-	  	<dependency id="Npgsql" version="4.0.10" />
+      <group targetFramework="netcoreapp2.1">
+	  	<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
       </group>
 	  <group targetFramework="netcoreapp3.0">
-	  	<dependency id="Npgsql" version="4.0.10" />
+	  	<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Serilog" version="2.9.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+      </group>
+	  <group targetFramework="netcoreapp3.1">
+	  	<dependency id="Npgsql" version="4.1.3" />
 		<dependency id="Serilog" version="2.9.0" />
 		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
       </group>
@@ -81,16 +76,15 @@
 	  <file src="README.md" target="" />
 	  <file src="HowToUse.md" target="" />
 	  <file src="License.txt" target="" />
-	  <file src="Source\net45\**" target="lib\net45" />
-	  <file src="Source\net46\**" target="lib\net46" />
 	  <file src="Source\net462\**" target="lib\net462" />
 	  <file src="Source\net47\**" target="lib\net47" />
 	  <file src="Source\net472\**" target="lib\net472" />
 	  <file src="Source\net48\**" target="lib\net48" />
 	  <file src="Source\netstandard2.0\**" target="lib\netstandard2.0" />
 	  <file src="Source\netstandard2.1\**" target="lib\netstandard2.1" />
-	  <file src="Source\netcoreapp2.2\**" target="lib\netcoreapp2.2" />
+	  <file src="Source\netcoreapp2.1\**" target="lib\netcoreapp2.1" />
 	  <file src="Source\netcoreapp3.0\**" target="lib\netcoreapp3.0" />
+	  <file src="Source\netcoreapp3.1\**" target="lib\netcoreapp3.1" />
 	  <file src="..\Icon.png" target="images\" />
    </files>
 </package>

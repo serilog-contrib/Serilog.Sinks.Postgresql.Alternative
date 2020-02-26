@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimestampColumnWriterTest.cs" company="Hämmer Electronics">
-// The project is licensed under the GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007
+// <copyright file="TimestampColumnWriterTest.cs" company="Hï¿½mmer Electronics">
+// The project is licensed under the MIT license
 // </copyright>
 // <summary>
 //   This class is used to test the TimestampColumnWriter class.

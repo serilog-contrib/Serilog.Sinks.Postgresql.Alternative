@@ -39,6 +39,7 @@ Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForP
 Change history
 --------------
 
+* **Version 1.6.0.0 (2020-04-26)** : Updated nuget packages.
 * **Version 1.5.0.0 (2020-02-09)** : Updated nuget packages, updated available versions.
 * **Version 1.4.0.0 (2019-11-08)** : Updated nuget packages.
 * **Version 1.0.3.0 (2019-06-23)** : Added icon to the nuget package.

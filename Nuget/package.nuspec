@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL</id>
-    <version>1.5.0.0</version>
+    <version>1.6.0.0</version>
     <authors>SeppPenner</authors>
     <owners>SeppPenner</owners>
     <projectUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/</projectUrl>
@@ -18,57 +18,57 @@
 	  The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 	</description>
     <releaseNotes>
-	 Version 1.5.0.0 (2020-02-09): Updated nuget packages, updated available versions.
+	 Version 1.6.0.0 (2020-03-26): Updated nuget packages.
 	</releaseNotes>
     <copyright>Copyright © Hämmer Electronics</copyright>
     <tags>c# csharp serilog postgresql postgres sink logging log</tags>
 	<dependencies>
 	  <group targetFramework="net462">
-		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
 	  <group targetFramework="net47">
-		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />	  
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />	  
       </group>
 	  <group targetFramework="net472">
-		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />	  
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />	  
       </group>
 	  <group targetFramework="net48">
-		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="NETStandard.Library" version="2.0.0" />
-		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
 	  <group targetFramework="netstandard2.1">
         <dependency id="NETStandard.Library" version="2.1.0" />
-		<dependency id="Npgsql" version="4.1.3" />
+		<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
       <group targetFramework="netcoreapp2.1">
-	  	<dependency id="Npgsql" version="4.1.3" />
+	  	<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
 	  <group targetFramework="netcoreapp3.0">
-	  	<dependency id="Npgsql" version="4.1.3" />
+	  	<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
 	  <group targetFramework="netcoreapp3.1">
-	  	<dependency id="Npgsql" version="4.1.3" />
+	  	<dependency id="Npgsql" version="4.1.3.1" />
 		<dependency id="Serilog" version="2.9.0" />
-		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.2.0" />
+		<dependency id="Serilog.Sinks.PeriodicBatching" version="2.3.0" />
       </group>
     </dependencies>
   </metadata>

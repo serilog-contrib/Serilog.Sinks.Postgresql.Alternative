@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL</id>
-    <version>1.6.0.0</version>
+    <version>1.7.0.0</version>
     <authors>SeppPenner</authors>
     <owners>SeppPenner</owners>
     <projectUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL/</projectUrl>
@@ -18,7 +18,7 @@
 	  The assembly was written and tested in .Net Framework 4.8 and .Net Standard 2.0.
 	</description>
     <releaseNotes>
-	 Version 1.6.0.0 (2020-03-26): Updated nuget packages.
+	 Version 1.7.0.0 (2020-05-10): Updated nuget packages.
 	</releaseNotes>
     <copyright>Copyright © Hämmer Electronics</copyright>
     <tags>c# csharp serilog postgresql postgres sink logging log</tags>

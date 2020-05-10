@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DbWriteTests.cs" company="H�mmer Electronics">
-// The project is licensed under the MIT license
+// <copyright file="DbWriteTests.cs" company="Hämmer Electronics">
+// The project is licensed under the MIT license.
 // </copyright>
 // <summary>
 //   This class is used to test the writing to the database.

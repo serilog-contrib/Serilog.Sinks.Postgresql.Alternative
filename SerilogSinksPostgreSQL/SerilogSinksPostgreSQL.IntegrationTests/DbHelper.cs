@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DbHelper.cs" company="Hämmer Electronics">
-// The project is licensed under the MIT license
+// The project is licensed under the MIT license.
 // </copyright>
 // <summary>
 //   This class is used as helper class for the database connection.
@@ -38,15 +38,12 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         {
             try
             {
-                using (var conn = new NpgsqlConnection(this.connectionString))
-                {
-                    conn.Open();
-                    using (var command = conn.CreateCommand())
-                    {
-                        command.CommandText = tableName.Contains("\"") ? $"TRUNCATE {tableName}" : $"TRUNCATE \"{tableName}\"";
-                        command.ExecuteNonQuery();
-                    }
-                }
+                using var conn = new NpgsqlConnection(this.connectionString);
+                conn.Open();
+                using var command = conn.CreateCommand();
+                command.CommandText = tableName.Contains("\"") ? $"TRUNCATE {tableName}" : $"TRUNCATE \"{tableName}\"";
+                command.ExecuteNonQuery();
+
             }
             catch (PostgresException ex)
             {
@@ -67,17 +64,13 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             try
             { 
                 var sql = tableName.Contains("\"") ? $"SELECT count(*) FROM {tableName}" : $"SELECT count(*) FROM \"{tableName}\"";
+                using var conn = new NpgsqlConnection(this.connectionString);
+                conn.Open();
+                using var command = conn.CreateCommand();
+                command.CommandText = sql;
+                var result = command.ExecuteScalar();
+                return (long?)result ?? 0;
 
-                using (var conn = new NpgsqlConnection(this.connectionString))
-                {
-                    conn.Open();
-                    using (var command = conn.CreateCommand())
-                    {
-                        command.CommandText = sql;
-                        var result = command.ExecuteScalar();
-                        return (long?)result ?? 0;
-                    }
-                }
             }
             catch (PostgresException ex)
             {
@@ -98,17 +91,13 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         {
             try
             {
-                using (var conn = new NpgsqlConnection(this.connectionString))
-                {
-                    conn.Open();
-                    using (var command = conn.CreateCommand())
-                    {
-                        command.CommandText = tableName.Contains("\"")
-                                                  ? $"DROP TABLE IF EXISTS {tableName}"
-                                                  : $"DROP TABLE IF EXISTS \"{tableName}\"";
-                        command.ExecuteNonQuery();
-                    }
-                }
+                using var conn = new NpgsqlConnection(this.connectionString);
+                conn.Open();
+                using var command = conn.CreateCommand();
+                command.CommandText = tableName.Contains("\"")
+                                          ? $"DROP TABLE IF EXISTS {tableName}"
+                                          : $"DROP TABLE IF EXISTS \"{tableName}\"";
+                command.ExecuteNonQuery();
             }
             catch (PostgresException ex)
             {

@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimestampColumnWriterTest.cs" company="H�mmer Electronics">
-// The project is licensed under the MIT license
+// <copyright file="TimestampColumnWriterTest.cs" company="Hämmer Electronics">
+// The project is licensed under the MIT license.
 // </copyright>
 // <summary>
 //   This class is used to test the TimestampColumnWriter class.
@@ -11,8 +11,6 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;
-
-    using NpgsqlTypes;
 
     using Serilog.Events;
     using Serilog.Parsing;
@@ -53,7 +51,7 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
         [Fact]
         public void DbTypeWithTimezoneSelectedShouldReturnTimestampValue()
         {
-            var writer = new TimestampColumnWriter(NpgsqlDbType.TimestampTz);
+            var writer = new TimestampColumnWriter();
 
             var timeStamp = new DateTimeOffset(2017, 8, 13, 11, 11, 11, new TimeSpan());
 

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TableCreator.cs" company="Hämmer Electronics">
-// The project is licensed under the MIT license
+// The project is licensed under the MIT license.
 // </copyright>
 // <summary>
 //   This class is used to create the tables.
@@ -85,7 +85,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         /// <param name="dbType">The column type.</param>
         /// <returns>The SQL type string.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">dbType - Cannot atomatically create column of type " + dbType</exception>
+        /// <exception cref="ArgumentOutOfRangeException">dbType - Cannot automatically create column of type " + dbType</exception>
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
@@ -157,7 +157,7 @@ namespace Serilog.Sinks.PostgreSQL
                     throw new ArgumentOutOfRangeException(
                         nameof(dbType),
                         dbType,
-                        "Cannot atomatically create column of type " + dbType);
+                        "Cannot automatically create column of type " + dbType);
             }
         }
     }

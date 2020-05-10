@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "SerilogSinksPostgreSQL/1.6.0": {
+      "SerilogSinksPostgreSQL/1.7.0": {
         "dependencies": {
-          "GitVersionTask": "5.2.4",
+          "GitVersionTask": "5.3.2",
           "Npgsql": "4.1.3.1",
           "Serilog": "2.9.0",
           "Serilog.Sinks.PeriodicBatching": "2.3.0"
@@ -17,7 +17,7 @@
           "SerilogSinksPostgreSQL.dll": {}
         }
       },
-      "GitVersionTask/5.2.4": {},
+      "GitVersionTask/5.3.2": {},
       "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -184,17 +184,17 @@
     }
   },
   "libraries": {
-    "SerilogSinksPostgreSQL/1.6.0": {
+    "SerilogSinksPostgreSQL/1.7.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "GitVersionTask/5.2.4": {
+    "GitVersionTask/5.3.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-j0rE9cFwh6TWgi/NpIFkGA7qY94I7W0hGU6NTuOv69Fue0RYN+TjBtkldttDet050jWgNltO7tIOz3dokUjCHQ==",
-      "path": "gitversiontask/5.2.4",
-      "hashPath": "gitversiontask.5.2.4.nupkg.sha512"
+      "sha512": "sha512-ead/9JWeNX5OHQ9tRcj5GtIXk8n18/lxkZcm8JLVgXucLD5EDSF0qncBTJowbS35p4bpslJ1Z41H9EPLWRjLNw==",
+      "path": "gitversiontask/5.3.2",
+      "hashPath": "gitversiontask.5.3.2.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.0.0": {
       "type": "package",

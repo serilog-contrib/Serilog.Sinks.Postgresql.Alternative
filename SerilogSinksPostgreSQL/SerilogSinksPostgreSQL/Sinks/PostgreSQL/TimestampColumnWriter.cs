@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TimestampColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="TimestampColumnWriter.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExceptionColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="ExceptionColumnWriter.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

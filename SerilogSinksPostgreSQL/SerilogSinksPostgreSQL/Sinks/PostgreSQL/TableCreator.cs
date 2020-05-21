@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TableCreator.cs" company="Hämmer Electronics">
+// <copyright file="TableCreator.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -40,6 +40,7 @@ namespace Serilog.Sinks.PostgreSQL
         ///     The default varchar columns length.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public const int DefaultVarcharColumnsLength = 50;
 
         /// <summary>
@@ -53,11 +54,9 @@ namespace Serilog.Sinks.PostgreSQL
             string tableName,
             IDictionary<string, ColumnWriterBase> columnsInfo)
         {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = GetCreateTableQuery(tableName, columnsInfo);
-                command.ExecuteNonQuery();
-            }
+            using var command = connection.CreateCommand();
+            command.CommandText = GetCreateTableQuery(tableName, columnsInfo);
+            command.ExecuteNonQuery();
         }
 
         /// <summary>

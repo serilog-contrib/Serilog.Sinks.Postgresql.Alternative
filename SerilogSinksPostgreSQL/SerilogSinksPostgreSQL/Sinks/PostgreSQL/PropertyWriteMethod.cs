@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyWriteMethod.cs" company="Hämmer Electronics">
+// <copyright file="PropertyWriteMethod.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -9,6 +9,8 @@
 
 namespace Serilog.Sinks.PostgreSQL
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     ///     This enumeration contains the property write method.
     /// </summary>
@@ -27,6 +29,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <summary>
         ///     The json method.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         Json
     }
 }

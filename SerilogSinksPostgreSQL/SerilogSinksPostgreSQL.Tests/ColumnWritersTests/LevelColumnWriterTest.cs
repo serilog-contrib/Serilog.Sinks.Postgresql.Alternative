@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LevelColumnWriterTest.cs" company="Hämmer Electronics">
+// <copyright file="LevelColumnWriterTest.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

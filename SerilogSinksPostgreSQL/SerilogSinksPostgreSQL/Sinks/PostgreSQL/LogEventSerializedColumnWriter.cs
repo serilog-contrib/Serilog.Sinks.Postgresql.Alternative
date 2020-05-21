@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogEventSerializedColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="LogEventSerializedColumnWriter.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -60,15 +60,14 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="logEvent">The log event.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// <returns>The log event as json string.</returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static object LogEventToJson(LogEvent logEvent, IFormatProvider formatProvider)
         {
             var jsonFormatter = new JsonFormatter(formatProvider: formatProvider);
 
             var sb = new StringBuilder();
-            using (var writer = new StringWriter(sb))
-            {
-                jsonFormatter.Format(logEvent, writer);
-            }
+            using var writer = new StringWriter(sb);
+            jsonFormatter.Format(logEvent, writer);
 
             return sb.ToString();
         }

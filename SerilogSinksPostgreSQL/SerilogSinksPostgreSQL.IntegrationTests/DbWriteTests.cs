@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DbWriteTests.cs" company="Hämmer Electronics">
+// <copyright file="DbWriteTests.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -269,6 +269,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         ///     This method is used to write an event with zero code character in json to the database.
         /// </summary>
         [Fact]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void WriteEventWithZeroCodeCharInJsonShouldInsertEventToDb()
         {
             this.dbHelper.ClearTable(TableName);

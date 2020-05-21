@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColumnWriterBase.cs" company="Hämmer Electronics">
+// <copyright file="ColumnWriterBase.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

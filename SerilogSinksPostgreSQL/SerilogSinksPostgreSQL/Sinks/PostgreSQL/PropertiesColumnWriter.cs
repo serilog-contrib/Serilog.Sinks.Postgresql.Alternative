@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertiesColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="PropertiesColumnWriter.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -59,6 +59,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         /// <param name="logEvent">The log event.</param>
         /// <returns>The properties as json object.</returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static object PropertiesToJson(LogEvent logEvent)
         {
             if (logEvent.Properties.Count == 0)
@@ -74,10 +75,10 @@ namespace Serilog.Sinks.PostgreSQL
 
             using (var writer = new StringWriter(sb))
             {
-                foreach (var logEventProperty in logEvent.Properties)
+                foreach (var (key, value) in logEvent.Properties)
                 {
-                    sb.Append($"\"{logEventProperty.Key}\":");
-                    valuesFormatter.Format(logEventProperty.Value, writer);
+                    sb.Append($"\"{key}\":");
+                    valuesFormatter.Format(value, writer);
                     sb.Append(", ");
                 }
             }

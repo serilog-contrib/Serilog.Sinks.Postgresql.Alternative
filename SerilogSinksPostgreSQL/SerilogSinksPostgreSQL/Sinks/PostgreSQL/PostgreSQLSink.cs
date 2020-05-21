@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PostgreSQLSink.cs" company="Hämmer Electronics">
+// <copyright file="PostgreSQLSink.cs" company="Haemmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -162,24 +162,22 @@ namespace Serilog.Sinks.PostgreSQL
         /// </remarks>
         protected override void EmitBatch(IEnumerable<LogEvent> events)
         {
-            using (var connection = new NpgsqlConnection(this.connectionString))
+            using var connection = new NpgsqlConnection(this.connectionString);
+            connection.Open();
+
+            if (!this.isTableCreated)
             {
-                connection.Open();
+                TableCreator.CreateTable(connection, this.fullTableName, this.columnOptions);
+                this.isTableCreated = true;
+            }
 
-                if (!this.isTableCreated)
-                {
-                    TableCreator.CreateTable(connection, this.fullTableName, this.columnOptions);
-                    this.isTableCreated = true;
-                }
-
-                if (this.useCopy)
-                {
-                    this.ProcessEventsByCopyCommand(events, connection);
-                }
-                else
-                {
-                    this.ProcessEventsByInsertStatements(events, connection);
-                }
+            if (this.useCopy)
+            {
+                this.ProcessEventsByCopyCommand(events, connection);
+            }
+            else
+            {
+                this.ProcessEventsByInsertStatements(events, connection);
             }
         }
 
@@ -217,15 +215,15 @@ namespace Serilog.Sinks.PostgreSQL
         {
             var result = new Dictionary<string, ColumnWriterBase>(this.columnOptions);
 
-            foreach (var columnOption in this.columnOptions)
+            foreach (var (key, value) in this.columnOptions)
             {
-                if (!columnOption.Key.Contains("\""))
+                if (!key.Contains("\""))
                 {
                     continue;
                 }
 
-                result.Remove(columnOption.Key);
-                result[columnOption.Key.Replace("\"", string.Empty)] = columnOption.Value;
+                result.Remove(key);
+                result[key.Replace("\"", string.Empty)] = value;
             }
 
             this.columnOptions = result;
@@ -263,11 +261,9 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="connection">The connection.</param>
         private void ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
         {
-            using (var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand()))
-            {
-                this.WriteToStream(binaryCopyWriter, events);
-                binaryCopyWriter.Complete();
-            }
+            using var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand());
+            this.WriteToStream(binaryCopyWriter, events);
+            binaryCopyWriter.Complete();
         }
 
         /// <summary>
@@ -277,23 +273,21 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="connection">The connection.</param>
         private void ProcessEventsByInsertStatements(IEnumerable<LogEvent> events, NpgsqlConnection connection)
         {
-            using (var command = connection.CreateCommand())
+            using var command = connection.CreateCommand();
+            command.CommandText = this.GetInsertQuery();
+
+            foreach (var logEvent in events)
             {
-                command.CommandText = this.GetInsertQuery();
-
-                foreach (var logEvent in events)
+                command.Parameters.Clear();
+                foreach (var (key, value) in this.columnOptions)
                 {
-                    command.Parameters.Clear();
-                    foreach (var columnOption in this.columnOptions)
-                    {
-                        command.Parameters.AddWithValue(
-                            ClearColumnNameForParameterName(columnOption.Key),
-                            columnOption.Value.DbType,
-                            columnOption.Value.GetValue(logEvent, this.formatProvider));
-                    }
-
-                    command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue(
+                        ClearColumnNameForParameterName(key),
+                        value.DbType,
+                        value.GetValue(logEvent, this.formatProvider));
                 }
+
+                command.ExecuteNonQuery();
             }
         }
 

@@ -54,9 +54,11 @@ namespace Serilog.Sinks.PostgreSQL
             string tableName,
             IDictionary<string, ColumnWriterBase> columnsInfo)
         {
-            using var command = connection.CreateCommand();
-            command.CommandText = GetCreateTableQuery(tableName, columnsInfo);
-            command.ExecuteNonQuery();
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = GetCreateTableQuery(tableName, columnsInfo);
+                command.ExecuteNonQuery();
+            }
         }
 
         /// <summary>

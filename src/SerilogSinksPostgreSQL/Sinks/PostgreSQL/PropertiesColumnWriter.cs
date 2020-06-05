@@ -75,10 +75,10 @@ namespace Serilog.Sinks.PostgreSQL
 
             using (var writer = new StringWriter(sb))
             {
-                foreach (var (key, value) in logEvent.Properties)
+                foreach (var keyValuePair in logEvent.Properties)
                 {
-                    sb.Append($"\"{key}\":");
-                    valuesFormatter.Format(value, writer);
+                    sb.Append($"\"{keyValuePair.Key}\":");
+                    valuesFormatter.Format(keyValuePair.Value, writer);
                     sb.Append(", ");
                 }
             }

@@ -66,8 +66,10 @@ namespace Serilog.Sinks.PostgreSQL
             var jsonFormatter = new JsonFormatter(formatProvider: formatProvider);
 
             var sb = new StringBuilder();
-            using var writer = new StringWriter(sb);
-            jsonFormatter.Format(logEvent, writer);
+            using (var writer = new StringWriter(sb))
+            {
+                jsonFormatter.Format(logEvent, writer);
+            }
 
             return sb.ToString();
         }

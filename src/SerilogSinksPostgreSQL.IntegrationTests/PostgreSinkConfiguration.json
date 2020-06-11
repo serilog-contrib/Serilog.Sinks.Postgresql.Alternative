@@ -6,7 +6,7 @@
       {
         "Name": "PostgreSql",
         "Args": {
-          "connectionString": "Host=127.0.0.1;Database=TestCustomColumns;Username=devtools_user;Password=DevTools1!",
+          "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog",
           "tableName": "TestLogs",
           "schemaName": null,
           "needAutoCreateTable": true,

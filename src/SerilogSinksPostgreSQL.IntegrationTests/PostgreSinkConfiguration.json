@@ -1,0 +1,28 @@
+{
+  "Serilog": {
+    "LevelSwitches": { "$controlSwitch": "Verbose" },
+    "MinimumLevel": { "ControlledBy": "$controlSwitch" },
+    "WriteTo": [
+      {
+        "Name": "PostgreSql",
+        "Args": {
+          "connectionString": "Host=127.0.0.1;Database=TestCustomColumns;Username=devtools_user;Password=DevTools1!",
+          "tableName": "TestLogs",
+          "schemaName": null,
+          "needAutoCreateTable": true,
+          "loggerColumnOptions": {
+            "Id": "IdAutoincrement",
+            "TimeStamp": "Timestamp",
+            "LogEvent": "Properties"
+          },
+          "loggerPropertyColumnOptions": {
+            "TestColumnName": "TestProperty"
+          },
+          "simpleColumnOptions": {},
+          "period": "0.00:00:30",
+          "batchSizeLimit": 50
+        }
+      }
+    ]
+  }
+}

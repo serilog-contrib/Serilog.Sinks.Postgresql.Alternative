@@ -9,9 +9,8 @@ namespace Serilog.Sinks.PostgreSQL
     public class IdAutoincrementColumnWriter: ColumnWriterBase
     {
         /// <summary>Initializes a new instance of the <see cref="IdAutoincrementColumnWriter"/> class.</summary>
-        public IdAutoincrementColumnWriter() : base(NpgsqlDbType.Bigint)
+        public IdAutoincrementColumnWriter() : base(NpgsqlDbType.Bigint, true)
         {
-            SkipOnInsert = true;
         }
 
         /// <inheritdoc />

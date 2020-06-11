@@ -237,7 +237,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>A SQL string with the copy command.</returns>
         private string GetCopyCommand()
         {
-            var columns = "\"" + string.Join("\", \"", this.columnOptions.Keys) + "\"";
+            var columns = "\"" + string.Join("\", \"", ColumnNamesWithoutSkipped()) + "\"";
             return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
         }
 
@@ -247,11 +247,11 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>A SQL string with the insert query.</returns>
         private string GetInsertQuery()
         {
-            var columns = "\"" + string.Join("\", \"", this.columnOptions.Keys) + "\"";
+            var columns = "\"" + string.Join("\", \"", ColumnNamesWithoutSkipped()) + "\"";
 
             var parameters = string.Join(
                 ", ",
-                this.columnOptions.Keys.Select(cn => "@" + ClearColumnNameForParameterName(cn)));
+                ColumnNamesWithoutSkipped().Select(cn => "@" + ClearColumnNameForParameterName(cn)));
 
             return $"INSERT INTO {this.fullTableName}({columns}) VALUES ({parameters})";
         }
@@ -284,12 +284,12 @@ namespace Serilog.Sinks.PostgreSQL
                 foreach (var logEvent in events)
                 {
                     command.Parameters.Clear();
-                    foreach (var keyValuePair in this.columnOptions)
+                    foreach (var columnKey in ColumnNamesWithoutSkipped())
                     {
                         command.Parameters.AddWithValue(
-                            ClearColumnNameForParameterName(keyValuePair.Key),
-                            keyValuePair.Value.DbType,
-                            keyValuePair.Value.GetValue(logEvent, this.formatProvider));
+                            ClearColumnNameForParameterName(columnKey),
+                            this.columnOptions[columnKey].DbType,
+                            this.columnOptions[columnKey].GetValue(logEvent, this.formatProvider));
                     }
 
                     command.ExecuteNonQuery();
@@ -308,7 +308,7 @@ namespace Serilog.Sinks.PostgreSQL
             {
                 writer.StartRow();
 
-                foreach (var columnKey in this.columnOptions.Keys)
+                foreach (var columnKey in ColumnNamesWithoutSkipped())
                 {
                     writer.Write(
                         this.columnOptions[columnKey].GetValue(entity, this.formatProvider),
@@ -316,5 +316,12 @@ namespace Serilog.Sinks.PostgreSQL
                 }
             }
         }
+
+        /// <summary>Columns the names without skipped columns.</summary>
+        /// <returns>The list of column names for InsertQuery</returns>
+        private IEnumerable<string> ColumnNamesWithoutSkipped() =>
+            this.columnOptions
+                .Where(c => !c.Value.SkipOnInsert)
+                .Select(c => c.Key);
     }
 }

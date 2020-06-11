@@ -38,6 +38,28 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
 |queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
 
+## Configuration via JSON options
+
+```json
+{
+    "Serilog": {
+        "Using": [ "Serilog.Sinks.PostgreSql" ],
+        "MinimumLevel": {
+            "Default": "Warning"
+        },
+        "WriteTo": [
+            {
+                "Name": "PostgreSql",
+                "Args": {
+                    "connectionString": "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Logs",
+                    "tableName": "logs"
+                }
+            }
+        ]
+    }
+}
+```
+
 ## Full example
 
 ```csharp

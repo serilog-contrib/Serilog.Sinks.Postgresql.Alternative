@@ -47,7 +47,9 @@ namespace Serilog.Sinks.PostgreSQL
         private static string GetCreateTableQuery(string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
         {
             var builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
-            builder.Append(tableName.Contains("\"") ? tableName : $"\"{tableName}\"");
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\"");
             builder.AppendLine(" (");
 
             builder.AppendLine(

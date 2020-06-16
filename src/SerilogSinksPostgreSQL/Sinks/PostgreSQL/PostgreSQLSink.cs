@@ -12,6 +12,7 @@ namespace Serilog.Sinks.PostgreSQL
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     using Npgsql;
 
@@ -103,8 +104,8 @@ namespace Serilog.Sinks.PostgreSQL
         {
             this.connectionString = connectionString;
 
-            this.schemaName = schemaName;
-            this.tableName = tableName;
+            this.schemaName = schemaName.Replace("\"", string.Empty);
+            this.tableName = tableName.Replace("\"", string.Empty);
 
             this.formatProvider = formatProvider;
             this.useCopy = useCopy;
@@ -147,8 +148,8 @@ namespace Serilog.Sinks.PostgreSQL
         {
             this.connectionString = connectionString;
 
-            this.schemaName = schemaName;
-            this.tableName = tableName;
+            this.schemaName = schemaName.Replace("\"", string.Empty);
+            this.tableName = tableName.Replace("\"", string.Empty);
 
             this.formatProvider = formatProvider;
             this.useCopy = useCopy;
@@ -241,7 +242,14 @@ namespace Serilog.Sinks.PostgreSQL
         private string GetCopyCommand()
         {
             var columns = "\"" + string.Join("\", \"", this.ColumnNamesWithoutSkipped()) + "\"";
-            return $"COPY {this.tableName}({columns}) FROM STDIN BINARY;";
+            var builder = new StringBuilder();
+            builder.Append("COPY ");
+            builder.Append("\"");
+            builder.Append(this.tableName);
+            builder.Append("\"(");
+            builder.Append(columns);
+            builder.Append(") FROM STDIN BINARY;");
+            return builder.ToString();
         }
 
         /// <summary>
@@ -256,7 +264,16 @@ namespace Serilog.Sinks.PostgreSQL
                 ", ",
                 this.ColumnNamesWithoutSkipped().Select(cn => "@" + ClearColumnNameForParameterName(cn)));
 
-            return $"INSERT INTO {this.tableName}({columns}) VALUES ({parameters})";
+            var builder = new StringBuilder();
+            builder.Append("INSERT INTO ");
+            builder.Append("\"");
+            builder.Append(this.tableName);
+            builder.Append("\"(");
+            builder.Append(columns);
+            builder.Append(") VALUES (");
+            builder.Append(parameters);
+            builder.Append(")");
+            return builder.ToString();
         }
 
         /// <summary>

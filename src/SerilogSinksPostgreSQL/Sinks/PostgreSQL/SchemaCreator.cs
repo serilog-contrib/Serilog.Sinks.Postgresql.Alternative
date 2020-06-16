@@ -40,7 +40,9 @@ namespace Serilog.Sinks.PostgreSQL
         private static string GetCreateTableQuery(string schemaName)
         {
             var builder = new StringBuilder("CREATE SCHEMA IF NOT EXISTS ");
-            builder.Append(schemaName.Contains("\"") ? schemaName : $"\"{schemaName}\"");
+            builder.Append("\"");
+            builder.Append(schemaName);
+            builder.Append("\"");
             return builder.ToString();
         }
     }

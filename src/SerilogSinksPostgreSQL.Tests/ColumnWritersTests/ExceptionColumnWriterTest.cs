@@ -3,7 +3,7 @@
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   This class is used to test the ExceptionColumnWriter class.
+//   This class is used to test the <seealso cref="ExceptionColumnWriter" /> class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

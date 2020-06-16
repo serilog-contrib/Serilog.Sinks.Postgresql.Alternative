@@ -25,6 +25,7 @@ namespace Serilog.Sinks.PostgreSQL
         ///     Initializes a new instance of the <see cref="ColumnWriterBase" /> class.
         /// </summary>
         /// <param name="dbType">The column type.</param>
+        /// <param name="skipOnInsert">A value indicating whether the column in the insert queries is skipped or not.</param>
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
@@ -44,6 +45,11 @@ namespace Serilog.Sinks.PostgreSQL
         public NpgsqlDbType DbType { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the column in the insert queries is skipped or not.
+        /// </summary>
+        public bool SkipOnInsert { get; }
+
+        /// <summary>
         ///     Gets the part of the log event to write to the column.
         /// </summary>
         /// <param name="logEvent">The log event.</param>
@@ -51,14 +57,14 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>An object value.</returns>
         public abstract object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null);
 
-        /// <summary>Gets the type of the SQL.</summary>
-        /// <returns>The PostgreSql type for inserting into CREATE TABLE query</returns>
+        /// <summary>
+        /// Gets the type of the SQL query.
+        /// </summary>
+        /// <returns>The PostgreSql type for inserting it into the CREATE TABLE query.</returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public virtual string GetSqlType()
         {
             return SqlTypeHelper.GetSqlTypeStr(this.DbType);
         }
-
-        /// <summary>Flag to skip the column in the insert queries</summary>
-        public bool SkipOnInsert { get; private set; }
     }
 }

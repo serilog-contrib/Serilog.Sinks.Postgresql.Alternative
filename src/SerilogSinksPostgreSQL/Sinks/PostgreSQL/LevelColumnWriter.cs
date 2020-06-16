@@ -3,7 +3,7 @@
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   Defines the LevelColumnWriter type.
+//   This class is used to write the level.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -34,6 +34,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         /// <param name="renderAsText">if set to <c>true</c> [render as text].</param>
         /// <param name="dbType">The row type.</param>
+        /// <seealso cref="ColumnWriterBase"/>
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
@@ -53,6 +54,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>
         ///     An object value.
         /// </returns>
+        /// <seealso cref="ColumnWriterBase"/>
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
             if (this.renderAsText)

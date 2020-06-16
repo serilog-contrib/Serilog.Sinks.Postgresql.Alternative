@@ -6,12 +6,12 @@
       {
         "Name": "PostgreSql",
         "Args": {
-          "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog",
+          "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
           "tableName": "TestLogs",
           "schemaName": null,
           "needAutoCreateTable": true,
           "loggerColumnOptions": {
-            "Id": "IdAutoincrement",
+            "Id": "IdAutoIncrement",
             "TimeStamp": "Timestamp",
             "LogEvent": "Properties"
           },

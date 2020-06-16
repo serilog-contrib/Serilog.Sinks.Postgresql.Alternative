@@ -35,20 +35,20 @@ namespace Serilog
         public static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(5);
 
         /// <summary>
-        ///     Adds a sink which writes to PostgreSQL table.
+        ///     Adds a sink which writes to the PostgreSQL table.
         /// </summary>
         /// <param name="sinkConfiguration">The logger configuration.</param>
         /// <param name="connectionString">The connection string to the database where to store the events.</param>
         /// <param name="tableName">Name of the table to store the events in.</param>
-        /// <param name="columnOptions">Table columns writers</param>
+        /// <param name="columnOptions">The column options.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
         /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
-        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement </param>
-        /// <param name="schemaName">Schema name</param>
-        /// <param name="needAutoCreateTable">Set if sink should create table</param>
+        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
+        /// <param name="schemaName">The schema name.</param>
+        /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         [SuppressMessage(
             "StyleCop.CSharp.DocumentationRules",
@@ -92,21 +92,21 @@ namespace Serilog
         }
 
         /// <summary>
-        /// Adds a sink which writes to PostgreSQL table. The configuration for the sink can be taken from the json file
+        /// Adds a sink which writes to the PostgreSQL table. The configuration for the sink can be taken from the JSON file.
         /// </summary>
         /// <param name="sinkConfiguration">The logger configuration.</param>
         /// <param name="connectionString">The connection string to the database where to store the events.</param>
         /// <param name="tableName">Name of the table to store the events in.</param>
-        /// <param name="loggerColumnOptions">Table columns for LogEvent</param>
-        /// <param name="loggerPropertyColumnOptions">Table columns for LogEvent properties</param>
+        /// <param name="loggerColumnOptions">The logger column options.</param>
+        /// <param name="loggerPropertyColumnOptions">The logger property column options.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
         /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
-        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement </param>
-        /// <param name="schemaName">Schema name</param>
-        /// <param name="needAutoCreateTable">Set if sink should create table</param>
+        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
+        /// <param name="schemaName">The schema name.</param>
+        /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         public static LoggerConfiguration PostgreSql(
             this LoggerSinkConfiguration sinkConfiguration,
@@ -129,7 +129,6 @@ namespace Serilog
             }
 
             IDictionary<string, ColumnWriterBase> columns = null;
-
 
             if (loggerColumnOptions != null)
             {
@@ -160,21 +159,34 @@ namespace Serilog
                         case "Exception":
                             columns.Add(columnOption.Key, new RenderedMessageColumnWriter());
                             break;
-                        case "IdAutoincrement":
-                            columns.Add(columnOption.Key, new IdAutoincrementColumnWriter());
+                        case "IdAutoIncrement":
+                            columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter());
                             break;
                     }
                 }
             }
 
-            if (loggerPropertyColumnOptions != null)
+            if (loggerPropertyColumnOptions == null)
             {
-                columns = columns ?? new Dictionary<string, ColumnWriterBase>();
+                return sinkConfiguration.PostgreSql(
+                    connectionString,
+                    tableName,
+                    columns,
+                    restrictedToMinimumLevel,
+                    period,
+                    formatProvider,
+                    batchSizeLimit,
+                    levelSwitch,
+                    useCopy,
+                    schemaName,
+                    needAutoCreateTable);
+            }
 
-                foreach (var columnOption in loggerPropertyColumnOptions)
-                {
-                    columns.Add(columnOption.Key, new SinglePropertyColumnWriter(columnOption.Value));
-                }
+            columns = columns ?? new Dictionary<string, ColumnWriterBase>();
+
+            foreach (var columnOption in loggerPropertyColumnOptions)
+            {
+                columns.Add(columnOption.Key, new SinglePropertyColumnWriter(columnOption.Value));
             }
 
             return sinkConfiguration.PostgreSql(
@@ -188,8 +200,7 @@ namespace Serilog
                 levelSwitch,
                 useCopy,
                 schemaName,
-                needAutoCreateTable
-            );
+                needAutoCreateTable);
         }
     }
 }

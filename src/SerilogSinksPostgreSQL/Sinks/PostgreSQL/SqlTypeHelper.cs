@@ -1,12 +1,23 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using NpgsqlTypes;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SqlTypeHelper.cs" company="Hämmer Electronics">
+// The project is licensed under the MIT license.
+// </copyright>
+// <summary>
+//   The helper for getting types for PostgreSQL queries.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Serilog.Sinks.PostgreSQL
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+
+    using NpgsqlTypes;
+
     /// <summary>
-    /// The helper for getting types for  PostSQL query
+    /// The helper for getting types for PostgreSQL queries.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public static class SqlTypeHelper
     {
         /// <summary>
@@ -105,7 +116,7 @@ namespace Serilog.Sinks.PostgreSQL
                     throw new ArgumentOutOfRangeException(
                         nameof(dbType),
                         dbType,
-                        "Cannot automatically create column of type " + dbType);
+                        $"Cannot automatically create column of type {dbType}.");
             }
         }
     }

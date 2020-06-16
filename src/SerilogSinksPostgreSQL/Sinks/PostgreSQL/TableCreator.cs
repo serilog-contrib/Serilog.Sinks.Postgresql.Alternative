@@ -9,15 +9,11 @@
 
 namespace Serilog.Sinks.PostgreSQL
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
 
     using Npgsql;
-
-    using NpgsqlTypes;
 
     /// <summary>
     ///     This class is used to create the tables.

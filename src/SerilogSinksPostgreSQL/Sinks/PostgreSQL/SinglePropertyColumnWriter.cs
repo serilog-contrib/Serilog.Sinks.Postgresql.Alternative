@@ -3,7 +3,7 @@
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   Defines the SinglePropertyColumnWriter type.
+//   This class is used to write a single event property.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -34,6 +34,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="writeMethod">The write method.</param>
         /// <param name="dbType">Type of the database.</param>
         /// <param name="format">The format.</param>
+        /// <seealso cref="ColumnWriterBase" />
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
@@ -77,6 +78,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>
         ///     An object value.
         /// </returns>
+        /// <seealso cref="ColumnWriterBase" />
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
             if (!logEvent.Properties.ContainsKey(this.Name))

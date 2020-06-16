@@ -3,7 +3,7 @@
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   Defines the RenderedMessageColumnWriter type.
+//   This class is used to write the message part.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -28,6 +28,7 @@ namespace Serilog.Sinks.PostgreSQL
         ///     Initializes a new instance of the <see cref="RenderedMessageColumnWriter" /> class.
         /// </summary>
         /// <param name="dbType">The column type.</param>
+        /// <seealso cref="ColumnWriterBase" />
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
@@ -46,6 +47,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>
         ///     An object value.
         /// </returns>
+        /// <seealso cref="ColumnWriterBase" />
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
             return logEvent.RenderMessage(formatProvider);

@@ -3,7 +3,7 @@
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   Defines the PostgreSqlSink type.
+//   This class is the main class and contains all options for the PostgreSQL sink.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -237,7 +237,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>A SQL string with the copy command.</returns>
         private string GetCopyCommand()
         {
-            var columns = "\"" + string.Join("\", \"", ColumnNamesWithoutSkipped()) + "\"";
+            var columns = "\"" + string.Join("\", \"", this.ColumnNamesWithoutSkipped()) + "\"";
             return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
         }
 
@@ -247,11 +247,11 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>A SQL string with the insert query.</returns>
         private string GetInsertQuery()
         {
-            var columns = "\"" + string.Join("\", \"", ColumnNamesWithoutSkipped()) + "\"";
+            var columns = "\"" + string.Join("\", \"", this.ColumnNamesWithoutSkipped()) + "\"";
 
             var parameters = string.Join(
                 ", ",
-                ColumnNamesWithoutSkipped().Select(cn => "@" + ClearColumnNameForParameterName(cn)));
+                this.ColumnNamesWithoutSkipped().Select(cn => "@" + ClearColumnNameForParameterName(cn)));
 
             return $"INSERT INTO {this.fullTableName}({columns}) VALUES ({parameters})";
         }
@@ -284,7 +284,7 @@ namespace Serilog.Sinks.PostgreSQL
                 foreach (var logEvent in events)
                 {
                     command.Parameters.Clear();
-                    foreach (var columnKey in ColumnNamesWithoutSkipped())
+                    foreach (var columnKey in this.ColumnNamesWithoutSkipped())
                     {
                         command.Parameters.AddWithValue(
                             ClearColumnNameForParameterName(columnKey),
@@ -308,7 +308,7 @@ namespace Serilog.Sinks.PostgreSQL
             {
                 writer.StartRow();
 
-                foreach (var columnKey in ColumnNamesWithoutSkipped())
+                foreach (var columnKey in this.ColumnNamesWithoutSkipped())
                 {
                     writer.Write(
                         this.columnOptions[columnKey].GetValue(entity, this.formatProvider),
@@ -317,8 +317,10 @@ namespace Serilog.Sinks.PostgreSQL
             }
         }
 
-        /// <summary>Columns the names without skipped columns.</summary>
-        /// <returns>The list of column names for InsertQuery</returns>
+        /// <summary>
+        /// The columns names without skipped columns.
+        /// </summary>
+        /// <returns>The list of column names for the INSERT query.</returns>
         private IEnumerable<string> ColumnNamesWithoutSkipped() =>
             this.columnOptions
                 .Where(c => !c.Value.SkipOnInsert)

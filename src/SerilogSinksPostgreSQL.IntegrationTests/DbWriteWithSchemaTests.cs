@@ -53,18 +53,13 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
 
         /// <summary>
-        ///     The table full name.
-        /// </summary>
-        private readonly string tableFullName = $"\"{SchemaName}\".\"{TableName}\"";
-
-        /// <summary>
         ///     This method is used to test the auto create table function with a schema name.
         ///     The schema name needs to be present in the database, e.g. create it manually.
         /// </summary>
         [Fact]
         public void AutoCreateTableIsTrueShouldCreateTable()
         {
-            this.dbHelper.RemoveTable(this.tableFullName);
+            this.dbHelper.RemoveTable(SchemaName, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -109,7 +104,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(this.tableFullName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(SchemaName, TableName);
 
             Assert.Equal(RowsCount, actualRowsCount);
         }
@@ -121,7 +116,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void Write50EventsShouldInsert50EventsToDb()
         {
-            this.dbHelper.ClearTable(this.tableFullName);
+            this.dbHelper.ClearTable(SchemaName, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -150,7 +145,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var rowsCount = this.dbHelper.GetTableRowsCount(this.tableFullName);
+            var rowsCount = this.dbHelper.GetTableRowsCount(SchemaName, TableName);
 
             Assert.Equal(50, rowsCount);
         }

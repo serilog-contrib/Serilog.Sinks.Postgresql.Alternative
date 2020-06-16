@@ -9,6 +9,8 @@
 
 namespace SerilogSinksPostgreSQL.IntegrationTests
 {
+    using System.Text;
+
     using Npgsql;
 
     /// <summary>
@@ -33,79 +35,96 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <summary>
         ///     Clears the table.
         /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        public void ClearTable(string tableName)
+        /// <param name="schemaName">The name of the schema.</param>
+        /// <param name="tableName">The name of the table.</param>
+        public void ClearTable(string schemaName, string tableName)
         {
-            try
-            {
-                using var conn = new NpgsqlConnection(this.connectionString);
-                conn.Open();
-                using var command = conn.CreateCommand();
-                command.CommandText = tableName.Contains("\"") ? $"TRUNCATE {tableName}" : $"TRUNCATE \"{tableName}\"";
-                command.ExecuteNonQuery();
+            tableName = tableName.Replace("\"", string.Empty);
+            schemaName = schemaName.Replace("\"", string.Empty);
 
-            }
-            catch (PostgresException ex)
+            var builder = new StringBuilder();
+            builder.Append("TRUNCATE ");
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
             {
-                if (!ex.Message.Contains("does not exist"))
-                {
-                    throw;
-                }
+                builder.Append("\"");
+                builder.Append(schemaName);
+                builder.Append("\".");
             }
+
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\";");
+
+            using var conn = new NpgsqlConnection(this.connectionString);
+            conn.Open();
+            using var command = conn.CreateCommand();
+            command.CommandText = builder.ToString();
+            command.ExecuteNonQuery();
         }
 
         /// <summary>
         ///     Gets the table rows count.
         /// </summary>
-        /// <param name="tableName">Name of the table.</param>
+        /// <param name="schemaName">The name of the schema.</param>
+        /// <param name="tableName">The name of the table.</param>
         /// <returns>The table row count.</returns>
-        public long GetTableRowsCount(string tableName)
+        public long GetTableRowsCount(string schemaName, string tableName)
         {
-            try
-            { 
-                var sql = tableName.Contains("\"") ? $"SELECT count(*) FROM {tableName}" : $"SELECT count(*) FROM \"{tableName}\"";
-                using var conn = new NpgsqlConnection(this.connectionString);
-                conn.Open();
-                using var command = conn.CreateCommand();
-                command.CommandText = sql;
-                var result = command.ExecuteScalar();
-                return (long?)result ?? 0;
+            tableName = tableName.Replace("\"", string.Empty);
+            schemaName = schemaName.Replace("\"", string.Empty);
 
-            }
-            catch (PostgresException ex)
+            var builder = new StringBuilder();
+            builder.Append("SELECT count(*) FROM ");
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
             {
-                if (ex.Message.Contains("does not exist"))
-                {
-                    return 0;
-                }
-
-                throw;
+                builder.Append("\"");
+                builder.Append(schemaName);
+                builder.Append("\".");
             }
+
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\";");
+
+            using var conn = new NpgsqlConnection(this.connectionString);
+            conn.Open();
+            using var command = conn.CreateCommand();
+            command.CommandText = builder.ToString();
+            var result = command.ExecuteScalar();
+            return (long?)result ?? 0;
         }
 
         /// <summary>
         ///     Removes the table.
         /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        public void RemoveTable(string tableName)
+        /// <param name="schemaName">The name of the schema.</param>
+        /// <param name="tableName">The name of the table.</param>
+        public void RemoveTable(string schemaName, string tableName)
         {
-            try
+            tableName = tableName.Replace("\"", string.Empty);
+            schemaName = schemaName.Replace("\"", string.Empty);
+
+            var builder = new StringBuilder();
+            builder.Append("DROP TABLE IF EXISTS ");
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
             {
-                using var conn = new NpgsqlConnection(this.connectionString);
-                conn.Open();
-                using var command = conn.CreateCommand();
-                command.CommandText = tableName.Contains("\"")
-                                          ? $"DROP TABLE IF EXISTS {tableName}"
-                                          : $"DROP TABLE IF EXISTS \"{tableName}\"";
-                command.ExecuteNonQuery();
+                builder.Append("\"");
+                builder.Append(schemaName);
+                builder.Append("\".");
             }
-            catch (PostgresException ex)
-            {
-                if (!ex.Message.Contains("does not exist"))
-                {
-                    throw;
-                }
-            }
+
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\";");
+
+            using var conn = new NpgsqlConnection(this.connectionString);
+            conn.Open();
+            using var command = conn.CreateCommand();
+            command.CommandText = builder.ToString();
+            command.ExecuteNonQuery();
         }
     }
 }

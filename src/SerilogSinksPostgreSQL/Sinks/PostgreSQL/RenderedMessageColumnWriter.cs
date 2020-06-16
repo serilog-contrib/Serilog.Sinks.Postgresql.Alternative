@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RenderedMessageColumnWriter.cs" company="Haemmer Electronics">
+// <copyright file="RenderedMessageColumnWriter.cs" company="Hämmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

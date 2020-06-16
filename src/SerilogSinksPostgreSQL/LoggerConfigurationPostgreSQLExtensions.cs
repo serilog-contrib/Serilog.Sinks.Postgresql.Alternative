@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LoggerConfigurationPostgreSQLExtensions.cs" company="Haemmer Electronics">
+// <copyright file="LoggerConfigurationPostgreSQLExtensions.cs" company="Hämmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

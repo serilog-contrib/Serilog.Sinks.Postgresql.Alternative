@@ -189,7 +189,7 @@ namespace Serilog.Sinks.PostgreSQL
 
                 if (!this.isTableCreated)
                 {
-                    TableCreator.CreateTable(connection, this.tableName, this.columnOptions);
+                    TableCreator.CreateTable(connection, this.schemaName, this.tableName, this.columnOptions);
                     this.isTableCreated = true;
                 }
 
@@ -244,6 +244,14 @@ namespace Serilog.Sinks.PostgreSQL
             var columns = "\"" + string.Join("\", \"", this.ColumnNamesWithoutSkipped()) + "\"";
             var builder = new StringBuilder();
             builder.Append("COPY ");
+
+            if (!string.IsNullOrWhiteSpace(this.schemaName))
+            {
+                builder.Append("\"");
+                builder.Append(this.schemaName);
+                builder.Append("\".");
+            }
+
             builder.Append("\"");
             builder.Append(this.tableName);
             builder.Append("\"(");
@@ -266,6 +274,14 @@ namespace Serilog.Sinks.PostgreSQL
 
             var builder = new StringBuilder();
             builder.Append("INSERT INTO ");
+
+            if (!string.IsNullOrWhiteSpace(this.schemaName))
+            {
+                builder.Append("\"");
+                builder.Append(this.schemaName);
+                builder.Append("\".");
+            }
+
             builder.Append("\"");
             builder.Append(this.tableName);
             builder.Append("\"(");

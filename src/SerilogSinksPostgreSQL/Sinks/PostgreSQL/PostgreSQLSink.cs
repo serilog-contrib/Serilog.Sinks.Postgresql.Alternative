@@ -272,7 +272,7 @@ namespace Serilog.Sinks.PostgreSQL
             builder.Append(columns);
             builder.Append(") VALUES (");
             builder.Append(parameters);
-            builder.Append(")");
+            builder.Append(");");
             return builder.ToString();
         }
 

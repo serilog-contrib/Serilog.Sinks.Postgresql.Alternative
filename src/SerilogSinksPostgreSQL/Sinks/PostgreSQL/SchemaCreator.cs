@@ -42,7 +42,7 @@ namespace Serilog.Sinks.PostgreSQL
             var builder = new StringBuilder("CREATE SCHEMA IF NOT EXISTS ");
             builder.Append("\"");
             builder.Append(schemaName);
-            builder.Append("\"");
+            builder.Append("\";");
             return builder.ToString();
         }
     }

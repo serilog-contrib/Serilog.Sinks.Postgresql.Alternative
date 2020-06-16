@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 1.8.1.0 (2020-06-05): Updated nuget packages, adjusted build to Visual Studio, moved changelog to extra file.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 1.9.0.0 (2020-06-16): Updated nuget packages, added option to configure the sink via a JSON file (Thanks to @artiomponkratov).</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 

@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 1.9.0.0 (2020-06-16)** : Updated nuget packages, added option to configure the sink via a JSON file (Thanks to @artiomponkratov).
 * **Version 1.8.1.0 (2020-06-05)** : Updated nuget packages, adjusted build to Visual Studio, moved changelog to extra file.
 * **Version 1.8.0.0 (2020-06-04)** : Updated nuget packages, updated license year information.
 * **Version 1.7.0.0 (2020-05-10)** : Updated nuget packages.

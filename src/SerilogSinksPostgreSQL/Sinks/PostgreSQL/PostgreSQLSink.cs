@@ -47,9 +47,14 @@ namespace Serilog.Sinks.PostgreSQL
         private readonly IFormatProvider formatProvider;
 
         /// <summary>
-        ///     The full table name.
+        ///     The table name.
         /// </summary>
-        private readonly string fullTableName;
+        private readonly string tableName;
+
+        /// <summary>
+        ///     The schema name.
+        /// </summary>
+        private readonly string schemaName;
 
         /// <summary>
         ///     A boolean value indicating if the copy is used.
@@ -65,6 +70,11 @@ namespace Serilog.Sinks.PostgreSQL
         ///     A boolean value indicating whether the table is created or not.
         /// </summary>
         private bool isTableCreated;
+
+        /// <summary>
+        ///     A boolean value indicating whether the schema is created or not.
+        /// </summary>
+        private bool isSchemaCreated;
 
         /// <inheritdoc cref="PeriodicBatchingSink" />
         /// <summary>
@@ -93,7 +103,8 @@ namespace Serilog.Sinks.PostgreSQL
         {
             this.connectionString = connectionString;
 
-            this.fullTableName = GetFullTableName(tableName, schemaName);
+            this.schemaName = schemaName;
+            this.tableName = tableName;
 
             this.formatProvider = formatProvider;
             this.useCopy = useCopy;
@@ -103,6 +114,7 @@ namespace Serilog.Sinks.PostgreSQL
             this.ClearQuotationMarksFromColumnOptions();
 
             this.isTableCreated = !needAutoCreateTable;
+            this.isSchemaCreated = false;
         }
 
         /// <inheritdoc cref="PeriodicBatchingSink" />
@@ -135,7 +147,8 @@ namespace Serilog.Sinks.PostgreSQL
         {
             this.connectionString = connectionString;
 
-            this.fullTableName = GetFullTableName(tableName, schemaName);
+            this.schemaName = schemaName;
+            this.tableName = tableName;
 
             this.formatProvider = formatProvider;
             this.useCopy = useCopy;
@@ -143,6 +156,7 @@ namespace Serilog.Sinks.PostgreSQL
             this.columnOptions = columnOptions ?? ColumnOptions.Default;
 
             this.isTableCreated = !needAutoCreateTable;
+            this.isSchemaCreated = false;
         }
 
         /// <inheritdoc cref="PeriodicBatchingSink" />
@@ -166,9 +180,15 @@ namespace Serilog.Sinks.PostgreSQL
             {
                 connection.Open();
 
+                if (!this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.schemaName))
+                {
+                    SchemaCreator.CreateSchema(connection, this.schemaName);
+                    this.isSchemaCreated = true;
+                }
+
                 if (!this.isTableCreated)
                 {
-                    TableCreator.CreateTable(connection, this.fullTableName, this.columnOptions);
+                    TableCreator.CreateTable(connection, this.tableName, this.columnOptions);
                     this.isTableCreated = true;
                 }
 
@@ -191,23 +211,6 @@ namespace Serilog.Sinks.PostgreSQL
         private static string ClearColumnNameForParameterName(string columnName)
         {
             return columnName?.Replace("\"", string.Empty);
-        }
-
-        /// <summary>
-        ///     Gets the full name of the table.
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        /// <param name="schemaName">Name of the schema.</param>
-        /// <returns>The full table name.</returns>
-        private static string GetFullTableName(string tableName, string schemaName)
-        {
-            var schemaPrefix = string.Empty;
-            if (!string.IsNullOrEmpty(schemaName))
-            {
-                schemaPrefix = $"\"{schemaName}\".";
-            }
-
-            return $"{schemaPrefix}\"{tableName}\"";
         }
 
         /// <summary>
@@ -238,7 +241,7 @@ namespace Serilog.Sinks.PostgreSQL
         private string GetCopyCommand()
         {
             var columns = "\"" + string.Join("\", \"", this.ColumnNamesWithoutSkipped()) + "\"";
-            return $"COPY {this.fullTableName}({columns}) FROM STDIN BINARY;";
+            return $"COPY {this.tableName}({columns}) FROM STDIN BINARY;";
         }
 
         /// <summary>
@@ -253,7 +256,7 @@ namespace Serilog.Sinks.PostgreSQL
                 ", ",
                 this.ColumnNamesWithoutSkipped().Select(cn => "@" + ClearColumnNameForParameterName(cn)));
 
-            return $"INSERT INTO {this.fullTableName}({columns}) VALUES ({parameters})";
+            return $"INSERT INTO {this.tableName}({columns}) VALUES ({parameters})";
         }
 
         /// <summary>

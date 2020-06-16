@@ -24,7 +24,7 @@ namespace Serilog.Sinks.PostgreSQL
         ///     Creates the table.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        /// <param name="tableName">Name of the table.</param>
+        /// <param name="tableName">The name of the table.</param>
         /// <param name="columnsInfo">The columns information.</param>
         public static void CreateTable(
             NpgsqlConnection connection,
@@ -41,13 +41,13 @@ namespace Serilog.Sinks.PostgreSQL
         /// <summary>
         ///     Gets the create table query.
         /// </summary>
-        /// <param name="tableName">Name of the table.</param>
+        /// <param name="tableName">The name of the table.</param>
         /// <param name="columnsInfo">The columns information.</param>
         /// <returns>The create table query string.</returns>
         private static string GetCreateTableQuery(string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
         {
             var builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
-            builder.Append(tableName);
+            builder.Append(tableName.Contains("\"") ? tableName : $"\"{tableName}\"");
             builder.AppendLine(" (");
 
             builder.AppendLine(

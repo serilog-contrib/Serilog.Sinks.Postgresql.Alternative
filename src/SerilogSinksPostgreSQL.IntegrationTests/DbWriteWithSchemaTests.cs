@@ -59,8 +59,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void AutoCreateTableIsTrueShouldCreateTable()
         {
-            this.dbHelper.RemoveSchema(SchemaName);
-            this.dbHelper.RemoveTable(TableName);
+            this.dbHelper.RemoveTable(SchemaName, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 

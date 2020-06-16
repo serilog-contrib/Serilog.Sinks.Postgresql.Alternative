@@ -47,7 +47,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void ShouldCreateLoggerFromConfig()
         {
-            this.dbHelper.RemoveTable(TableName);
+            this.dbHelper.RemoveTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -70,7 +70,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(RowsCount, actualRowsCount);
         }

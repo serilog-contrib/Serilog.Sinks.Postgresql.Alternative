@@ -53,7 +53,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void AutoCreateTableIsTrueShouldCreateTableInsert()
         {
-            this.dbHelper.RemoveTable(TableName);
+            this.dbHelper.RemoveTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -95,7 +95,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(RowsCount, actualRowsCount);
         }
@@ -106,7 +106,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void AutoCreateTableIsTrueShouldCreateTableCopy()
         {
-            this.dbHelper.RemoveTable(TableName);
+            this.dbHelper.RemoveTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -148,7 +148,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(RowsCount, actualRowsCount);
         }
@@ -159,7 +159,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void PropertyForSinglePropertyColumnWriterDoesNotExistsWithInsertStatementsShouldInsertEventToDb()
         {
-            this.dbHelper.ClearTable(TableName);
+            this.dbHelper.ClearTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -182,7 +182,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(1, actualRowsCount);
         }
@@ -193,7 +193,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void QuotedColumnNamesWithInsertStatementsShouldInsertEventToDb()
         {
-            this.dbHelper.ClearTable(TableName);
+            this.dbHelper.ClearTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -215,7 +215,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(1, actualRowsCount);
         }
@@ -226,7 +226,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [Fact]
         public void Write50EventsShouldInsert50EventsToDb()
         {
-            this.dbHelper.ClearTable(TableName);
+            this.dbHelper.ClearTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
@@ -260,7 +260,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(RowsCount, actualRowsCount);
         }
@@ -272,7 +272,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void WriteEventWithZeroCodeCharInJsonShouldInsertEventToDb()
         {
-            this.dbHelper.ClearTable(TableName);
+            this.dbHelper.ClearTable(string.Empty, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test\\u0000" };
 
@@ -294,7 +294,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Dispose();
 
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(TableName);
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
             Assert.Equal(1, actualRowsCount);
         }

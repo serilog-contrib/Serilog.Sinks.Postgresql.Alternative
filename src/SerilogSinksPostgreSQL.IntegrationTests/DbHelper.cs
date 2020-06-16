@@ -9,6 +9,8 @@
 
 namespace SerilogSinksPostgreSQL.IntegrationTests
 {
+    using System.Text;
+
     using Npgsql;
 
     /// <summary>
@@ -33,48 +35,32 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <summary>
         ///     Clears the table.
         /// </summary>
-        /// <param name="tableName">The name of the table.</param>
-        public void ClearTable(string tableName)
-        {
-            tableName = tableName.Replace("\"", string.Empty);
-            using var conn = new NpgsqlConnection(this.connectionString);
-            conn.Open();
-            using var command = conn.CreateCommand();
-            command.CommandText = $"TRUNCATE \"{tableName}\";";
-            command.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        ///     Clears the table.
-        /// </summary>
         /// <param name="schemaName">The name of the schema.</param>
         /// <param name="tableName">The name of the table.</param>
         public void ClearTable(string schemaName, string tableName)
         {
             tableName = tableName.Replace("\"", string.Empty);
             schemaName = schemaName.Replace("\"", string.Empty);
-            using var conn = new NpgsqlConnection(this.connectionString);
-            conn.Open();
-            using var command = conn.CreateCommand();
-            command.CommandText = $"TRUNCATE \"{schemaName}\".\"{tableName}\";";
-            command.ExecuteNonQuery();
-        }
 
-        /// <summary>
-        ///     Gets the table rows count.
-        /// </summary>
-        /// <param name="tableName">The name of the table.</param>
-        /// <returns>The table row count.</returns>
-        public long GetTableRowsCount(string tableName)
-        {
-            tableName = tableName.Replace("\"", string.Empty);
-            var sql = $"SELECT count(*) FROM \"{tableName}\";";
+            var builder = new StringBuilder();
+            builder.Append("TRUNCATE ");
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
+            {
+                builder.Append("\"");
+                builder.Append(schemaName);
+                builder.Append("\".");
+            }
+
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\";");
+
             using var conn = new NpgsqlConnection(this.connectionString);
             conn.Open();
             using var command = conn.CreateCommand();
-            command.CommandText = sql;
-            var result = command.ExecuteScalar();
-            return (long?)result ?? 0;
+            command.CommandText = builder.ToString();
+            command.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -87,11 +73,25 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         {
             tableName = tableName.Replace("\"", string.Empty);
             schemaName = schemaName.Replace("\"", string.Empty);
-            var sql = $"SELECT count(*) FROM \"{schemaName}\".\"{tableName}\";";
+
+            var builder = new StringBuilder();
+            builder.Append("SELECT count(*) FROM ");
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
+            {
+                builder.Append("\"");
+                builder.Append(schemaName);
+                builder.Append("\".");
+            }
+
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\";");
+
             using var conn = new NpgsqlConnection(this.connectionString);
             conn.Open();
             using var command = conn.CreateCommand();
-            command.CommandText = sql;
+            command.CommandText = builder.ToString();
             var result = command.ExecuteScalar();
             return (long?)result ?? 0;
         }
@@ -99,28 +99,31 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <summary>
         ///     Removes the table.
         /// </summary>
+        /// <param name="schemaName">The name of the schema.</param>
         /// <param name="tableName">The name of the table.</param>
-        public void RemoveTable(string tableName)
+        public void RemoveTable(string schemaName, string tableName)
         {
             tableName = tableName.Replace("\"", string.Empty);
-            using var conn = new NpgsqlConnection(this.connectionString);
-            conn.Open();
-            using var command = conn.CreateCommand();
-            command.CommandText = $"DROP TABLE IF EXISTS \"{tableName}\";";
-            command.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        ///     Removes the schema.
-        /// </summary>
-        /// <param name="schemaName">The name of the schema.</param>
-        public void RemoveSchema(string schemaName)
-        {
             schemaName = schemaName.Replace("\"", string.Empty);
+
+            var builder = new StringBuilder();
+            builder.Append("DROP TABLE IF EXISTS ");
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
+            {
+                builder.Append("\"");
+                builder.Append(schemaName);
+                builder.Append("\".");
+            }
+
+            builder.Append("\"");
+            builder.Append(tableName);
+            builder.Append("\";");
+
             using var conn = new NpgsqlConnection(this.connectionString);
             conn.Open();
             using var command = conn.CreateCommand();
-            command.CommandText = $"DROP SCHEMA IF EXISTS \"{schemaName}\";";
+            command.CommandText = builder.ToString();
             command.ExecuteNonQuery();
         }
     }

@@ -42,22 +42,50 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 
 ```json
 {
-    "Serilog": {
-        "Using": [ "Serilog.Sinks.PostgreSql" ],
-        "MinimumLevel": {
-            "Default": "Warning"
-        },
-        "WriteTo": [
-            {
-                "Name": "PostgreSql",
-                "Args": {
-                    "connectionString": "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Logs",
-                    "tableName": "logs"
-                }
-            }
-        ]
-    }
+  "Serilog": {
+    "LevelSwitches": { "$controlSwitch": "Verbose" },
+    "MinimumLevel": { "ControlledBy": "$controlSwitch" },
+    "WriteTo": [
+      {
+        "Name": "PostgreSql",
+        "Args": {
+          "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog";,
+          "tableName": "TestLogs",
+          "schemaName": null,
+          "needAutoCreateTable": true,
+          "loggerColumnOptions": {
+            "Id": "IdAutoincrement",
+            "TimeStamp": "Timestamp",
+            "LogEvent": "Properties"
+          },
+          "loggerPropertyColumnOptions": {
+            "TestColumnName": "TestProperty"
+          },
+          "simpleColumnOptions": {},
+          "period": "0.00:00:30",
+          "batchSizeLimit": 50
+        }
+      }
+    ]
+  }
 }
+```
+
+## Example for usage via JSON options
+
+```csharp
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile(".\\YourJsonConfiguration.json", false, true)
+    .Build();
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
+
+logger.Information(
+    "{@LogEvent} {TestProperty}",
+    objectToLog,
+    "TestValue");
 ```
 
 ## Full example

@@ -29,9 +29,10 @@ namespace Serilog.Sinks.PostgreSQL
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        protected ColumnWriterBase(NpgsqlDbType dbType)
+        protected ColumnWriterBase(NpgsqlDbType dbType, bool skipOnInsert = false)
         {
             this.DbType = dbType;
+            this.SkipOnInsert = skipOnInsert;
         }
 
         /// <summary>
@@ -49,5 +50,15 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="formatProvider">The format provider.</param>
         /// <returns>An object value.</returns>
         public abstract object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null);
+
+        /// <summary>Gets the type of the SQL.</summary>
+        /// <returns>The PostgreSql type for inserting into CREATE TABLE query</returns>
+        public virtual string GetSqlType()
+        {
+            return SqlTypeHelper.GetSqlTypeStr(this.DbType);
+        }
+
+        /// <summary>Flag to skip the column in the insert queries</summary>
+        public bool SkipOnInsert { get; private set; }
     }
 }

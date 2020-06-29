@@ -26,6 +26,12 @@ namespace Serilog.Sinks.PostgreSQL
     /// <seealso cref="ColumnWriterBase" />
     public class SinglePropertyColumnWriter : ColumnWriterBase
     {
+        /// <summary></summary>
+        public SinglePropertyColumnWriter() : base(NpgsqlDbType.Text)
+        {
+
+        }
+
         /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>
         ///     Initializes a new instance of the <see cref="SinglePropertyColumnWriter" /> class.
@@ -55,19 +61,19 @@ namespace Serilog.Sinks.PostgreSQL
         ///     Gets the format.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public string Format { get; }
+        public string Format { get; set; }
 
         /// <summary>
         ///     Gets the name.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         ///     Gets the write method.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public PropertyWriteMethod WriteMethod { get; }
+        public PropertyWriteMethod WriteMethod { get; set; }
 
         /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>

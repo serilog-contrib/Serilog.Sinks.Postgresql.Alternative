@@ -25,14 +25,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     /// <summary>
     ///     This class is used to test the writing of data to the database with schemas.
     /// </summary>
-    public class DbWriteWithSchemaTests
+    public class DbWriteWithSchemaTests : BaseTests
     {
-        /// <summary>
-        ///     The connection string.
-        /// </summary>
-        private const string ConnectionString =
-            "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog";
-
         /// <summary>
         ///     The schema name. This needs to be present in the database, e.g. create it manually.
         /// </summary>

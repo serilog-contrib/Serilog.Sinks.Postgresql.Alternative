@@ -16,9 +16,13 @@
             "LogEvent": "Properties"
           },
           "loggerPropertyColumnOptions": {
-            "TestColumnName": "TestProperty"
+            "TestColumnName": {
+              "Format": "{0}",
+              "Name": "TestProperty",
+              "WriteMethod": "Raw",
+              "DbType": "Text"
+            }
           },
-          "simpleColumnOptions": {},
           "period": "0.00:00:30",
           "batchSizeLimit": 50
         }

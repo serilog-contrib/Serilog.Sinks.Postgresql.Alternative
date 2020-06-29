@@ -25,14 +25,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     /// <summary>
     ///     This class is used to test the writing to the database.
     /// </summary>
-    public class DbWriteTests
+    public class DbWriteTests : BaseTests
     {
-        /// <summary>
-        ///     The connection string.
-        /// </summary>
-        private const string ConnectionString =
-            "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog";
-
         /// <summary>
         ///     The table name.
         /// </summary>

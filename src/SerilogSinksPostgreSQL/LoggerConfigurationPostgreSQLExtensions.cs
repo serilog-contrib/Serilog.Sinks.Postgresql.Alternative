@@ -113,7 +113,7 @@ namespace Serilog
             string connectionString,
             string tableName,
             IDictionary<string, string> loggerColumnOptions = null,
-            IDictionary<string, string> loggerPropertyColumnOptions = null,
+            IDictionary<string, SinglePropertyColumnWriter> loggerPropertyColumnOptions = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             TimeSpan? period = null,
             IFormatProvider formatProvider = null,
@@ -184,9 +184,10 @@ namespace Serilog
 
             columns = columns ?? new Dictionary<string, ColumnWriterBase>();
 
+
             foreach (var columnOption in loggerPropertyColumnOptions)
             {
-                columns.Add(columnOption.Key, new SinglePropertyColumnWriter(columnOption.Value));
+                columns.Add(columnOption.Key, columnOption.Value);
             }
 
             return sinkConfiguration.PostgreSql(

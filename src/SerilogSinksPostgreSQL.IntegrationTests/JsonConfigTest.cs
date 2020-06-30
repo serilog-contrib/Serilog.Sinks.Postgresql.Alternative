@@ -23,13 +23,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     /// Tests for creating PostgreSql logger from JSON config.
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-    public class JsonConfigTest
+    public class JsonConfigTest : BaseTests
     {
-        /// <summary>
-        /// The connection string.
-        /// </summary>
-        private const string ConnectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;";
-
         /// <summary>
         /// The test logs.
         /// </summary>

@@ -58,8 +58,13 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
             "TimeStamp": "Timestamp",
             "LogEvent": "Properties"
           },
-          "loggerPropertyColumnOptions": {
-            "TestColumnName": "TestProperty"
+         "loggerPropertyColumnOptions": {
+            "TestColumnName": {
+    		  "Name": "TestProperty",
+              "Format": "{0}",
+              "WriteMethod": "Raw",
+              "DbType": "Text"
+            }
           },
           "simpleColumnOptions": {},
           "period": "0.00:00:30",

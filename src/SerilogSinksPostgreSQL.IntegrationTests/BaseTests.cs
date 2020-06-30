@@ -1,7 +1,16 @@
-﻿namespace SerilogSinksPostgreSQL.IntegrationTests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BaseTests.cs" company="Hämmer Electronics">
+// The project is licensed under the MIT license.
+// </copyright>
+// <summary>
+//   This class is used as a base class for the integration tests.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SerilogSinksPostgreSQL.IntegrationTests
 {
     /// <summary>
-    /// Common properties for Tests
+    /// This class is used as a base class for the integration tests.
     /// </summary>
     public abstract class BaseTests
     {

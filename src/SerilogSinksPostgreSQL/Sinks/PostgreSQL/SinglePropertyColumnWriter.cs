@@ -31,6 +31,7 @@ namespace Serilog.Sinks.PostgreSQL
         ///     Initializes a new instance of the <see cref="SinglePropertyColumnWriter" /> class.
         /// </summary>
         /// <seealso cref="ColumnWriterBase" />
+        // ReSharper disable once UnusedMember.Global
         public SinglePropertyColumnWriter() : base(NpgsqlDbType.Text)
         {
         }
@@ -48,6 +49,7 @@ namespace Serilog.Sinks.PostgreSQL
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
+        // ReSharper disable once UnusedMember.Global
         public SinglePropertyColumnWriter(
             string propertyName,
             PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString,

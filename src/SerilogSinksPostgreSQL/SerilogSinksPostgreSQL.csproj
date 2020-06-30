@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 2.0.0.0 (2020-06-16): Fixed bug with schema creation.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 2.1.0.0 (2020-06-30): Updated nuget packages, allowing single columns within the JSON configuration (Thanks to @artiomponkratov).</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 

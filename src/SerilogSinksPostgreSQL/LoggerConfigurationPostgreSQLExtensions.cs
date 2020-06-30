@@ -184,7 +184,6 @@ namespace Serilog
 
             columns = columns ?? new Dictionary<string, ColumnWriterBase>();
 
-
             foreach (var columnOption in loggerPropertyColumnOptions)
             {
                 columns.Add(columnOption.Key, columnOption.Value);

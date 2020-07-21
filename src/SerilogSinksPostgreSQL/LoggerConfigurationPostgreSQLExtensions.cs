@@ -157,7 +157,7 @@ namespace Serilog
                             columns.Add(columnOption.Key, new RenderedMessageColumnWriter());
                             break;
                         case "Exception":
-                            columns.Add(columnOption.Key, new RenderedMessageColumnWriter());
+                            columns.Add(columnOption.Key, new ExceptionColumnWriter());
                             break;
                         case "IdAutoIncrement":
                             columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter());

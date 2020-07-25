@@ -1,9 +1,10 @@
 Change history
 --------------
 
-* **Version 2.1.0.0 (2020-06-30)** : Updated nuget packages, allowing single columns within the JSON configuration (Thanks to @artiomponkratov).
+* **Version 2.2.0.0 (2020-07-25)** : Updated nuget packages, changed to attach correct column writer to exception column (Thanks to [@GZidar](https://github.com/GZidar)).
+* **Version 2.1.0.0 (2020-06-30)** : Updated nuget packages, allowing single columns within the JSON configuration (Thanks to [@artiomponkratov](https://github.com/artiomponkratov)).
 * **Version 2.0.0.0 (2020-06-16)** : Fixed bugs with schema creation.
-* **Version 1.9.0.0 (2020-06-16)** : Updated nuget packages, added option to configure the sink via a JSON file (Thanks to @artiomponkratov).
+* **Version 1.9.0.0 (2020-06-16)** : Updated nuget packages, added option to configure the sink via a JSON file (Thanks to @artiomponkratov](https://github.com/artiomponkratov)).
 * **Version 1.8.1.0 (2020-06-05)** : Updated nuget packages, adjusted build to Visual Studio, moved changelog to extra file.
 * **Version 1.8.0.0 (2020-06-04)** : Updated nuget packages, updated license year information.
 * **Version 1.7.0.0 (2020-05-10)** : Updated nuget packages.

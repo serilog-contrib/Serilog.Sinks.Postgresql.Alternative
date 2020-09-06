@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 2.3.0.0 (2020-09-06): Updated nuget packages.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 2.4.0.0 (2020-09-06): Added option to store log levels in table to be able to do a join query.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 

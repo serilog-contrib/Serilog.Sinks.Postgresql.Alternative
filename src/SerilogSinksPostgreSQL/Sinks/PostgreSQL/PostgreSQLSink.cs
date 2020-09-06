@@ -77,6 +77,11 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         private bool isSchemaCreated;
 
+        /// <summary>
+        ///     A boolean value indicating whether the log level table is created or not.
+        /// </summary>
+        private bool isLogLevelTableCreated;
+
         /// <inheritdoc cref="PeriodicBatchingSink" />
         /// <summary>
         ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
@@ -191,6 +196,12 @@ namespace Serilog.Sinks.PostgreSQL
                 {
                     TableCreator.CreateTable(connection, this.schemaName, this.tableName, this.columnOptions);
                     this.isTableCreated = true;
+                }
+
+                if (!this.isLogLevelTableCreated)
+                {
+                    TableCreator.CreateLogLevelTable(connection);
+                    this.isLogLevelTableCreated = true;
                 }
 
                 if (this.useCopy)

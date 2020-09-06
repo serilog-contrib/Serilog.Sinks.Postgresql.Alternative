@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 2.4.0.0 (2020-09-06)** : Added option to store log levels in table to be able to do a join query.
 * **Version 2.3.0.0 (2020-09-06)** : Updated nuget packages.
 * **Version 2.2.0.0 (2020-07-25)** : Updated nuget packages, changed to attach correct column writer to exception column (Thanks to [@GZidar](https://github.com/GZidar)).
 * **Version 2.1.0.0 (2020-06-30)** : Updated nuget packages, allowing single columns within the JSON configuration (Thanks to [@artiomponkratov](https://github.com/artiomponkratov)).

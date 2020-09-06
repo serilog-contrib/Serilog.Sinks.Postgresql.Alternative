@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 2.2.0.0 (2020-07-25): Updated nuget packages, changed to attach correct column writer to exception column (Thanks to [@GZidar](https://github.com/GZidar)).</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 2.3.0.0 (2020-09-06): Updated nuget packages.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 

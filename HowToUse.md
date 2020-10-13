@@ -40,6 +40,18 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 
 ## Configuration via JSON file:
 
+The configuration via a JSON file allows the following `loggerColumnOptions`:
+
+* Level: Stores the log level as `Integer`.
+* LevelAsText: Stores the log level as `Text`.
+* Timestamp: Stores the timestamp as `TimestampTz`.
+* LogEvent: Stores the log event as `Jsonb`.
+* Properties: Stores the properties as `Jsonb`.
+* Message: Stores the message template as `Text`.
+* RenderedMessage: Stores the rendered message as `Text`.
+* Exception: Stores the exception as `Text`.
+* IdAutoIncrement: Stores the identifier as `Bigint` with auto increment.
+
 ```json
 {
   "Serilog": {

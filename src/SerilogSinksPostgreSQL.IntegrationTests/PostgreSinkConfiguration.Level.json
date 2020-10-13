@@ -1,0 +1,33 @@
+{
+  "Serilog": {
+    "LevelSwitches": { "$controlSwitch": "Verbose" },
+    "MinimumLevel": { "ControlledBy": "$controlSwitch" },
+    "WriteTo": [
+      {
+        "Name": "PostgreSql",
+        "Args": {
+          "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
+          "tableName": "TestLogs",
+          "schemaName": null,
+          "needAutoCreateTable": true,
+          "loggerColumnOptions": {
+            "Id": "IdAutoIncrement",
+            "TimeStamp": "Timestamp",
+            "LogEvent": "Properties",
+            "Level": "LevelAsText"
+          },
+          "loggerPropertyColumnOptions": {
+            "TestColumnName": {
+              "Format": "{0}",
+              "Name": "TestProperty",
+              "WriteMethod": "Raw",
+              "DbType": "Text"
+            }
+          },
+          "period": "0.00:00:30",
+          "batchSizeLimit": 50
+        }
+      }
+    ]
+  }
+}

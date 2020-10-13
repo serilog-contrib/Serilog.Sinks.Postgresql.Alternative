@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using NpgsqlTypes;
+
 namespace Serilog
 {
     using System;
@@ -140,6 +142,9 @@ namespace Serilog
                     {
                         case "Level":
                             columns.Add(columnOption.Key, new LevelColumnWriter());
+                            break;
+                        case "LevelAsText":
+                            columns.Add(columnOption.Key, new LevelColumnWriter(true, NpgsqlDbType.Text));
                             break;
                         case "Timestamp":
                             columns.Add(columnOption.Key, new TimestampColumnWriter());

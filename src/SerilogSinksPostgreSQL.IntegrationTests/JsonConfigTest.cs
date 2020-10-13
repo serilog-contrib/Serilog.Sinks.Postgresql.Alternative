@@ -54,8 +54,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
-            const int RowsCount = 2;
-            for (var i = 0; i < RowsCount; i++)
+            const int rowsCount = 2;
+
+            for (var i = 0; i < rowsCount; i++)
             {
                 logger.Information(
                     "{@LogEvent} {TestProperty}",
@@ -67,7 +68,42 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
-            Assert.Equal(RowsCount, actualRowsCount);
+            Assert.Equal(rowsCount, actualRowsCount);
+        }
+
+        /// <summary>
+        ///     This method is used to test the logger creation from the configuration with the level column as text.
+        /// </summary>
+        [Fact]
+        public void ShouldCreateLoggerFromConfigWithLevelAsText()
+        {
+            this.dbHelper.RemoveTable(string.Empty, TableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(".\\PostgreSinkConfiguration.Level.json", false, true)
+                .Build();
+
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            const int rowsCount = 2;
+
+            for (var i = 0; i < rowsCount; i++)
+            {
+                logger.Information(
+                    "{@LogEvent} {TestProperty}",
+                    testObject,
+                    "TestValue");
+            }
+
+            logger.Dispose();
+
+            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
+
+            Assert.Equal(rowsCount, actualRowsCount);
         }
     }
 }

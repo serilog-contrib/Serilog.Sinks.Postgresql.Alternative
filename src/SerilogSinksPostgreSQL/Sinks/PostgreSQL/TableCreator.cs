@@ -41,40 +41,6 @@ namespace Serilog.Sinks.PostgreSQL
         }
 
         /// <summary>
-        /// Creates the log level table if it doesn't exist yet.
-        /// </summary>
-        /// <param name="connection">The connection.</param>
-        public static void CreateLogLevelTable(NpgsqlConnection connection)
-        {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = "CREATE TABLE IF NOT EXISTS LogLevel(Id INT NOT NULL, Description TEXT NOT NULL);";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "TRUNCATE TABLE LogLevel;";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "INSERT INTO LogLevel(Id, Description) VALUES(0, 'Verbose');";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "INSERT INTO LogLevel(Id, Description) VALUES(1, 'Debug');";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "INSERT INTO LogLevel(Id, Description) VALUES(2, 'Information');";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "INSERT INTO LogLevel(Id, Description) VALUES(3, 'Warning');";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "INSERT INTO LogLevel(Id, Description) VALUES(4, 'Error');";
-                command.ExecuteNonQuery();
-
-                command.CommandText = "INSERT INTO LogLevel(Id, Description) VALUES(5, 'Fatal');";
-                command.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
         ///     Gets the create table query.
         /// </summary>
         /// <param name="schemaName">The name of the schema.</param>

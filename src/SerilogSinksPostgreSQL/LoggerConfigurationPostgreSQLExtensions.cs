@@ -15,10 +15,10 @@ namespace Serilog
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
-    using Serilog.Configuration;
-    using Serilog.Core;
-    using Serilog.Events;
-    using Serilog.Sinks.PostgreSQL;
+    using Configuration;
+    using Core;
+    using Events;
+    using Sinks.PostgreSQL;
 
     /// <summary>
     ///     This class contains the PostgreSQL logger configuration.

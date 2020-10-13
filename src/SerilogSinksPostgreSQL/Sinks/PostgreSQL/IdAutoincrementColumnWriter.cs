@@ -13,7 +13,7 @@ namespace Serilog.Sinks.PostgreSQL
 
     using NpgsqlTypes;
 
-    using Serilog.Events;
+    using Events;
 
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

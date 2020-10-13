@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL
 
     using NpgsqlTypes;
 
-    using Serilog.Events;
+    using Events;
 
     /// <summary>
     ///     This class contains the column writer base methods.

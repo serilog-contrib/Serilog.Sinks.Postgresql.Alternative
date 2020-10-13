@@ -16,8 +16,8 @@ namespace Serilog.Sinks.PostgreSQL
 
     using Npgsql;
 
-    using Serilog.Events;
-    using Serilog.Sinks.PeriodicBatching;
+    using Events;
+    using PeriodicBatching;
 
     /// <inheritdoc cref="PeriodicBatchingSink" />
     /// <summary>

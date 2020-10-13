@@ -16,8 +16,8 @@ namespace Serilog.Sinks.PostgreSQL
 
     using NpgsqlTypes;
 
-    using Serilog.Events;
-    using Serilog.Formatting.Json;
+    using Events;
+    using Formatting.Json;
 
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

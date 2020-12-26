@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 3.0.1.0 (2020-11-16): Updated Nuget packages.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 3.2.0.0 (2020-12-26): Updated Nuget packages.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
@@ -25,7 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Npgsql" Version="5.0.0" />
+    <PackageReference Include="Npgsql" Version="5.0.1.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="2.3.0" />
   </ItemGroup>

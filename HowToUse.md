@@ -72,7 +72,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
           },
          "loggerPropertyColumnOptions": {
             "TestColumnName": {
-    		  "Name": "TestProperty",
+    		      "Name": "TestProperty",
               "Format": "{0}",
               "WriteMethod": "Raw",
               "DbType": "Text"

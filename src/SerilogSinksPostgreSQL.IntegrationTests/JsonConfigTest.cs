@@ -54,9 +54,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
-            const int rowsCount = 2;
+            const int RowsCount = 2;
 
-            for (var i = 0; i < rowsCount; i++)
+            for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
                     "{@LogEvent} {TestProperty}",
@@ -68,7 +68,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
-            Assert.Equal(rowsCount, actualRowsCount);
+            Assert.Equal(RowsCount, actualRowsCount);
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
-            const int rowsCount = 2;
+            const int RowsCount = 2;
 
-            for (var i = 0; i < rowsCount; i++)
+            for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
                     "{@LogEvent} {TestProperty}",
@@ -103,7 +103,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
-            Assert.Equal(rowsCount, actualRowsCount);
+            Assert.Equal(RowsCount, actualRowsCount);
         }
     }
 }

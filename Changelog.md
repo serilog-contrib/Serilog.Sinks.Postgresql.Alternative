@@ -1,7 +1,8 @@
 Change history
 --------------
 
-* **Version 3.0.1.0 (2020-11-16)** : Updated Nuget packages.
+* **Version 3.2.0.0 (2020-12-26)** : Updated Nuget packages.
+* **Version 3.1.0.0 (2020-11-16)** : Updated Nuget packages.
 * **Version 3.0.0.0 (2020-11-11)** : Added support for .Net5.0, updated Nuget packages.
 * **Version 2.5.0.0 (2020-09-06)** : Added option to store level as text, updated nuget packages, removed lookup table for log event levels.
 * **Version 2.4.0.0 (2020-09-06)** : Added option to store log levels in table to be able to do a join query.

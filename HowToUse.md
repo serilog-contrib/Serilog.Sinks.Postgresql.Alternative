@@ -55,8 +55,12 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 ```json
 {
   "Serilog": {
-    "LevelSwitches": { "$controlSwitch": "Verbose" },
-    "MinimumLevel": { "ControlledBy": "$controlSwitch" },
+    "LevelSwitches": {
+      "$controlSwitch": "Verbose"
+    },
+    "MinimumLevel": {
+      "ControlledBy": "$controlSwitch"
+    },
     "WriteTo": [
       {
         "Name": "PostgreSql",
@@ -70,9 +74,9 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
             "TimeStamp": "Timestamp",
             "LogEvent": "Properties"
           },
-         "loggerPropertyColumnOptions": {
+          "loggerPropertyColumnOptions": {
             "TestColumnName": {
-    		      "Name": "TestProperty",
+              "Name": "TestProperty",
               "Format": "{0}",
               "WriteMethod": "Raw",
               "DbType": "Text"

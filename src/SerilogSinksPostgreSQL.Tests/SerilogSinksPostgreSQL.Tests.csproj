@@ -1,17 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>    
-    <TargetFramework>net5.0</TargetFramework>    
-    <AssemblyName>SerilogSinksPostgreSQL.Tests</AssemblyName>    
-    <RootNamespace>SerilogSinksPostgreSQL.Tests</RootNamespace>    
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>    
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>    
-    <FileVersion>1.0.0.0</FileVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+<PropertyGroup>    
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>latest</LangVersion>   
   </PropertyGroup>
 
   <ItemGroup>

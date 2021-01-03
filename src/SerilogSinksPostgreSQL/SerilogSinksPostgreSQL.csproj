@@ -18,6 +18,7 @@
     <RepositoryType>Github</RepositoryType>
     <PackageReleaseNotes>Version 3.2.1.0 (2021-01-03): Formatted json example, added override for the old sink naming `PostgreSQL` instead of the new one `PostgreSql` to avoid confusions with the original sink.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

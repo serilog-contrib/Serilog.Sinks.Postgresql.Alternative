@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.2.1.0 (2021-01-03)** : Formatted json example, added override for the old sink naming `PostgreSQL` instead of the new one `PostgreSql` to avoid confusions with the original sink.
 * **Version 3.2.0.0 (2020-12-26)** : Updated Nuget packages.
 * **Version 3.1.0.0 (2020-11-16)** : Updated Nuget packages.
 * **Version 3.0.0.0 (2020-11-11)** : Added support for .Net5.0, updated Nuget packages.

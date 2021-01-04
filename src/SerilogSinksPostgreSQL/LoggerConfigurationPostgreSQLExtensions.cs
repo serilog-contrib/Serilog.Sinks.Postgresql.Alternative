@@ -54,12 +54,14 @@ namespace Serilog
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="failureCallback">The failure callback.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         [SuppressMessage(
             "StyleCop.CSharp.DocumentationRules",
             "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
         // ReSharper disable once UnusedMember.Global
+        [Obsolete("This method will be removed in the future, use PostgreSQL instead.", true)]
         public static LoggerConfiguration PostgreSql(
             this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
@@ -72,14 +74,121 @@ namespace Serilog
             LoggingLevelSwitch levelSwitch = null,
             bool useCopy = true,
             string schemaName = "",
-            bool needAutoCreateTable = false)
+            bool needAutoCreateTable = false,
+            Action<Exception> failureCallback = null)
+        {
+            return PostgreSQL(
+                sinkConfiguration,
+                connectionString,
+                tableName,
+                columnOptions,
+                restrictedToMinimumLevel,
+                period,
+                formatProvider,
+                batchSizeLimit,
+                levelSwitch,
+                useCopy,
+                schemaName,
+                needAutoCreateTable,
+                failureCallback);
+        }
+
+        /// <summary>
+        /// Adds a sink which writes to the PostgreSQL table. The configuration for the sink can be taken from the JSON file.
+        /// </summary>
+        /// <param name="sinkConfiguration">The logger configuration.</param>
+        /// <param name="connectionString">The connection string to the database where to store the events.</param>
+        /// <param name="tableName">Name of the table to store the events in.</param>
+        /// <param name="loggerColumnOptions">The logger column options.</param>
+        /// <param name="loggerPropertyColumnOptions">The logger property column options.</param>
+        /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+        /// <param name="period">The time to wait between checking for event batches.</param>
+        /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
+        /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+        /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
+        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
+        /// <param name="schemaName">The schema name.</param>
+        /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="failureCallback">The failure callback.</param>
+        /// <returns>Logger configuration, allowing configuration to continue.</returns>
+        [Obsolete("This method will be removed in the future, use PostgreSQL instead.", true)]
+        public static LoggerConfiguration PostgreSql(
+            this LoggerSinkConfiguration sinkConfiguration,
+            string connectionString,
+            string tableName,
+            IDictionary<string, string> loggerColumnOptions = null,
+            IDictionary<string, SinglePropertyColumnWriter> loggerPropertyColumnOptions = null,
+            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+            TimeSpan? period = null,
+            IFormatProvider formatProvider = null,
+            int batchSizeLimit = PostgreSqlSink.DefaultBatchSizeLimit,
+            LoggingLevelSwitch levelSwitch = null,
+            bool useCopy = true,
+            string schemaName = "",
+            bool needAutoCreateTable = false,
+            Action<Exception> failureCallback = null)
+        {
+            return PostgreSQL(
+                sinkConfiguration,
+                connectionString,
+                tableName,
+                loggerColumnOptions,
+                loggerPropertyColumnOptions,
+                restrictedToMinimumLevel,
+                period,
+                formatProvider,
+                batchSizeLimit,
+                levelSwitch,
+                useCopy,
+                schemaName,
+                needAutoCreateTable,
+                failureCallback);
+        }
+
+        /// <summary>
+        ///     Adds a sink which writes to the PostgreSQL table.
+        /// </summary>
+        /// <param name="sinkConfiguration">The logger configuration.</param>
+        /// <param name="connectionString">The connection string to the database where to store the events.</param>
+        /// <param name="tableName">Name of the table to store the events in.</param>
+        /// <param name="columnOptions">The column options.</param>
+        /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+        /// <param name="period">The time to wait between checking for event batches.</param>
+        /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
+        /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+        /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
+        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
+        /// <param name="schemaName">The schema name.</param>
+        /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="failureCallback">The failure callback.</param>
+        /// <returns>Logger configuration, allowing configuration to continue.</returns>
+        [SuppressMessage(
+            "StyleCop.CSharp.DocumentationRules",
+            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "Reviewed. Suppression is OK here.")]
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once InconsistentNaming
+        public static LoggerConfiguration PostgreSQL(
+            this LoggerSinkConfiguration sinkConfiguration,
+            string connectionString,
+            string tableName,
+            IDictionary<string, ColumnWriterBase> columnOptions = null,
+            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+            TimeSpan? period = null,
+            IFormatProvider formatProvider = null,
+            int batchSizeLimit = PostgreSqlSink.DefaultBatchSizeLimit,
+            LoggingLevelSwitch levelSwitch = null,
+            bool useCopy = true,
+            string schemaName = "",
+            bool needAutoCreateTable = false,
+            Action<Exception> failureCallback = null)
         {
             if (sinkConfiguration == null)
             {
                 throw new ArgumentNullException(nameof(sinkConfiguration));
             }
 
-            period = period ?? DefaultPeriod;
+            period ??= DefaultPeriod;
 
             return sinkConfiguration.Sink(
                 new PostgreSqlSink(
@@ -91,7 +200,8 @@ namespace Serilog
                     batchSizeLimit,
                     useCopy,
                     schemaName,
-                    needAutoCreateTable),
+                    needAutoCreateTable,
+                    failureCallback),
                 restrictedToMinimumLevel,
                 levelSwitch);
         }
@@ -112,8 +222,10 @@ namespace Serilog
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="failureCallback">The failure callback.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
-        public static LoggerConfiguration PostgreSql(
+        // ReSharper disable once InconsistentNaming
+        public static LoggerConfiguration PostgreSQL(
             this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
             string tableName,
@@ -126,7 +238,8 @@ namespace Serilog
             LoggingLevelSwitch levelSwitch = null,
             bool useCopy = true,
             string schemaName = "",
-            bool needAutoCreateTable = false)
+            bool needAutoCreateTable = false,
+            Action<Exception> failureCallback = null)
         {
             if (sinkConfiguration == null)
             {
@@ -176,7 +289,7 @@ namespace Serilog
 
             if (loggerPropertyColumnOptions == null)
             {
-                return sinkConfiguration.PostgreSql(
+                return sinkConfiguration.PostgreSQL(
                     connectionString,
                     tableName,
                     columns,
@@ -187,17 +300,18 @@ namespace Serilog
                     levelSwitch,
                     useCopy,
                     schemaName,
-                    needAutoCreateTable);
+                    needAutoCreateTable,
+                    failureCallback);
             }
 
-            columns = columns ?? new Dictionary<string, ColumnWriterBase>();
+            columns ??= new Dictionary<string, ColumnWriterBase>();
 
             foreach (var columnOption in loggerPropertyColumnOptions)
             {
                 columns.Add(columnOption.Key, columnOption.Value);
             }
 
-            return sinkConfiguration.PostgreSql(
+            return sinkConfiguration.PostgreSQL(
                 connectionString,
                 tableName,
                 columns,
@@ -208,107 +322,8 @@ namespace Serilog
                 levelSwitch,
                 useCopy,
                 schemaName,
-                needAutoCreateTable);
-        }
-
-        /// <summary>
-        ///     Adds a sink which writes to the PostgreSQL table.
-        /// </summary>
-        /// <param name="sinkConfiguration">The logger configuration.</param>
-        /// <param name="connectionString">The connection string to the database where to store the events.</param>
-        /// <param name="tableName">Name of the table to store the events in.</param>
-        /// <param name="columnOptions">The column options.</param>
-        /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
-        /// <param name="period">The time to wait between checking for event batches.</param>
-        /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
-        /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
-        /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
-        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
-        /// <param name="schemaName">The schema name.</param>
-        /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
-        /// <returns>Logger configuration, allowing configuration to continue.</returns>
-        [SuppressMessage(
-            "StyleCop.CSharp.DocumentationRules",
-            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-            Justification = "Reviewed. Suppression is OK here.")]
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once InconsistentNaming
-        public static LoggerConfiguration PostgreSQL(
-            this LoggerSinkConfiguration sinkConfiguration,
-            string connectionString,
-            string tableName,
-            IDictionary<string, ColumnWriterBase> columnOptions = null,
-            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            TimeSpan? period = null,
-            IFormatProvider formatProvider = null,
-            int batchSizeLimit = PostgreSqlSink.DefaultBatchSizeLimit,
-            LoggingLevelSwitch levelSwitch = null,
-            bool useCopy = true,
-            string schemaName = "",
-            bool needAutoCreateTable = false)
-        {
-            return PostgreSql(
-                sinkConfiguration,
-                connectionString,
-                tableName,
-                columnOptions,
-                restrictedToMinimumLevel,
-                period,
-                formatProvider,
-                batchSizeLimit,
-                levelSwitch,
-                useCopy,
-                schemaName,
-                needAutoCreateTable);
-        }
-
-        /// <summary>
-        /// Adds a sink which writes to the PostgreSQL table. The configuration for the sink can be taken from the JSON file.
-        /// </summary>
-        /// <param name="sinkConfiguration">The logger configuration.</param>
-        /// <param name="connectionString">The connection string to the database where to store the events.</param>
-        /// <param name="tableName">Name of the table to store the events in.</param>
-        /// <param name="loggerColumnOptions">The logger column options.</param>
-        /// <param name="loggerPropertyColumnOptions">The logger property column options.</param>
-        /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
-        /// <param name="period">The time to wait between checking for event batches.</param>
-        /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
-        /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
-        /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
-        /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
-        /// <param name="schemaName">The schema name.</param>
-        /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
-        /// <returns>Logger configuration, allowing configuration to continue.</returns>
-        // ReSharper disable once InconsistentNaming
-        public static LoggerConfiguration PostgreSQL(
-            this LoggerSinkConfiguration sinkConfiguration,
-            string connectionString,
-            string tableName,
-            IDictionary<string, string> loggerColumnOptions = null,
-            IDictionary<string, SinglePropertyColumnWriter> loggerPropertyColumnOptions = null,
-            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            TimeSpan? period = null,
-            IFormatProvider formatProvider = null,
-            int batchSizeLimit = PostgreSqlSink.DefaultBatchSizeLimit,
-            LoggingLevelSwitch levelSwitch = null,
-            bool useCopy = true,
-            string schemaName = "",
-            bool needAutoCreateTable = false)
-        {
-            return PostgreSql(
-                sinkConfiguration,
-                connectionString,
-                tableName,
-                loggerColumnOptions,
-                loggerPropertyColumnOptions,
-                restrictedToMinimumLevel,
-                period,
-                formatProvider,
-                batchSizeLimit,
-                levelSwitch,
-                useCopy,
-                schemaName,
-                needAutoCreateTable);
+                needAutoCreateTable,
+                failureCallback);
         }
     }
 }

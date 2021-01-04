@@ -78,7 +78,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                       { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
                                   };
 
-            var logger = new LoggerConfiguration().WriteTo.PostgreSql(
+            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
                 ConnectionString,
                 TableName,
                 columnProps,
@@ -129,7 +129,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                   };
 
             var logger = new LoggerConfiguration().WriteTo
-                .PostgreSql(ConnectionString, TableName, columnProps, schemaName: SchemaName).Enrich.WithMachineName()
+                .PostgreSQL(ConnectionString, TableName, columnProps, schemaName: SchemaName).Enrich.WithMachineName()
                 .CreateLogger();
 
             for (var i = 0; i < 50; i++)

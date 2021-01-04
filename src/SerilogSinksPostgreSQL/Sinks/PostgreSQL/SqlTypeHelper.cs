@@ -55,69 +55,41 @@ namespace Serilog.Sinks.PostgreSQL
             Justification = "Reviewed. Suppression is OK here.")]
         public static string GetSqlTypeStr(NpgsqlDbType dbType)
         {
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (dbType)
+            // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+            return dbType switch
             {
-                case NpgsqlDbType.Bigint:
-                    return "bigint";
-                case NpgsqlDbType.Double:
-                    return "double precision";
-                case NpgsqlDbType.Integer:
-                    return "integer";
-                case NpgsqlDbType.Numeric:
-                    return "numeric";
-                case NpgsqlDbType.Real:
-                    return "real";
-                case NpgsqlDbType.Smallint:
-                    return "smallint";
-                case NpgsqlDbType.Boolean:
-                    return "boolean";
-                case NpgsqlDbType.Money:
-                    return "money";
-                case NpgsqlDbType.Char:
-                    return $"character({DefaultCharColumnsLength})";
-                case NpgsqlDbType.Text:
-                    return "text";
-                case NpgsqlDbType.Varchar:
-                    return $"character varying({DefaultVarcharColumnsLength})";
-                case NpgsqlDbType.Bytea:
-                    return "bytea";
-                case NpgsqlDbType.Date:
-                    return "date";
-                case NpgsqlDbType.Time:
-                    return "time";
-                case NpgsqlDbType.Timestamp:
-                    return "timestamp";
-                case NpgsqlDbType.TimestampTz:
-                    return "timestamp with time zone";
-                case NpgsqlDbType.Interval:
-                    return "interval";
-                case NpgsqlDbType.TimeTz:
-                    return "time with time zone";
-                case NpgsqlDbType.Inet:
-                    return "inet";
-                case NpgsqlDbType.Cidr:
-                    return "cidr";
-                case NpgsqlDbType.MacAddr:
-                    return "macaddr";
-                case NpgsqlDbType.Bit:
-                    return $"bit({DefaultBitColumnsLength})";
-                case NpgsqlDbType.Varbit:
-                    return $"bit varying({DefaultBitColumnsLength})";
-                case NpgsqlDbType.Uuid:
-                    return "uuid";
-                case NpgsqlDbType.Xml:
-                    return "xml";
-                case NpgsqlDbType.Json:
-                    return "json";
-                case NpgsqlDbType.Jsonb:
-                    return "jsonb";
-                default:
-                    throw new ArgumentOutOfRangeException(
-                        nameof(dbType),
-                        dbType,
-                        $"Cannot automatically create column of type {dbType}.");
-            }
+                NpgsqlDbType.Bigint => "bigint",
+                NpgsqlDbType.Double => "double precision",
+                NpgsqlDbType.Integer => "integer",
+                NpgsqlDbType.Numeric => "numeric",
+                NpgsqlDbType.Real => "real",
+                NpgsqlDbType.Smallint => "smallint",
+                NpgsqlDbType.Boolean => "boolean",
+                NpgsqlDbType.Money => "money",
+                NpgsqlDbType.Char => $"character({DefaultCharColumnsLength})",
+                NpgsqlDbType.Text => "text",
+                NpgsqlDbType.Varchar => $"character varying({DefaultVarcharColumnsLength})",
+                NpgsqlDbType.Bytea => "bytea",
+                NpgsqlDbType.Date => "date",
+                NpgsqlDbType.Time => "time",
+                NpgsqlDbType.Timestamp => "timestamp",
+                NpgsqlDbType.TimestampTz => "timestamp with time zone",
+                NpgsqlDbType.Interval => "interval",
+                NpgsqlDbType.TimeTz => "time with time zone",
+                NpgsqlDbType.Inet => "inet",
+                NpgsqlDbType.Cidr => "cidr",
+                NpgsqlDbType.MacAddr => "macaddr",
+                NpgsqlDbType.Bit => $"bit({DefaultBitColumnsLength})",
+                NpgsqlDbType.Varbit => $"bit varying({DefaultBitColumnsLength})",
+                NpgsqlDbType.Uuid => "uuid",
+                NpgsqlDbType.Xml => "xml",
+                NpgsqlDbType.Json => "json",
+                NpgsqlDbType.Jsonb => "jsonb",
+                _ => throw new ArgumentOutOfRangeException(
+                         nameof(dbType),
+                         dbType,
+                         $"Cannot automatically create column of type {dbType}.")
+            };
         }
     }
 }

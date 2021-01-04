@@ -37,6 +37,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
 |queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
+|failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
 
 ## Configuration via JSON file:
 

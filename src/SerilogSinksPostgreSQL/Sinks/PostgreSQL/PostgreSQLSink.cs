@@ -19,6 +19,8 @@ namespace Serilog.Sinks.PostgreSQL
     using Events;
     using PeriodicBatching;
 
+    using Serilog.Debugging;
+
     /// <inheritdoc cref="PeriodicBatchingSink" />
     /// <summary>
     ///     This class is the main class and contains all options for the PostgreSQL sink.
@@ -63,6 +65,11 @@ namespace Serilog.Sinks.PostgreSQL
         private readonly bool useCopy;
 
         /// <summary>
+        ///  The failure callback.
+        /// </summary>
+        private readonly Action<Exception> failureCallback;
+
+        /// <summary>
         ///     The column options.
         /// </summary>
         private IDictionary<string, ColumnWriterBase> columnOptions;
@@ -90,6 +97,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
+        /// <param name="failureCallback">The failure callback.</param>
         public PostgreSqlSink(
             string connectionString,
             string tableName,
@@ -99,7 +107,8 @@ namespace Serilog.Sinks.PostgreSQL
             int batchSizeLimit = DefaultBatchSizeLimit,
             bool useCopy = true,
             string schemaName = "",
-            bool needAutoCreateTable = false)
+            bool needAutoCreateTable = false,
+            Action<Exception> failureCallback = null)
             : base(batchSizeLimit, period)
         {
             this.connectionString = connectionString;
@@ -116,6 +125,8 @@ namespace Serilog.Sinks.PostgreSQL
 
             this.isTableCreated = !needAutoCreateTable;
             this.isSchemaCreated = false;
+
+            this.failureCallback = failureCallback;
         }
 
         /// <inheritdoc cref="PeriodicBatchingSink" />
@@ -132,6 +143,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
+        /// <param name="failureCallback">The failure callback.</param>
         // ReSharper disable once UnusedMember.Global
         public PostgreSqlSink(
             string connectionString,
@@ -143,7 +155,8 @@ namespace Serilog.Sinks.PostgreSQL
             int queueLimit = DefaultQueueLimit,
             bool useCopy = true,
             string schemaName = "",
-            bool needAutoCreateTable = false)
+            bool needAutoCreateTable = false,
+            Action<Exception> failureCallback = null)
             : base(batchSizeLimit, period, queueLimit)
         {
             this.connectionString = connectionString;
@@ -158,6 +171,8 @@ namespace Serilog.Sinks.PostgreSQL
 
             this.isTableCreated = !needAutoCreateTable;
             this.isSchemaCreated = false;
+
+            this.failureCallback = failureCallback;
         }
 
         /// <inheritdoc cref="PeriodicBatchingSink" />
@@ -177,8 +192,9 @@ namespace Serilog.Sinks.PostgreSQL
         /// </remarks>
         protected override void EmitBatch(IEnumerable<LogEvent> events)
         {
-            using (var connection = new NpgsqlConnection(this.connectionString))
+            try
             {
+                using var connection = new NpgsqlConnection(this.connectionString);
                 connection.Open();
 
                 if (!this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.schemaName))
@@ -201,6 +217,11 @@ namespace Serilog.Sinks.PostgreSQL
                 {
                     this.ProcessEventsByInsertStatements(events, connection);
                 }
+            }
+            catch (Exception ex)
+            {
+                SelfLog.WriteLine($"{ex.Message} {ex.StackTrace}");
+                this.failureCallback?.Invoke(ex);
             }
         }
 
@@ -299,11 +320,9 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="connection">The connection.</param>
         private void ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
         {
-            using (var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand()))
-            {
-                this.WriteToStream(binaryCopyWriter, events);
-                binaryCopyWriter.Complete();
-            }
+            using var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand());
+            this.WriteToStream(binaryCopyWriter, events);
+            binaryCopyWriter.Complete();
         }
 
         /// <summary>
@@ -313,23 +332,21 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="connection">The connection.</param>
         private void ProcessEventsByInsertStatements(IEnumerable<LogEvent> events, NpgsqlConnection connection)
         {
-            using (var command = connection.CreateCommand())
+            using var command = connection.CreateCommand();
+            command.CommandText = this.GetInsertQuery();
+
+            foreach (var logEvent in events)
             {
-                command.CommandText = this.GetInsertQuery();
-
-                foreach (var logEvent in events)
+                command.Parameters.Clear();
+                foreach (var columnKey in this.ColumnNamesWithoutSkipped())
                 {
-                    command.Parameters.Clear();
-                    foreach (var columnKey in this.ColumnNamesWithoutSkipped())
-                    {
-                        command.Parameters.AddWithValue(
-                            ClearColumnNameForParameterName(columnKey),
-                            this.columnOptions[columnKey].DbType,
-                            this.columnOptions[columnKey].GetValue(logEvent, this.formatProvider));
-                    }
-
-                    command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue(
+                        ClearColumnNameForParameterName(columnKey),
+                        this.columnOptions[columnKey].DbType,
+                        this.columnOptions[columnKey].GetValue(logEvent, this.formatProvider));
                 }
+
+                command.ExecuteNonQuery();
             }
         }
 

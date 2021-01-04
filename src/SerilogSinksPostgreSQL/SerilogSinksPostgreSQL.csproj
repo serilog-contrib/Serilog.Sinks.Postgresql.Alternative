@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 3.2.1.0 (2021-01-03): Formatted json example, added override for the old sink naming `PostgreSQL` instead of the new one `PostgreSql` to avoid confusions with the original sink.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 3.2.2.0 (2021-01-04): Added failure callback option, made `PostgreSql` call obsolete, use `PostgreSQL` now.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

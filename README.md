@@ -37,8 +37,6 @@ Check out the how to use file [here](https://github.com/SeppPenner/SerilogSinkFo
 This project is a fork of https://github.com/b00ted/serilog-sinks-postgresql but is maintained.
 Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues) or [pull requests](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/pulls).
 
-The sink offers options to be called with `.WriteTo.PostgreSql` and `.WriteTo.PostgreSQL` from version 3.2.1 on as this might have caused some trouble for users who came from the old sink. In a later revision, I might go back to the original version (`.WriteTo.PostgreSQL`) as this is the correct way to write the name of the database. Thanks for the hint go to [@p30](https://github.com/ps30).
-
 Change history
 --------------
 

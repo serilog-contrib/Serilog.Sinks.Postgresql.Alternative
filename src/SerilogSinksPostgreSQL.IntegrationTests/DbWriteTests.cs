@@ -73,7 +73,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                   };
 
             var logger = new LoggerConfiguration().WriteTo
-                .PostgreSql(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
+                .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
                 .WithMachineName().CreateLogger();
 
             const int RowsCount = 1;
@@ -126,7 +126,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                   };
 
             var logger = new LoggerConfiguration().WriteTo
-                .PostgreSql(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
+                .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
                 .WithMachineName().CreateLogger();
 
             const int RowsCount = 1;
@@ -170,7 +170,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                   };
 
             var logger = new LoggerConfiguration().WriteTo
-                .PostgreSql(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
+                .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
@@ -203,7 +203,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                   };
 
             var logger = new LoggerConfiguration().WriteTo
-                .PostgreSql(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
+                .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
@@ -238,7 +238,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                       { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
                                   };
 
-            var logger = new LoggerConfiguration().WriteTo.PostgreSql(ConnectionString, TableName, columnProps).Enrich
+            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps).Enrich
                 .WithMachineName().CreateLogger();
 
             const int RowsCount = 50;
@@ -281,7 +281,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                                       { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
                                   };
 
-            var logger = new LoggerConfiguration().WriteTo.PostgreSql(ConnectionString, TableName, columnProps)
+            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps)
                 .CreateLogger();
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");

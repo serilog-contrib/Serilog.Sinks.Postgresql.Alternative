@@ -25,11 +25,9 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="schemaName">The name of the schema.</param>
         public static void CreateSchema(NpgsqlConnection connection, string schemaName)
         {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = GetCreateTableQuery(schemaName);
-                command.ExecuteNonQuery();
-            }
+            using var command = connection.CreateCommand();
+            command.CommandText = GetCreateTableQuery(schemaName);
+            command.ExecuteNonQuery();
         }
 
         /// <summary>

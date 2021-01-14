@@ -33,10 +33,11 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |formatProvider|The `IFormatProvider` to use. Supplies culture-specific formatting information. Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8.|`new CultureInfo("de-DE")`|`null`|
 |columnOptions|The column options to use.|See the examples under the [Full example](https://github.com/SeppPenner/SerilogSinkForPostgreSQL#full-example) section below.|`null`|
 |batchSizeLimit|The maximum number of events to include in a single batch.|`batchSizeLimit: 40`|`30`|
+|queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
 |useCopy|Enables the copy command to allow batch inserting instead of multiple `INSERT` commands.|`useCopy: true`|`true`|
 |schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
-|queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
+|needAutoCreateSchema|Specifies whether the schema should be auto-created if it does not already exist or not.|`needAutoCreateSchema: true`|`false`|
 |failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
 
 ## Configuration via JSON file:

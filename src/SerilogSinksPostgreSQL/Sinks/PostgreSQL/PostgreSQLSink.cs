@@ -97,6 +97,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
+        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
         public PostgreSqlSink(
             string connectionString,
@@ -108,6 +109,7 @@ namespace Serilog.Sinks.PostgreSQL
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
+            bool needAutoCreateSchema = false,
             Action<Exception> failureCallback = null)
             : base(batchSizeLimit, period)
         {
@@ -124,7 +126,7 @@ namespace Serilog.Sinks.PostgreSQL
             this.ClearQuotationMarksFromColumnOptions();
 
             this.isTableCreated = !needAutoCreateTable;
-            this.isSchemaCreated = false;
+            this.isSchemaCreated = !needAutoCreateSchema;
 
             this.failureCallback = failureCallback;
         }
@@ -143,6 +145,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
+        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
         // ReSharper disable once UnusedMember.Global
         public PostgreSqlSink(
@@ -156,6 +159,7 @@ namespace Serilog.Sinks.PostgreSQL
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
+            bool needAutoCreateSchema = false,
             Action<Exception> failureCallback = null)
             : base(batchSizeLimit, period, queueLimit)
         {
@@ -170,7 +174,7 @@ namespace Serilog.Sinks.PostgreSQL
             this.columnOptions = columnOptions ?? ColumnOptions.Default;
 
             this.isTableCreated = !needAutoCreateTable;
-            this.isSchemaCreated = false;
+            this.isSchemaCreated = !needAutoCreateSchema;
 
             this.failureCallback = failureCallback;
         }

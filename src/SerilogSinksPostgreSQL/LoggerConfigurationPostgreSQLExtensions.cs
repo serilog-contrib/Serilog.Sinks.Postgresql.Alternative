@@ -54,6 +54,7 @@ namespace Serilog
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         [SuppressMessage(
@@ -75,6 +76,7 @@ namespace Serilog
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
+            bool needAutoCreateSchema = false,
             Action<Exception> failureCallback = null)
         {
             return PostgreSQL(
@@ -90,6 +92,7 @@ namespace Serilog
                 useCopy,
                 schemaName,
                 needAutoCreateTable,
+                needAutoCreateSchema,
                 failureCallback);
         }
 
@@ -109,6 +112,7 @@ namespace Serilog
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         [Obsolete("This method will be removed in the future, use PostgreSQL instead.", true)]
@@ -126,6 +130,7 @@ namespace Serilog
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
+            bool needAutoCreateSchema = false,
             Action<Exception> failureCallback = null)
         {
             return PostgreSQL(
@@ -142,6 +147,7 @@ namespace Serilog
                 useCopy,
                 schemaName,
                 needAutoCreateTable,
+                needAutoCreateSchema,
                 failureCallback);
         }
 
@@ -160,6 +166,7 @@ namespace Serilog
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         [SuppressMessage(
@@ -181,6 +188,7 @@ namespace Serilog
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
+            bool needAutoCreateSchema = false,
             Action<Exception> failureCallback = null)
         {
             if (sinkConfiguration == null)
@@ -201,6 +209,7 @@ namespace Serilog
                     useCopy,
                     schemaName,
                     needAutoCreateTable,
+                    needAutoCreateSchema,
                     failureCallback),
                 restrictedToMinimumLevel,
                 levelSwitch);
@@ -222,6 +231,7 @@ namespace Serilog
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         // ReSharper disable once InconsistentNaming
@@ -239,6 +249,7 @@ namespace Serilog
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
+            bool needAutoCreateSchema = false,
             Action<Exception> failureCallback = null)
         {
             if (sinkConfiguration == null)
@@ -301,6 +312,7 @@ namespace Serilog
                     useCopy,
                     schemaName,
                     needAutoCreateTable,
+                    needAutoCreateSchema,
                     failureCallback);
             }
 
@@ -323,6 +335,7 @@ namespace Serilog
                 useCopy,
                 schemaName,
                 needAutoCreateTable,
+                needAutoCreateSchema,
                 failureCallback);
         }
     }

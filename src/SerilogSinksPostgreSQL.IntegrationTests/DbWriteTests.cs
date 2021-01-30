@@ -17,6 +17,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
     using Serilog;
     using Serilog.Sinks.PostgreSQL;
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     using SerilogSinksPostgreSQL.IntegrationTests.Objects;
 

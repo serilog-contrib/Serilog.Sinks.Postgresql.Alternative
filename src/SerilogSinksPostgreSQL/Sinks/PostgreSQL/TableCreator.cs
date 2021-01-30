@@ -15,6 +15,8 @@ namespace Serilog.Sinks.PostgreSQL
 
     using Npgsql;
 
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
+
     /// <summary>
     ///     This class is used to create the tables.
     /// </summary>

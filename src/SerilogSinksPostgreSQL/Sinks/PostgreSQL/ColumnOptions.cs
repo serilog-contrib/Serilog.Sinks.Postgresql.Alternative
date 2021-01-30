@@ -11,6 +11,8 @@ namespace Serilog.Sinks.PostgreSQL
 {
     using System.Collections.Generic;
 
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
+
     /// <summary>
     ///     This class contains the column options.
     /// </summary>

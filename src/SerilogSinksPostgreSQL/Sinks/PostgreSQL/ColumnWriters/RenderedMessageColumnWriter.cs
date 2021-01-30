@@ -1,31 +1,31 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageTemplateColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="RenderedMessageColumnWriter.cs" company="Hämmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   This class is used to write the not rendered message template.
+//   This class is used to write the message part.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.PostgreSQL
+namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
-    using Events;
+    using Serilog.Events;
 
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>
-    ///     This class is used to write the not rendered message template.
+    ///     This class is used to write the message part.
     /// </summary>
     /// <seealso cref="ColumnWriterBase" />
-    public class MessageTemplateColumnWriter : ColumnWriterBase
+    public class RenderedMessageColumnWriter : ColumnWriterBase
     {
         /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MessageTemplateColumnWriter" /> class.
+        ///     Initializes a new instance of the <see cref="RenderedMessageColumnWriter" /> class.
         /// </summary>
         /// <param name="dbType">The column type.</param>
         /// <seealso cref="ColumnWriterBase" />
@@ -33,7 +33,7 @@ namespace Serilog.Sinks.PostgreSQL
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public MessageTemplateColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text)
+        public RenderedMessageColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text)
             : base(dbType)
         {
         }
@@ -50,7 +50,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <seealso cref="ColumnWriterBase" />
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            return logEvent.MessageTemplate.Text;
+            return logEvent.RenderMessage(formatProvider);
         }
     }
 }

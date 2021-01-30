@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.PostgreSQL
+namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -16,8 +16,8 @@ namespace Serilog.Sinks.PostgreSQL
 
     using NpgsqlTypes;
 
-    using Events;
-    using Formatting.Json;
+    using Serilog.Events;
+    using Serilog.Formatting.Json;
 
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

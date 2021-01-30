@@ -7,14 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.PostgreSQL
+namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
-    using Events;
+    using Serilog.Events;
 
     /// <summary>
     ///     This class contains the column writer base methods.

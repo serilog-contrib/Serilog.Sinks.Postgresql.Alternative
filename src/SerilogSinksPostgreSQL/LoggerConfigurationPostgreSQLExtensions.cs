@@ -21,6 +21,8 @@ namespace Serilog
 
     using NpgsqlTypes;
 
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
+
     using Sinks.PostgreSQL;
 
     /// <summary>

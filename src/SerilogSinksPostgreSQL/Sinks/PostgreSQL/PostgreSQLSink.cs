@@ -20,6 +20,7 @@ namespace Serilog.Sinks.PostgreSQL
     using PeriodicBatching;
 
     using Serilog.Debugging;
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     /// <inheritdoc cref="PeriodicBatchingSink" />
     /// <summary>

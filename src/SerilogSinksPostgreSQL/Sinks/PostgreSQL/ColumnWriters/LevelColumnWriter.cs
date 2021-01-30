@@ -1,41 +1,48 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExceptionColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="LevelColumnWriter.cs" company="Hämmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   This class is used to write the exception.
+//   This class is used to write the level.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.PostgreSQL
+namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
-    using Events;
+    using Serilog.Events;
 
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>
-    ///     This class is used to write the exception.
+    ///     This class is used to write the level.
     /// </summary>
     /// <seealso cref="ColumnWriterBase" />
-    public class ExceptionColumnWriter : ColumnWriterBase
+    public class LevelColumnWriter : ColumnWriterBase
     {
+        /// <summary>
+        ///     A boolean value indicating whether the level is rendered as text.
+        /// </summary>
+        private readonly bool renderAsText;
+
         /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ExceptionColumnWriter" /> class.
+        ///     Initializes a new instance of the <see cref="LevelColumnWriter" /> class.
         /// </summary>
-        /// <param name="dbType">The column type.</param>
+        /// <param name="renderAsText">if set to <c>true</c> [render as text].</param>
+        /// <param name="dbType">The row type.</param>
         /// <seealso cref="ColumnWriterBase"/>
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public ExceptionColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text)
+        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer)
             : base(dbType)
         {
+            this.renderAsText = renderAsText;
         }
 
         /// <inheritdoc cref="ColumnWriterBase" />
@@ -50,7 +57,12 @@ namespace Serilog.Sinks.PostgreSQL
         /// <seealso cref="ColumnWriterBase"/>
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            return logEvent.Exception?.ToString() ?? (object)DBNull.Value;
+            if (this.renderAsText)
+            {
+                return logEvent.Level.ToString();
+            }
+
+            return (int)logEvent.Level;
         }
     }
 }

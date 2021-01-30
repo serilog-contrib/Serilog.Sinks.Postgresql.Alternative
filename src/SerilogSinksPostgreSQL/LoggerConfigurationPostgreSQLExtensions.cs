@@ -19,9 +19,12 @@ namespace Serilog
 
     using Events;
 
+    using Microsoft.Extensions.Configuration;
+
     using NpgsqlTypes;
 
     using Serilog.Sinks.PostgreSQL.ColumnWriters;
+    using Serilog.Sinks.PostgreSQL.Configuration;
 
     using Sinks.PostgreSQL;
 
@@ -42,6 +45,11 @@ namespace Serilog
         public static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(5);
 
         /// <summary>
+        /// The Microsoft extensions connection string provider.
+        /// </summary>
+        private static readonly IMicrosoftExtensionsConnectionStringProvider MicrosoftExtensionsConnectionStringProvider = new MicrosoftExtensionsConnectionStringProvider();
+
+        /// <summary>
         ///     Adds a sink which writes to the PostgreSQL table.
         /// </summary>
         /// <param name="sinkConfiguration">The logger configuration.</param>
@@ -58,6 +66,7 @@ namespace Serilog
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
         /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
+        /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         [SuppressMessage(
             "StyleCop.CSharp.DocumentationRules",
@@ -79,11 +88,18 @@ namespace Serilog
             string schemaName = "",
             bool needAutoCreateTable = false,
             bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null)
+            Action<Exception> failureCallback = null,
+            IConfiguration appConfiguration = null)
         {
             if (sinkConfiguration == null)
             {
                 throw new ArgumentNullException(nameof(sinkConfiguration));
+            }
+
+            if (appConfiguration != null)
+            {
+                connectionString =
+                    MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
             }
 
             period ??= DefaultPeriod;
@@ -123,6 +139,7 @@ namespace Serilog
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
         /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
         /// <param name="failureCallback">The failure callback.</param>
+        /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         // ReSharper disable once InconsistentNaming
         public static LoggerConfiguration PostgreSQL(
@@ -140,11 +157,18 @@ namespace Serilog
             string schemaName = "",
             bool needAutoCreateTable = false,
             bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null)
+            Action<Exception> failureCallback = null,
+            IConfiguration appConfiguration = null)
         {
             if (sinkConfiguration == null)
             {
                 throw new ArgumentNullException(nameof(sinkConfiguration));
+            }
+
+            if (appConfiguration != null)
+            {
+                connectionString =
+                    MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
             }
 
             IDictionary<string, ColumnWriterBase> columns = null;

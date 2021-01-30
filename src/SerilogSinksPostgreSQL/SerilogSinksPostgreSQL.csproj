@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 3.2.3.0 (2021-01-14): Added option to disable schema creation: `needAutoCreateSchema`.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 3.3.0.0 (2021-01-30)*: Updated nuget packages, cleaned up code, removed `PostgreSql` extension methods (Use `PostgreSQL` instead), added support for named connection strings.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -26,6 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Npgsql" Version="5.0.3" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="2.3.0" />

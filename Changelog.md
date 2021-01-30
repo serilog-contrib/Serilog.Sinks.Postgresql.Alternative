@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.3.0.0 (2021-01-30)** : Updated nuget packages, cleaned up code, removed `PostgreSql` extension methods (Use `PostgreSQL` instead), added support for named connection strings.
 * **Version 3.2.3.0 (2021-01-14)** : Added option to disable schema creation: `needAutoCreateSchema`.
 * **Version 3.2.2.0 (2021-01-04)** : Added failure callback option, made `PostgreSql` call obsolete, use `PostgreSQL` now.
 * **Version 3.2.1.0 (2021-01-03)** : Formatted json example, added override for the old sink naming `PostgreSQL` instead of the new one `PostgreSql` to avoid confusions with the original sink.

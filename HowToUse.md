@@ -39,6 +39,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
 |needAutoCreateSchema|Specifies whether the schema should be auto-created if it does not already exist or not.|`needAutoCreateSchema: true`|`false`|
 |failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
+|appConfiguration|The app configuration section. Required if the connection string is a name.|-|`null`|
 
 ## Configuration via JSON file:
 

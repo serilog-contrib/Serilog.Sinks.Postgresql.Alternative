@@ -3,7 +3,7 @@
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   Tests for creating PostgreSql logger from JSON config.
+//   Tests for creating PostgreSql logger from a JSON configuration.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     using Xunit;
 
     /// <summary>
-    /// Tests for creating PostgreSql logger from JSON config.
+    /// Tests for creating PostgreSql logger from a JSON configuration.
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public class JsonConfigTest : BaseTests

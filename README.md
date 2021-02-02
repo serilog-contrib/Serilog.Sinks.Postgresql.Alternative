@@ -30,6 +30,12 @@ The assembly was written and tested in .Net 5.0.
 * https://dotnet.microsoft.com/download/dotnet-core
 * https://dotnet.microsoft.com/download/dotnet/5.0
 
+## Install
+
+```bash
+dotnet add package HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL
+```
+
 ## Basic usage:
 Check out the how to use file [here](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/HowToUse.md).
 

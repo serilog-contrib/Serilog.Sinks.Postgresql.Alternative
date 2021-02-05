@@ -1,4 +1,4 @@
-## Basic usage:
+## Basic usage
 ```csharp
 string connectionString = "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Serilog;";
 
@@ -23,7 +23,7 @@ var logger = new LoggerConfiguration()
 
 The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL/).
 
-## Configuration options:
+## Configuration options
 
 |Parameter|Meaning|Example|Default value|
 |-|-|-|-|
@@ -41,7 +41,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/HaemmerElectr
 |failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
 |appConfiguration|The app configuration section. Required if the connection string is a name.|-|`null`|
 
-## Configuration via JSON file:
+## Configuration via JSON file
 
 The configuration via a JSON file allows the following `loggerColumnOptions`:
 
@@ -95,7 +95,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 }
 ```
 
-## Example for usage via JSON file:
+## Example for usage via JSON file
 
 ```csharp
 var configuration = new ConfigurationBuilder()
@@ -112,7 +112,7 @@ logger.Information(
     "TestValue");
 ```
 
-## Full example:
+## Full example
 
 ```csharp
 string connectionString = "User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Serilog;";
@@ -136,7 +136,7 @@ var logger = new LoggerConfiguration()
 	.CreateLogger();
 ```
 
-## Using the sink with NodaTime in .Net Core 2.2+:
+## Using the sink with NodaTime in .Net Core 2.2+
 For the use with [NodaTime](https://nodatime.org/) in .Net Core 2.2, you need to add a new column writer class for the `DateTimeOffset` values.
 Check the issue https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues/10, too.
 
@@ -155,7 +155,7 @@ public class OffsetDateTimeColumnWriterBase : ColumnWriterBase
 }
 ```
 
-## Adjusting column sizes:
+## Adjusting column sizes
 
 You can change column sizes by setting the values in the `SqlTypeHelper` class:
 ```csharp
@@ -169,5 +169,5 @@ TableCreator.DefaultCharColumnsLength = 30;
 TableCreator.DefaultVarcharColumnsLength = 50;
 ```
 
-## Upper or lower case table or column names:
+## Upper or lower case table or column names
 Table or column names are always case-sensitive!

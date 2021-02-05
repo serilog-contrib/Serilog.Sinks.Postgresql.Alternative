@@ -30,16 +30,16 @@ The assembly was written and tested in .Net 5.0.
 * https://dotnet.microsoft.com/download/dotnet-core
 * https://dotnet.microsoft.com/download/dotnet/5.0
 
+## Basic usage
+Check out the how to use file [here](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/HowToUse.md).
+
 ## Install
 
 ```bash
 dotnet add package HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL
 ```
 
-## Basic usage:
-Check out the how to use file [here](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/blob/master/HowToUse.md).
-
-## Further information:
+## Further information
 This project is a fork of https://github.com/b00ted/serilog-sinks-postgresql but is maintained.
 Do not hesitate to create [issues](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/issues) or [pull requests](https://github.com/SeppPenner/SerilogSinkForPostgreSQL/pulls).
 

@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ColumnOptions.cs" company="Hämmer Electronics">
+// <copyright file="DefaultColumnOptions.cs" company="Hämmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   This class contains the column options.
+//   This class contains the default column options.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,9 +14,9 @@ namespace Serilog.Sinks.PostgreSQL
     using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     /// <summary>
-    ///     This class contains the column options.
+    ///     This class contains the default column options.
     /// </summary>
-    public static class ColumnOptions
+    public static class DefaultColumnOptions
     {
         /// <summary>
         ///     Gets the default column options.

@@ -122,7 +122,7 @@ namespace Serilog.Sinks.PostgreSQL
             this.formatProvider = formatProvider;
             this.useCopy = useCopy;
 
-            this.columnOptions = columnOptions ?? ColumnOptions.Default;
+            this.columnOptions = columnOptions ?? DefaultColumnOptions.Default;
 
             this.ClearQuotationMarksFromColumnOptions();
 
@@ -172,7 +172,7 @@ namespace Serilog.Sinks.PostgreSQL
             this.formatProvider = formatProvider;
             this.useCopy = useCopy;
 
-            this.columnOptions = columnOptions ?? ColumnOptions.Default;
+            this.columnOptions = columnOptions ?? DefaultColumnOptions.Default;
 
             this.isTableCreated = !needAutoCreateTable;
             this.isSchemaCreated = !needAutoCreateSchema;

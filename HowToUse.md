@@ -66,7 +66,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
     },
     "WriteTo": [
       {
-        "Name": "PostgreSql",
+        "Name": "PostgreSQL",
         "Args": {
           "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
           "tableName": "TestLogs",

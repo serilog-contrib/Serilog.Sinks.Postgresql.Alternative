@@ -94,6 +94,72 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 }
 ```
 
+## Configuration via JSON file to use named connection strings
+
+```json
+{
+  "ConnectionStrings": {
+    "DevTest": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;"
+  },
+  "Serilog": {
+    "LevelSwitches": { "$controlSwitch": "Verbose" },
+    "MinimumLevel": { "ControlledBy": "$controlSwitch" },
+    "WriteTo": [
+      {
+        "Name": "PostgreSql",
+        "Args": {
+          "connectionString": "DevTest",
+          "tableName": "TestLogs",
+          "schemaName": null,
+          "needAutoCreateTable": true,
+          "loggerColumnOptions": {
+            "Id": "IdAutoIncrement",
+            "TimeStamp": "Timestamp",
+            "LogEvent": "Properties"
+          },
+          "loggerPropertyColumnOptions": {
+            "TestColumnName": {
+              "Format": "{0}",
+              "Name": "TestProperty",
+              "WriteMethod": "Raw",
+              "DbType": "Text"
+            }
+          },
+          "period": "0.00:00:30",
+          "batchSizeLimit": 50
+        }
+      }
+    ]
+  }
+}
+```
+
+The option to use named connection strings can be used like this:
+
+```csharp
+ var configuration = new ConfigurationBuilder()
+    .AddJsonFile(".\\MyConfiguration.json", false, true)
+    .Build();
+
+var logger = new LoggerConfiguration()
+    .WriteTo.PostgreSQL(
+        ConnectionString,
+        TableName,
+        null,
+        LogEventLevel.Verbose,
+        null,
+        null,
+        30,
+        null,
+        false,
+        string.Empty,
+        true,
+        false,
+        null,
+        configuration)
+    .CreateLogger();
+```
+
 ## Example for usage via JSON file
 
 ```csharp

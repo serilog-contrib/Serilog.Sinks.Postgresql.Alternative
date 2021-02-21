@@ -14,7 +14,7 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
     using Serilog.Events;
     using Serilog.Parsing;
-    using Serilog.Sinks.PostgreSQL;
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     using Xunit;
 

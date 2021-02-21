@@ -85,7 +85,6 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
               "DbType": "Text"
             }
           },
-          "simpleColumnOptions": {},
           "period": "0.00:00:30",
           "batchSizeLimit": 50
         }

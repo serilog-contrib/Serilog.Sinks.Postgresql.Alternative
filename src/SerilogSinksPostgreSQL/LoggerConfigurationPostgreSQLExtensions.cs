@@ -310,7 +310,7 @@ namespace Serilog
             Action<Exception> failureCallback)
         {
             var columnOptionsLocal =
-                ClearQuotationMarksFromColumnOptions(columnOptions ?? DefaultColumnOptions.Default);
+                ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
             return new PostgreSqlOptions
             {

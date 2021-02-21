@@ -20,7 +20,6 @@ namespace Serilog.Sinks.PostgreSQL
     using PeriodicBatching;
 
     using Serilog.Debugging;
-    using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     /// <inheritdoc cref="PeriodicBatchingSink" />
     /// <summary>
@@ -30,50 +29,9 @@ namespace Serilog.Sinks.PostgreSQL
     public class PostgreSqlSink : PeriodicBatchingSink
     {
         /// <summary>
-        ///     The default batch size limit.
+        /// The PostgreSQL options.
         /// </summary>
-        public const int DefaultBatchSizeLimit = 30;
-
-        /// <summary>
-        ///     The default queue limit.
-        /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
-        public const int DefaultQueueLimit = int.MaxValue;
-
-        /// <summary>
-        ///     The connection string.
-        /// </summary>
-        private readonly string connectionString;
-
-        /// <summary>
-        ///     The format provider.
-        /// </summary>
-        private readonly IFormatProvider formatProvider;
-
-        /// <summary>
-        ///     The table name.
-        /// </summary>
-        private readonly string tableName;
-
-        /// <summary>
-        ///     The schema name.
-        /// </summary>
-        private readonly string schemaName;
-
-        /// <summary>
-        ///     A boolean value indicating if the copy is used.
-        /// </summary>
-        private readonly bool useCopy;
-
-        /// <summary>
-        ///  The failure callback.
-        /// </summary>
-        private readonly Action<Exception> failureCallback;
-
-        /// <summary>
-        ///     The column options.
-        /// </summary>
-        private IDictionary<string, ColumnWriterBase> columnOptions;
+        private readonly PostgreSqlOptions sinkOptions;
 
         /// <summary>
         ///     A boolean value indicating whether the table is created or not.
@@ -89,95 +47,10 @@ namespace Serilog.Sinks.PostgreSQL
         /// <summary>
         ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
         /// </summary>
-        /// <param name="connectionString">The connection string.</param>
-        /// <param name="tableName">Name of the table.</param>
-        /// <param name="period">The time to wait between checking for event batches.</param>
-        /// <param name="formatProvider">The format provider.</param>
-        /// <param name="columnOptions">The column options.</param>
-        /// <param name="batchSizeLimit">The maximum number of events to include in a single batch.</param>
-        /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
-        /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
-        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-        /// <param name="failureCallback">The failure callback.</param>
-        public PostgreSqlSink(
-            string connectionString,
-            string tableName,
-            TimeSpan period,
-            IFormatProvider formatProvider = null,
-            IDictionary<string, ColumnWriterBase> columnOptions = null,
-            int batchSizeLimit = DefaultBatchSizeLimit,
-            bool useCopy = true,
-            string schemaName = "",
-            bool needAutoCreateTable = false,
-            bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null)
-            : base(batchSizeLimit, period)
+        /// <param name="options">The sink options.</param>
+        public PostgreSqlSink(PostgreSqlOptions options) : base(options.BatchSizeLimit, options.Period)
         {
-            this.connectionString = connectionString;
-
-            this.schemaName = schemaName.Replace("\"", string.Empty);
-            this.tableName = tableName.Replace("\"", string.Empty);
-
-            this.formatProvider = formatProvider;
-            this.useCopy = useCopy;
-
-            this.columnOptions = columnOptions ?? DefaultColumnOptions.Default;
-
-            this.ClearQuotationMarksFromColumnOptions();
-
-            this.isTableCreated = !needAutoCreateTable;
-            this.isSchemaCreated = !needAutoCreateSchema;
-
-            this.failureCallback = failureCallback;
-        }
-
-        /// <inheritdoc cref="PeriodicBatchingSink" />
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
-        /// </summary>
-        /// <param name="connectionString">The connection string.</param>
-        /// <param name="tableName">Name of the table.</param>
-        /// <param name="period">The time to wait between checking for event batches.</param>
-        /// <param name="formatProvider">The format provider.</param>
-        /// <param name="columnOptions">The column options.</param>
-        /// <param name="batchSizeLimit">The maximum number of events to include in a single batch.</param>
-        /// <param name="queueLimit">Maximum number of events in the queue.</param>
-        /// <param name="useCopy">Enables the copy command to allow batch inserting instead of multiple INSERT commands.</param>
-        /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="needAutoCreateTable">Specifies whether the table should be auto-created if it does not already exist or not.</param>
-        /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-        /// <param name="failureCallback">The failure callback.</param>
-        // ReSharper disable once UnusedMember.Global
-        public PostgreSqlSink(
-            string connectionString,
-            string tableName,
-            TimeSpan period,
-            IFormatProvider formatProvider = null,
-            IDictionary<string, ColumnWriterBase> columnOptions = null,
-            int batchSizeLimit = DefaultBatchSizeLimit,
-            int queueLimit = DefaultQueueLimit,
-            bool useCopy = true,
-            string schemaName = "",
-            bool needAutoCreateTable = false,
-            bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null)
-            : base(batchSizeLimit, period, queueLimit)
-        {
-            this.connectionString = connectionString;
-
-            this.schemaName = schemaName.Replace("\"", string.Empty);
-            this.tableName = tableName.Replace("\"", string.Empty);
-
-            this.formatProvider = formatProvider;
-            this.useCopy = useCopy;
-
-            this.columnOptions = columnOptions ?? DefaultColumnOptions.Default;
-
-            this.isTableCreated = !needAutoCreateTable;
-            this.isSchemaCreated = !needAutoCreateSchema;
-
-            this.failureCallback = failureCallback;
+            this.sinkOptions = options;
         }
 
         /// <inheritdoc cref="PeriodicBatchingSink" />
@@ -199,22 +72,22 @@ namespace Serilog.Sinks.PostgreSQL
         {
             try
             {
-                using var connection = new NpgsqlConnection(this.connectionString);
+                using var connection = new NpgsqlConnection(this.sinkOptions.ConnectionString);
                 connection.Open();
 
-                if (!this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.schemaName))
+                if (!this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.sinkOptions.SchemaName))
                 {
-                    SchemaCreator.CreateSchema(connection, this.schemaName);
+                    SchemaCreator.CreateSchema(connection, this.sinkOptions.SchemaName);
                     this.isSchemaCreated = true;
                 }
 
                 if (!this.isTableCreated)
                 {
-                    TableCreator.CreateTable(connection, this.schemaName, this.tableName, this.columnOptions);
+                    TableCreator.CreateTable(connection, this.sinkOptions.SchemaName, this.sinkOptions.TableName, this.sinkOptions.ColumnOptions);
                     this.isTableCreated = true;
                 }
 
-                if (this.useCopy)
+                if (this.sinkOptions.UseCopy)
                 {
                     this.ProcessEventsByCopyCommand(events, connection);
                 }
@@ -226,7 +99,7 @@ namespace Serilog.Sinks.PostgreSQL
             catch (Exception ex)
             {
                 SelfLog.WriteLine($"{ex.Message} {ex.StackTrace}");
-                this.failureCallback?.Invoke(ex);
+                this.sinkOptions.FailureCallback?.Invoke(ex);
             }
         }
 
@@ -241,27 +114,6 @@ namespace Serilog.Sinks.PostgreSQL
         }
 
         /// <summary>
-        ///     Clears the quotation marks from the column options.
-        /// </summary>
-        private void ClearQuotationMarksFromColumnOptions()
-        {
-            var result = new Dictionary<string, ColumnWriterBase>(this.columnOptions);
-
-            foreach (var keyValuePair in this.columnOptions)
-            {
-                if (!keyValuePair.Key.Contains("\""))
-                {
-                    continue;
-                }
-
-                result.Remove(keyValuePair.Key);
-                result[keyValuePair.Key.Replace("\"", string.Empty)] = keyValuePair.Value;
-            }
-
-            this.columnOptions = result;
-        }
-
-        /// <summary>
         ///     Gets the copy command.
         /// </summary>
         /// <returns>A SQL string with the copy command.</returns>
@@ -271,15 +123,15 @@ namespace Serilog.Sinks.PostgreSQL
             var builder = new StringBuilder();
             builder.Append("COPY ");
 
-            if (!string.IsNullOrWhiteSpace(this.schemaName))
+            if (!string.IsNullOrWhiteSpace(this.sinkOptions.SchemaName))
             {
                 builder.Append("\"");
-                builder.Append(this.schemaName);
+                builder.Append(this.sinkOptions.SchemaName);
                 builder.Append("\".");
             }
 
             builder.Append("\"");
-            builder.Append(this.tableName);
+            builder.Append(this.sinkOptions.SchemaName);
             builder.Append("\"(");
             builder.Append(columns);
             builder.Append(") FROM STDIN BINARY;");
@@ -301,15 +153,15 @@ namespace Serilog.Sinks.PostgreSQL
             var builder = new StringBuilder();
             builder.Append("INSERT INTO ");
 
-            if (!string.IsNullOrWhiteSpace(this.schemaName))
+            if (!string.IsNullOrWhiteSpace(this.sinkOptions.SchemaName))
             {
                 builder.Append("\"");
-                builder.Append(this.schemaName);
+                builder.Append(this.sinkOptions.SchemaName);
                 builder.Append("\".");
             }
 
             builder.Append("\"");
-            builder.Append(this.tableName);
+            builder.Append(this.sinkOptions.SchemaName);
             builder.Append("\"(");
             builder.Append(columns);
             builder.Append(") VALUES (");
@@ -347,8 +199,8 @@ namespace Serilog.Sinks.PostgreSQL
                 {
                     command.Parameters.AddWithValue(
                         ClearColumnNameForParameterName(columnKey),
-                        this.columnOptions[columnKey].DbType,
-                        this.columnOptions[columnKey].GetValue(logEvent, this.formatProvider));
+                        this.sinkOptions.ColumnOptions[columnKey].DbType,
+                        this.sinkOptions.ColumnOptions[columnKey].GetValue(logEvent, this.sinkOptions.FormatProvider));
                 }
 
                 command.ExecuteNonQuery();
@@ -369,8 +221,8 @@ namespace Serilog.Sinks.PostgreSQL
                 foreach (var columnKey in this.ColumnNamesWithoutSkipped())
                 {
                     writer.Write(
-                        this.columnOptions[columnKey].GetValue(entity, this.formatProvider),
-                        this.columnOptions[columnKey].DbType);
+                        this.sinkOptions.ColumnOptions[columnKey].GetValue(entity, this.sinkOptions.FormatProvider),
+                        this.sinkOptions.ColumnOptions[columnKey].DbType);
                 }
             }
         }
@@ -380,7 +232,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// </summary>
         /// <returns>The list of column names for the INSERT query.</returns>
         private IEnumerable<string> ColumnNamesWithoutSkipped() =>
-            this.columnOptions
+            this.sinkOptions.ColumnOptions
                 .Where(c => !c.Value.SkipOnInsert)
                 .Select(c => c.Key);
     }

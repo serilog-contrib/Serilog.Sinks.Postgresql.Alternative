@@ -131,8 +131,10 @@ namespace Serilog.Sinks.PostgreSQL
             }
 
             builder.Append("\"");
-            builder.Append(this.sinkOptions.SchemaName);
-            builder.Append("\"(");
+            builder.Append(this.sinkOptions.TableName);
+            builder.Append("\"");
+
+            builder.Append(" (");
             builder.Append(columns);
             builder.Append(") FROM STDIN BINARY;");
             return builder.ToString();
@@ -161,8 +163,10 @@ namespace Serilog.Sinks.PostgreSQL
             }
 
             builder.Append("\"");
-            builder.Append(this.sinkOptions.SchemaName);
-            builder.Append("\"(");
+            builder.Append(this.sinkOptions.TableName);
+            builder.Append("\"");
+
+            builder.Append(" (");
             builder.Append(columns);
             builder.Append(") VALUES (");
             builder.Append(parameters);

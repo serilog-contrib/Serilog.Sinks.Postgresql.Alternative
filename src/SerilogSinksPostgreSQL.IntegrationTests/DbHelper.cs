@@ -56,9 +56,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             builder.Append(tableName);
             builder.Append("\";");
 
-            using var conn = new NpgsqlConnection(this.connectionString);
-            conn.Open();
-            using var command = conn.CreateCommand();
+            using var connection = new NpgsqlConnection(this.connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
             command.CommandText = builder.ToString();
             command.ExecuteNonQuery();
         }
@@ -88,9 +88,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             builder.Append(tableName);
             builder.Append("\";");
 
-            using var conn = new NpgsqlConnection(this.connectionString);
-            conn.Open();
-            using var command = conn.CreateCommand();
+            using var connection = new NpgsqlConnection(this.connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
             command.CommandText = builder.ToString();
             var result = command.ExecuteScalar();
             return (long?)result ?? 0;
@@ -120,9 +120,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             builder.Append(tableName);
             builder.Append("\";");
 
-            using var conn = new NpgsqlConnection(this.connectionString);
-            conn.Open();
-            using var command = conn.CreateCommand();
+            using var connection = new NpgsqlConnection(this.connectionString);
+            connection.Open();
+            using var command = connection.CreateCommand();
             command.CommandText = builder.ToString();
             command.ExecuteNonQuery();
         }

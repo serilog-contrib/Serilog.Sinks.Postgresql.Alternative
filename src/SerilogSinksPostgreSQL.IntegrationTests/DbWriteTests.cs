@@ -82,7 +82,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                     "stringValue");
             }
 
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
@@ -129,7 +129,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                     "stringValue");
             }
 
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
@@ -163,7 +163,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
@@ -196,7 +196,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
@@ -241,7 +241,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                     "stringValue");
             }
 
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 
@@ -275,7 +275,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 

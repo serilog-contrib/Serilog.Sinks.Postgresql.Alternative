@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="PostgreSinkConfigurationConnectionString.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="PostgreSinkConfiguration.Level.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

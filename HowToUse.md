@@ -75,7 +75,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
           "loggerColumnOptions": {
             "Id": "IdAutoIncrement",
             "TimeStamp": "Timestamp",
-            "LogEvent": "Properties"
+            "LogEvent": "LogEvent"
           },
           "loggerPropertyColumnOptions": {
             "TestColumnName": {

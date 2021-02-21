@@ -14,6 +14,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     using Microsoft.Extensions.Configuration;
 
     using Serilog;
+    using Serilog.Events;
 
     using SerilogSinksPostgreSQL.IntegrationTests.Objects;
 
@@ -50,9 +51,21 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .AddJsonFile(".\\PostgreSinkConfigurationConnectionString.json", false, true)
                 .Build();
 
-            var logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
+                ConnectionString,
+                TableName,
+                null,
+                LogEventLevel.Verbose,
+                null,
+                null,
+                30,
+                null,
+                false,
+                string.Empty,
+                true,
+                false,
+                null,
+                configuration).CreateLogger();
 
             const int RowsCount = 2;
 
@@ -64,42 +77,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                     "TestValue");
             }
 
-            logger.Dispose();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(RowsCount, actualRowsCount);
-        }
-
-        /// <summary>
-        ///     This method is used to test the logger creation from the configuration with the level column as text.
-        /// </summary>
-        [Fact]
-        public void ShouldCreateLoggerFromConfigWithLevelAsText()
-        {
-            this.dbHelper.RemoveTable(string.Empty, TableName);
-
-            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(".\\PostgreSinkConfiguration.Level.json", false, true)
-                .Build();
-
-            var logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
-
-            const int RowsCount = 2;
-
-            for (var i = 0; i < RowsCount; i++)
-            {
-                logger.Information(
-                    "{@LogEvent} {TestProperty}",
-                    testObject,
-                    "TestValue");
-            }
-
-            logger.Dispose();
+            Log.CloseAndFlush();
 
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
 

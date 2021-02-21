@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/SerilogSinkForPostgreSQL</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 3.3.0.0 (2021-01-30)*: Updated nuget packages, cleaned up code, removed `PostgreSql` extension methods (Use `PostgreSQL` instead), added support for named connection strings.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 3.3.0.0 (2021-01-30): Updated nuget packages, cleaned up code, removed `PostgreSql` extension methods (Use `PostgreSQL` instead), added support for named connection strings.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

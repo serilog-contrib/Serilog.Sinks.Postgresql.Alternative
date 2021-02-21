@@ -55,23 +55,17 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                                      {
-                                          "IntPropertyTest",
-                                          new SinglePropertyColumnWriter(
-                                              "testNo",
-                                              PropertyWriteMethod.Raw,
-                                              NpgsqlDbType.Integer)
-                                      },
-                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                { "IntPropertyTest", new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
 
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
@@ -108,23 +102,17 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                                      {
-                                          "IntPropertyTest",
-                                          new SinglePropertyColumnWriter(
-                                              "testNo",
-                                              PropertyWriteMethod.Raw,
-                                              NpgsqlDbType.Integer)
-                                      },
-                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                { "IntPropertyTest", new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
 
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
@@ -159,16 +147,16 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
 
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
@@ -193,15 +181,15 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "\"MessageTemplate\"", new MessageTemplateColumnWriter() },
-                                      { "\"Level\"", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "\"MessageTemplate\"", new MessageTemplateColumnWriter() },
+                { "\"Level\"", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
+            };
 
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
@@ -228,16 +216,16 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
 
             var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps).Enrich
                 .WithMachineName().CreateLogger();
@@ -272,15 +260,15 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test\\u0000" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
+            };
 
             var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps)
                 .CreateLogger();

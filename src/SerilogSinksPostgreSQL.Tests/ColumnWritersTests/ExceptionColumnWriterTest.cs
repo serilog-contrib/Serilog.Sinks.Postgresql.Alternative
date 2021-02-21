@@ -12,21 +12,22 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
     using System;
     using System.Linq;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Serilog.Events;
     using Serilog.Parsing;
     using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
-    using Xunit;
-
     /// <summary>
     ///     This class is used to test the <seealso cref="ExceptionColumnWriter" /> class.
     /// </summary>
+    [TestClass]
     public class ExceptionColumnWriterTest
     {
         /// <summary>
         ///     This method is used to test the writer with empty exceptions.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public void ExceptionIsNullShouldReturnDbNullValue()
         {
             var writer = new ExceptionColumnWriter();
@@ -40,13 +41,13 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(DBNull.Value, result);
+            Assert.AreEqual(DBNull.Value, result);
         }
 
         /// <summary>
         ///     This method is used to test the writer with valid exceptions.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public void ExceptionIsPresentShouldReturnStringRepresentation()
         {
             var writer = new ExceptionColumnWriter();
@@ -62,7 +63,7 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(exception.ToString(), result);
+            Assert.AreEqual(exception.ToString(), result);
         }
     }
 }

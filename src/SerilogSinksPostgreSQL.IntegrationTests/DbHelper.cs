@@ -9,9 +9,13 @@
 
 namespace SerilogSinksPostgreSQL.IntegrationTests
 {
+    using System.Collections.Generic;
     using System.Text;
 
     using Npgsql;
+
+    using Serilog.Sinks.PostgreSQL;
+    using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     /// <summary>
     ///     This class is used as helper class for the database connection.
@@ -39,8 +43,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <param name="tableName">The name of the table.</param>
         public void ClearTable(string schemaName, string tableName)
         {
-            tableName = tableName.Replace("\"", string.Empty);
             schemaName = schemaName.Replace("\"", string.Empty);
+            tableName = tableName.Replace("\"", string.Empty);
 
             var builder = new StringBuilder();
             builder.Append("TRUNCATE ");
@@ -71,8 +75,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <returns>The table row count.</returns>
         public long GetTableRowsCount(string schemaName, string tableName)
         {
-            tableName = tableName.Replace("\"", string.Empty);
             schemaName = schemaName.Replace("\"", string.Empty);
+            tableName = tableName.Replace("\"", string.Empty);
 
             var builder = new StringBuilder();
             builder.Append("SELECT count(*) FROM ");
@@ -103,8 +107,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <param name="tableName">The name of the table.</param>
         public void RemoveTable(string schemaName, string tableName)
         {
-            tableName = tableName.Replace("\"", string.Empty);
             schemaName = schemaName.Replace("\"", string.Empty);
+            tableName = tableName.Replace("\"", string.Empty);
 
             var builder = new StringBuilder();
             builder.Append("DROP TABLE IF EXISTS ");
@@ -125,6 +129,43 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             using var command = connection.CreateCommand();
             command.CommandText = builder.ToString();
             command.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        ///     Creates the table.
+        /// </summary>
+        /// <param name="schemaName">The name of the schema.</param>
+        /// <param name="tableName">The name of the table.</param>
+        /// <param name="columnsInfo">The columns information.</param>
+        public void CreateTable(string schemaName, string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
+        {
+            schemaName = schemaName.Replace("\"", string.Empty);
+            tableName = tableName.Replace("\"", string.Empty);
+            using var connection = new NpgsqlConnection(this.connectionString);
+            connection.Open();
+            TableCreator.CreateTable(connection, schemaName, tableName, ClearQuotationMarksFromColumnOptions(columnsInfo));
+        }
+
+        /// <summary>
+        ///     Clears the quotation marks from the column options.
+        /// </summary>
+        private static IDictionary<string, ColumnWriterBase> ClearQuotationMarksFromColumnOptions(
+            IDictionary<string, ColumnWriterBase> columnOptions)
+        {
+            var result = new Dictionary<string, ColumnWriterBase>(columnOptions);
+
+            foreach (var keyValuePair in columnOptions)
+            {
+                if (!keyValuePair.Key.Contains("\""))
+                {
+                    continue;
+                }
+
+                result.Remove(keyValuePair.Key);
+                result[keyValuePair.Key.Replace("\"", string.Empty)] = keyValuePair.Value;
+            }
+
+            return result;
         }
     }
 }

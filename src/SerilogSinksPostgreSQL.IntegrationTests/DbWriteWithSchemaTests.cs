@@ -12,6 +12,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using NpgsqlTypes;
 
@@ -21,23 +24,12 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
     using SerilogSinksPostgreSQL.IntegrationTests.Objects;
 
-    using Xunit;
-
     /// <summary>
     ///     This class is used to test the writing of data to the database with schemas.
     /// </summary>
+    [TestClass]
     public class DbWriteWithSchemaTests : BaseTests
     {
-        /// <summary>
-        ///     The schema name. This needs to be present in the database, e.g. create it manually.
-        /// </summary>
-        private const string SchemaName = "Logs";
-
-        /// <summary>
-        ///     The table name.
-        /// </summary>
-        private const string TableName = "LogsWithSchema";
-
         /// <summary>
         ///     The database helper.
         /// </summary>
@@ -45,39 +37,37 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
+        private readonly DbHelper databaseHelper = new DbHelper(ConnectionString);
 
         /// <summary>
         ///     This method is used to test the auto create table function with a schema name.
         ///     The schema name needs to be present in the database, e.g. create it manually.
         /// </summary>
-        [Fact]
-        public void AutoCreateTableIsTrueShouldCreateTable()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task AutoCreateTableIsTrueShouldCreateTable()
         {
-            this.dbHelper.RemoveTable(SchemaName, TableName);
-
+            const string SchemaName = "Logs1";
+            const string TableName = "LogsWithSchema1";
+            this.databaseHelper.RemoveTable(SchemaName, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                                      {
-                                          "IntPropertyTest",
-                                          new SinglePropertyColumnWriter(
-                                              "testNo",
-                                              PropertyWriteMethod.Raw,
-                                              NpgsqlDbType.Integer)
-                                      },
-                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-                                  };
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                {
+                    "IntPropertyTest",
+                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
+                },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
 
             var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
                 ConnectionString,
@@ -87,6 +77,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
 
             const int RowsCount = 50;
+
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
@@ -98,23 +89,23 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(SchemaName, TableName);
-
-            Assert.Equal(RowsCount, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
+            Assert.AreEqual(RowsCount, actualRowsCount);
         }
 
         /// <summary>
         ///     This method is used to write 50 log events to the database.
         ///     The schema name needs to be present in the database, e.g. create it manually.
         /// </summary>
-        [Fact]
-        public void Write50EventsShouldInsert50EventsToDb()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task Write50EventsShouldInsert50EventsToDb()
         {
-            this.dbHelper.ClearTable(SchemaName, TableName);
-
+            const string SchemaName = "Logs2";
+            const string TableName = "LogsWithSchema2";
+            this.databaseHelper.RemoveTable(SchemaName, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -139,10 +130,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-
-            var rowsCount = this.dbHelper.GetTableRowsCount(SchemaName, TableName);
-
-            Assert.Equal(50, rowsCount);
+            await Task.Delay(1000);
+            var rowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
+            Assert.AreEqual(50, rowsCount);
         }
     }
 }

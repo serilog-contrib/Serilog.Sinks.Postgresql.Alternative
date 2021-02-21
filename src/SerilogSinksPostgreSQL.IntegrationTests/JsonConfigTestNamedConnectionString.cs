@@ -10,26 +10,27 @@
 namespace SerilogSinksPostgreSQL.IntegrationTests
 {
     using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
 
     using Microsoft.Extensions.Configuration;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Serilog;
     using Serilog.Events;
 
     using SerilogSinksPostgreSQL.IntegrationTests.Objects;
 
-    using Xunit;
-
     /// <summary>
     /// Tests for creating PostgreSql logger from a JSON configuration with named connection strings.
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+    [TestClass]
     public class JsonConfigTestNamedConnectionString : BaseTests
     {
         /// <summary>
         /// The test logs.
         /// </summary>
-        private const string TableName = "TestLogs";
+        private const string TableName = "TestLogsNamedConnectionString";
 
         /// <summary>
         /// The database helper.
@@ -40,8 +41,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// <summary>
         ///     This method is used to test the logger creation from the configuration.
         /// </summary>
-        [Fact]
-        public void ShouldCreateLoggerFromConfig()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task ShouldCreateLoggerFromConfig()
         {
             this.dbHelper.RemoveTable(string.Empty, TableName);
 
@@ -78,10 +80,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-
+            await Task.Delay(1000);
             var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(RowsCount, actualRowsCount);
+            Assert.AreEqual(RowsCount, actualRowsCount);
         }
     }
 }

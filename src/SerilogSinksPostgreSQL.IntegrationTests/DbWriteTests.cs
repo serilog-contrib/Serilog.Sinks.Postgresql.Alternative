@@ -12,6 +12,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using NpgsqlTypes;
 
@@ -21,18 +24,12 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
     using SerilogSinksPostgreSQL.IntegrationTests.Objects;
 
-    using Xunit;
-
     /// <summary>
     ///     This class is used to test the writing to the database.
     /// </summary>
+    [TestClass]
     public class DbWriteTests : BaseTests
     {
-        /// <summary>
-        ///     The table name.
-        /// </summary>
-        private const string TableName = "Logs";
-
         /// <summary>
         ///     The database helper.
         /// </summary>
@@ -40,18 +37,18 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
+        private readonly DbHelper databaseHelper = new DbHelper(ConnectionString);
 
         /// <summary>
         ///     This method is used to test the auto creation of the tables and adds data with the insert command.
         /// </summary>
-        [Fact]
-        public void AutoCreateTableIsTrueShouldCreateTableInsert()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task AutoCreateTableIsTrueShouldCreateTableInsert()
         {
-            this.dbHelper.RemoveTable(string.Empty, TableName);
-
+            const string TableName = "Logs1";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -71,7 +68,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
                 .WithMachineName().CreateLogger();
 
-            const int RowsCount = 1;
+            const long RowsCount = 1;
+
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
@@ -83,22 +81,21 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(RowsCount, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(RowsCount, actualRowsCount);
         }
 
         /// <summary>
         ///     This method is used to test the auto creation of the tables and adds data with the copy command.
         /// </summary>
-        [Fact]
-        public void AutoCreateTableIsTrueShouldCreateTableCopy()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task AutoCreateTableIsTrueShouldCreateTableCopy()
         {
-            this.dbHelper.RemoveTable(string.Empty, TableName);
-
+            const string TableName = "Logs2";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -118,7 +115,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
                 .WithMachineName().CreateLogger();
 
-            const int RowsCount = 1;
+            const long RowsCount = 1;
+
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
@@ -130,20 +128,20 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(RowsCount, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(RowsCount, actualRowsCount);
         }
 
         /// <summary>
         ///     This method is used to test the behavior if the single property column writer does not exist.
         /// </summary>
-        [Fact]
-        public void PropertyForSinglePropertyColumnWriterDoesNotExistsWithInsertStatementsShouldInsertEventToDb()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task PropertyForSinglePropertyColumnWriterDoesNotExistsWithInsertStatementsShouldInsertEventToDb()
         {
-            this.dbHelper.ClearTable(string.Empty, TableName);
-
+            const string TableName = "Logs3";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -158,26 +156,28 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
             };
 
+            this.databaseHelper.CreateTable(string.Empty, TableName, columnProps);
+
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(1, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(1, actualRowsCount);
         }
 
         /// <summary>
         ///     This method is used to check if quoted column names are inserted.
         /// </summary>
-        [Fact]
-        public void QuotedColumnNamesWithInsertStatementsShouldInsertEventToDb()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task QuotedColumnNamesWithInsertStatementsShouldInsertEventToDb()
         {
-            this.dbHelper.ClearTable(string.Empty, TableName);
-
+            const string TableName = "Logs4";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -191,28 +191,29 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
             };
 
+            this.databaseHelper.CreateTable(string.Empty, TableName, columnProps);
+
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(1, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(1, actualRowsCount);
         }
 
         /// <summary>
         ///     This method is used to write 50 events to the database.
         /// </summary>
-        [Fact]
-        public void Write50EventsShouldInsert50EventsToDb()
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task Write50EventsShouldInsert50EventsToDb()
         {
-            this.dbHelper.ClearTable(string.Empty, TableName);
-
+            const string TableName = "Logs5";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
             var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -227,10 +228,13 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
             };
 
+            this.databaseHelper.CreateTable(string.Empty, TableName, columnProps);
+
             var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps).Enrich
                 .WithMachineName().CreateLogger();
 
-            const int RowsCount = 50;
+            const long RowsCount = 50;
+
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
@@ -242,21 +246,21 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(RowsCount, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(RowsCount, actualRowsCount);
         }
 
         /// <summary>
         ///     This method is used to write an event with zero code character in json to the database.
         /// </summary>
-        [Fact]
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public void WriteEventWithZeroCodeCharInJsonShouldInsertEventToDb()
+        public async Task WriteEventWithZeroCodeCharInJsonShouldInsertEventToDb()
         {
-            this.dbHelper.ClearTable(string.Empty, TableName);
-
+            const string TableName = "Logs6";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test\\u0000" };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
@@ -270,16 +274,17 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
             };
 
+            this.databaseHelper.CreateTable(string.Empty, TableName, columnProps);
+
             var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps)
                 .CreateLogger();
 
             logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
 
             Log.CloseAndFlush();
-
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-
-            Assert.Equal(1, actualRowsCount);
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(1, actualRowsCount);
         }
     }
 }

@@ -12,21 +12,22 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
     using System;
     using System.Linq;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Serilog.Events;
     using Serilog.Parsing;
     using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
-    using Xunit;
-
     /// <summary>
     ///     This class is used to test the <seealso cref="TimestampColumnWriter" /> class.
     /// </summary>
+    [TestClass]
     public class TimestampColumnWriterTest
     {
         /// <summary>
         ///     This method is used to test the writer with a timestamp without time zone.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public void ByDefaultShouldReturnTimestampValueWithTimezone()
         {
             var writer = new TimestampColumnWriter();
@@ -42,13 +43,13 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(timeStamp, result);
+            Assert.AreEqual(timeStamp, result);
         }
 
         /// <summary>
         ///     This method is used to test the writer with valid timestamp.
         /// </summary>
-        [Fact]
+        [TestMethod]
         public void DbTypeWithTimezoneSelectedShouldReturnTimestampValue()
         {
             var writer = new TimestampColumnWriter();
@@ -64,7 +65,7 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var result = writer.GetValue(testEvent);
 
-            Assert.Equal(timeStamp, result);
+            Assert.AreEqual(timeStamp, result);
         }
     }
 }

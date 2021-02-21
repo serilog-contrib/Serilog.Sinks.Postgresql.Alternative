@@ -49,6 +49,9 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>The create table query string.</returns>
         private static string GetCreateTableQuery(string schemaName, string tableName, IDictionary<string, ColumnWriterBase> columnsInfo)
         {
+            schemaName = schemaName.Replace("\"", string.Empty);
+            tableName = tableName.Replace("\"", string.Empty);
+
             var builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
 
             if (!string.IsNullOrWhiteSpace(schemaName))
@@ -64,7 +67,7 @@ namespace Serilog.Sinks.PostgreSQL
             builder.AppendLine(" (");
 
             builder.AppendLine(
-                string.Join(",\n", columnsInfo.Select(r => $" \"{r.Key}\" {r.Value.GetSqlType()} ")));
+                string.Join(",\n", columnsInfo.Select(r => $" \"{r.Key}\" {r.Value.GetSqlType()}")));
 
             builder.AppendLine(");");
 

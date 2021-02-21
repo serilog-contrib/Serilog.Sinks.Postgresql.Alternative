@@ -4,16 +4,16 @@
     "MinimumLevel": { "ControlledBy": "$controlSwitch" },
     "WriteTo": [
       {
-        "Name": "PostgreSql",
+        "Name": "PostgreSQL",
         "Args": {
           "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
-          "tableName": "TestLogs",
+          "tableName": "ConfigLogs1",
           "schemaName": null,
           "needAutoCreateTable": true,
           "loggerColumnOptions": {
             "Id": "IdAutoIncrement",
             "TimeStamp": "Timestamp",
-            "LogEvent": "Properties"
+            "LogEvent": "LogEvent"
           },
           "loggerPropertyColumnOptions": {
             "TestColumnName": {

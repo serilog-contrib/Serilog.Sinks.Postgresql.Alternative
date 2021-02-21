@@ -9,17 +9,13 @@
 
 namespace SerilogSinksPostgreSQL.IntegrationTests
 {
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Configuration;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using NpgsqlTypes;
-
     using Serilog;
-    using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     using SerilogSinksPostgreSQL.IntegrationTests.Objects;
 
@@ -55,20 +51,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
-            var columnProps = new Dictionary<string, ColumnWriterBase>
-            {
-                { "Message", new RenderedMessageColumnWriter() },
-                { "MessageTemplate", new MessageTemplateColumnWriter() },
-                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                { "RaiseDate", new TimestampColumnWriter() },
-                { "Exception", new ExceptionColumnWriter() },
-                { "Properties", new LogEventSerializedColumnWriter() },
-                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) }
-            };
-
-            this.databaseHelper.CreateTable(string.Empty, TableName, columnProps);
-
-            const int RowsCount = 2;
+            const long RowsCount = 2;
 
             for (var i = 0; i < RowsCount; i++)
             {
@@ -103,7 +86,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
-            const int RowsCount = 2;
+            const long RowsCount = 2;
 
             for (var i = 0; i < RowsCount; i++)
             {

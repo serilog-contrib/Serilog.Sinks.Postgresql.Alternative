@@ -2,6 +2,9 @@
 // <copyright file="LoggerConfigurationPostgreSQLExtensions.cs" company="Hämmer Electronics">
 // The project is licensed under the MIT license.
 // </copyright>
+// <copyright file="LoggerConfigurationPostgreSQLExtensions.cs" company="TerumoBCT">
+// The project is licensed under the MIT license.
+// </copyright>
 // <summary>
 //   This class contains the PostgreSQL logger configuration.
 // </summary>

@@ -63,13 +63,19 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "Exception", new ExceptionColumnWriter() },
                 { "Properties", new LogEventSerializedColumnWriter() },
                 { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                { "IntPropertyTest", new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) },
+                {
+                    "IntPropertyTest",
+                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
+                },
                 { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
             };
 
-            var logger = new LoggerConfiguration().WriteTo
-                .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true, useCopy: false).Enrich
-                .WithMachineName().CreateLogger();
+            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
+                ConnectionString,
+                TableName,
+                columnProps,
+                needAutoCreateTable: true,
+                useCopy: false).Enrich.WithMachineName().CreateLogger();
 
             const long RowsCount = 1;
 
@@ -110,7 +116,10 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "Exception", new ExceptionColumnWriter() },
                 { "Properties", new LogEventSerializedColumnWriter() },
                 { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                { "IntPropertyTest", new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) },
+                {
+                    "IntPropertyTest",
+                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
+                },
                 { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
             };
 
@@ -259,7 +268,10 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         [TestMethod]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.DocumentationRules",
+            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "Reviewed. Suppression is OK here.")]
         public async Task WriteEventWithZeroCodeCharInJsonShouldInsertEventToDb()
         {
             const string TableName = "Logs6";
@@ -290,96 +302,85 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             Assert.AreEqual(1, actualRowsCount);
         }
 
-      /// <summary>
-      ///     This method is used to test AuditSink insert command without schema name.
-      /// </summary>
-      [Fact]
-      public void PostgreSQLAuditSink_NoSchema_ShouldInsertLog()
-      {
-         // Arrange
-         this.dbHelper.RemoveTable(string.Empty, TableName);
+        /// <summary>
+        ///     This method is used to test AuditSink insert command without schema name.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task AuditSinkNoSchemaShouldInsertLog()
+        {
+            const string TableName = "Logs7";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
 
-         var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
-         var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
-         var columnProps = new Dictionary<string, ColumnWriterBase>
-                                  {
-                                      { "Message", new RenderedMessageColumnWriter() },
-                                      { "MessageTemplate", new MessageTemplateColumnWriter() },
-                                      { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                                      { "RaiseDate", new TimestampColumnWriter() },
-                                      { "Exception", new ExceptionColumnWriter() },
-                                      { "Properties", new LogEventSerializedColumnWriter() },
-                                      { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                                      {
-                                          "IntPropertyTest",
-                                          new SinglePropertyColumnWriter(
-                                              "testNo",
-                                              PropertyWriteMethod.Raw,
-                                              NpgsqlDbType.Integer)
-                                      },
-                                      { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-                                  };
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+            {
+                { "Message", new RenderedMessageColumnWriter() },
+                { "MessageTemplate", new MessageTemplateColumnWriter() },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+                { "RaiseDate", new TimestampColumnWriter() },
+                { "Exception", new ExceptionColumnWriter() },
+                { "Properties", new LogEventSerializedColumnWriter() },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+                {
+                    "IntPropertyTest",
+                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
+                },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+            };
 
-         var logger = new LoggerConfiguration().AuditTo
-             .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
-             .WithMachineName().CreateLogger();
+            var logger = new LoggerConfiguration().AuditTo
+                .PostgreSQL(ConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
+                .WithMachineName().CreateLogger();
 
-         // Act
-         const int RowsCount = 10;
-         for (var i = 0; i < RowsCount; i++)
-         {
+            const int RowsCount = 10;
+            for (var i = 0; i < RowsCount; i++)
+            {
+                logger.Information(
+                    "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
+                    RowsCount,
+                    testObject,
+                    testObj2,
+                    "stringValue");
+            }
+
+            Log.CloseAndFlush();
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(RowsCount, actualRowsCount);
+        }
+
+        /// <summary>
+        ///     This method is used to test AuditSink log throws exception with incorrect DB connection string (without schema name case).
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        [ExpectedException(typeof(AggregateException))]
+        public async Task IncorrectDatabaseConnectionStringNoSchemaLogShouldThrowException()
+        {
+            const string TableName = "Logs8";
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>();
+
+            var invalidConnectionString = ConnectionString.Replace("Database=", "Database=A");
+            var logger = new LoggerConfiguration().AuditTo
+                .PostgreSQL(invalidConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
+                .WithMachineName().CreateLogger();
+
             logger.Information(
-             "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
-             RowsCount,
-             testObject,
-             testObj2,
-             "stringValue");
-         }
-
-         logger.Dispose();
-
-         // Assert
-         var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-         Assert.Equal(RowsCount, actualRowsCount);
-      }
-
-      /// <summary>
-      ///     This method is used to test AuditSink log throws exception with incorrect DB connection string (without schema name case).
-      /// </summary>
-      [Fact]
-      public void PostgreSQLAuditSink_IncorrectDBConnectionStringNoSchema_LogShouldThrowException()
-      {
-         // Arrange
-         var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
-         var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
-
-         var columnProps = new Dictionary<string, ColumnWriterBase>
-         {
-            
-         };
-
-         string invalidConnectionString = ConnectionString.Replace("Database=", "Database=A");
-         var logger = new LoggerConfiguration().AuditTo
-             .PostgreSQL(invalidConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
-             .WithMachineName().CreateLogger();
-
-         // Act & Assert
-         var exception = Assert.Throws<AggregateException>(() =>
-            logger.Information(
-                   "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
-                   1,
-                   testObject,
-                   testObj2,
-                   "stringValue")
-         );      
-
-         logger.Dispose();
-
-         // Assert
-         Assert.Contains("Failed to emit a log event", exception.Message);
-      }
-   }
+                "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
+                1,
+                testObject,
+                testObj2,
+                "stringValue");
+            Log.CloseAndFlush();
+            await Task.Delay(1000);
+        }
+    }
 }

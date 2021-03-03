@@ -495,7 +495,7 @@ namespace Serilog
                     needAutoCreateSchema,
                     failureCallback);
 
-                return sinkConfiguration.Sink(new PostgreSqlSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
+                return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
             }
 
             columns ??= new Dictionary<string, ColumnWriterBase>();
@@ -518,7 +518,7 @@ namespace Serilog
                 needAutoCreateSchema,
                 failureCallback);
 
-            return sinkConfiguration.Sink(new PostgreSqlSink(optionsLocal2), restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal2), restrictedToMinimumLevel, levelSwitch);
         }
     }
 }

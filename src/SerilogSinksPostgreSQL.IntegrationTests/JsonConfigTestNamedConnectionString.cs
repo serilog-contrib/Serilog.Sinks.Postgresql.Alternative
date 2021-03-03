@@ -69,7 +69,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 null,
                 configuration).CreateLogger();
 
-            const int RowsCount = 2;
+            const long RowsCount = 2;
 
             for (var i = 0; i < RowsCount; i++)
             {

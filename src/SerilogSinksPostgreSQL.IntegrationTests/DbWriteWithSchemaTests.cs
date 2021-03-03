@@ -79,7 +79,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 schemaName: SchemaName,
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
 
-            for (var i = 0; i < 50; i++)
+            const long RowsCount = 50;
+
+            for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
                     "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
@@ -92,7 +94,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             Log.CloseAndFlush();
             await Task.Delay(10000);
             var actualRowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
-            Assert.AreEqual(50, actualRowsCount);
+            Assert.AreEqual(RowsCount, actualRowsCount);
         }
 
         /// <summary>
@@ -125,7 +127,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 .PostgreSQL(ConnectionString, TableName, columnProps, schemaName: SchemaName).Enrich.WithMachineName()
                 .CreateLogger();
 
-            for (var i = 0; i < 50; i++)
+            const long RowsCount = 50;
+
+            for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information("Test{testNo}: {@testObject} test2: {@testObj2}", i, testObject, testObj2);
             }
@@ -133,7 +137,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             Log.CloseAndFlush();
             await Task.Delay(10000);
             var rowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
-            Assert.AreEqual(50, rowsCount);
+            Assert.AreEqual(RowsCount, rowsCount);
         }
 
         /// <summary>
@@ -175,7 +179,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 schemaName: SchemaName,
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
 
-            const int RowsCount = 10;
+            const long RowsCount = 10;
+
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(

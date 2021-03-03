@@ -245,9 +245,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps).Enrich
                 .WithMachineName().CreateLogger();
 
-            const long RowsCount = 50;
-
-            for (var i = 0; i < RowsCount; i++)
+            for (var i = 0; i < 50; i++)
             {
                 logger.Information(
                     "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
@@ -258,9 +256,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-            await Task.Delay(1000);
+            await Task.Delay(10000);
             var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
-            Assert.AreEqual(RowsCount, actualRowsCount);
+            Assert.AreEqual(50, actualRowsCount);
         }
 
         /// <summary>

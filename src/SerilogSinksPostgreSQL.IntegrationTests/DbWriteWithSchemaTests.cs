@@ -79,9 +79,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 schemaName: SchemaName,
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
 
-            const int RowsCount = 50;
-
-            for (var i = 0; i < RowsCount; i++)
+            for (var i = 0; i < 50; i++)
             {
                 logger.Information(
                     "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
@@ -92,9 +90,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-            await Task.Delay(1000);
+            await Task.Delay(10000);
             var actualRowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
-            Assert.AreEqual(RowsCount, actualRowsCount);
+            Assert.AreEqual(50, actualRowsCount);
         }
 
         /// <summary>
@@ -133,7 +131,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             }
 
             Log.CloseAndFlush();
-            await Task.Delay(1000);
+            await Task.Delay(10000);
             var rowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
             Assert.AreEqual(50, rowsCount);
         }
@@ -144,7 +142,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         [TestMethod]
-        public async Task PostgreSQLAuditSink_WithSchema_ShouldInsertLog()
+        public async Task TestWithSchemaShouldInsertLog()
         {
             const string SchemaName = "Logs3";
             const string TableName = "LogsWithSchema3";

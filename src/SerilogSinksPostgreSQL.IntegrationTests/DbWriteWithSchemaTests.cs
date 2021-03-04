@@ -125,6 +125,8 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 { "MachineName", new SinglePropertyColumnWriter("MachineName") }
             };
 
+            this.databaseHelper.CreateTable(SchemaName, TableName, columnProps);
+
             var logger = new LoggerConfiguration().WriteTo
                 .PostgreSQL(ConnectionString, TableName, columnProps, schemaName: SchemaName).Enrich.WithMachineName()
                 .CreateLogger();

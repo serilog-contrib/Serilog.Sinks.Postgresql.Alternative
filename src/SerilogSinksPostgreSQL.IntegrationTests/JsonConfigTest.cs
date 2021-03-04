@@ -41,6 +41,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         {
             const string TableName = "ConfigLogs1";
             this.databaseHelper.RemoveTable(string.Empty, TableName);
+
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
             var configuration = new ConfigurationBuilder()
@@ -76,6 +77,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         {
             const string TableName = "ConfigLogs2";
             this.databaseHelper.RemoveTable(string.Empty, TableName);
+
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
             var configuration = new ConfigurationBuilder()

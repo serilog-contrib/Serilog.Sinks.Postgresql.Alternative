@@ -39,6 +39,8 @@ namespace Serilog.Sinks.PostgreSQL
         public SinkHelper(PostgreSqlOptions options)
         {
             this.SinkOptions = options;
+            this.isSchemaCreated = !options.NeedAutoCreateSchema;
+            this.isTableCreated = !options.NeedAutoCreateTable;
         }
 
         /// <summary>
@@ -55,13 +57,13 @@ namespace Serilog.Sinks.PostgreSQL
             using var connection = new NpgsqlConnection(this.SinkOptions.ConnectionString);
             connection.Open();
 
-            if (!this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
+            if (this.SinkOptions.NeedAutoCreateSchema && !this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
             {
                 SchemaCreator.CreateSchema(connection, this.SinkOptions.SchemaName);
                 this.isSchemaCreated = true;
             }
 
-            if (!this.isTableCreated)
+            if (this.SinkOptions.NeedAutoCreateTable && !this.isTableCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.TableName))
             {
                 TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
                 this.isTableCreated = true;

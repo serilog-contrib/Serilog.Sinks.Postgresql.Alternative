@@ -388,8 +388,8 @@ namespace Serilog
                 BatchSizeLimit = batchSizeLimit,
                 UseCopy = useCopy,
                 SchemaName = schemaName.Replace("\"", string.Empty),
-                NeedAutoCreateTable = !needAutoCreateTable,
-                NeedAutoCreateSchema = !needAutoCreateSchema,
+                NeedAutoCreateTable = needAutoCreateTable,
+                NeedAutoCreateSchema = needAutoCreateSchema,
                 FailureCallback = failureCallback
             };
         }

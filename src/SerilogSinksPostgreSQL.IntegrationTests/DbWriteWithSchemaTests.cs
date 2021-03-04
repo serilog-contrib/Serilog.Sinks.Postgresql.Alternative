@@ -53,8 +53,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             const string SchemaName = "Logs1";
             const string TableName = "LogsWithSchema1";
             this.databaseHelper.RemoveTable(SchemaName, TableName);
+
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+            var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
             {
@@ -84,10 +85,10 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
-                    "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
+                    "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
                     i,
                     testObject,
-                    testObj2,
+                    testObject2,
                     "stringValue");
             }
 
@@ -108,8 +109,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             const string SchemaName = "Logs2";
             const string TableName = "LogsWithSchema2";
             this.databaseHelper.RemoveTable(SchemaName, TableName);
+
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+            var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
             {
@@ -131,7 +133,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
             for (var i = 0; i < RowsCount; i++)
             {
-                logger.Information("Test{testNo}: {@testObject} test2: {@testObj2}", i, testObject, testObj2);
+                logger.Information("Test{testNo}: {@testObject} test2: {@testObject2}", i, testObject, testObject2);
             }
 
             Log.CloseAndFlush();
@@ -153,8 +155,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             this.databaseHelper.RemoveTable(SchemaName, TableName);
 
             var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
-            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+            var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>
             {
@@ -184,10 +185,10 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
             for (var i = 0; i < RowsCount; i++)
             {
                 logger.Information(
-                    "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
+                    "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
                     i,
                     testObject,
-                    testObj2,
+                    testObject2,
                     "stringValue");
             }
 
@@ -207,9 +208,9 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
         {
             const string SchemaName = "Logs4";
             const string TableName = "LogsWithSchema4";
-            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
-            var testObj2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+            var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
             var columnProps = new Dictionary<string, ColumnWriterBase>();
 
@@ -222,10 +223,10 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
 
             logger.Information(
-                "Test{testNo}: {@testObject} test2: {@testObj2} testStr: {@testStr:l}",
+                "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
                 1,
                 testObject,
-                testObj2,
+                testObject2,
                 "stringValue");
             Log.CloseAndFlush();
             await Task.Delay(1000);

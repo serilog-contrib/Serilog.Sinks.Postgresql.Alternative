@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.3.4.0 (2021-06-04)** : Updated nuget packages.
 * **Version 3.3.3.0 (2021-04-29)** : Updated nuget packages.
 * **Version 3.3.2.0 (2021-03-04)** : Fixed create schema bug.
 * **Version 3.3.1.0 (2021-03-03)** : Updated nuget packages, added support for audit sink (Thanks to [@bliusb](https://github.com/bliusb)), smaller cleanups.

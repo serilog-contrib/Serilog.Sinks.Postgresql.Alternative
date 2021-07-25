@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.3.5.0 (2021-07-25)** : Updated nuget packages, enabled source linking for debugging.
 * **Version 3.3.4.0 (2021-06-04)** : Updated nuget packages.
 * **Version 3.3.3.0 (2021-04-29)** : Updated nuget packages.
 * **Version 3.3.2.0 (2021-03-04)** : Fixed create schema bug.

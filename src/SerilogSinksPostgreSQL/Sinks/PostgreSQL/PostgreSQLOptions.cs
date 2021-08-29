@@ -74,5 +74,10 @@ namespace Serilog.Sinks.PostgreSQL
         /// Gets or sets the maximum number of events to include in a single batch.
         /// </summary>
         public int BatchSizeLimit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum number of events that should be stored in the batching queue.
+        /// </summary>
+        public int QueueLimit { get; set; }
     }
 }

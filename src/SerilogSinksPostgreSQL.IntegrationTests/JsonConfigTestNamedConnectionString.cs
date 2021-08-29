@@ -61,6 +61,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
                 null,
                 null,
                 30,
+                1000,
                 null,
                 false,
                 string.Empty,

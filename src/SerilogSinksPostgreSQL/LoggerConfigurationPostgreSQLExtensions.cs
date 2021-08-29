@@ -47,6 +47,11 @@ namespace Serilog
         private const int DefaultBatchSizeLimit = 30;
 
         /// <summary>
+        /// The default queue limit.
+        /// </summary>
+        private const int DefaultQueueLimit = 1000;
+
+        /// <summary>
         ///     Default time to wait between checking for event batches.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
@@ -69,6 +74,7 @@ namespace Serilog
         /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+        /// <param name="queueLimit">The maximum number of events that should be stored in the batching queue.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
@@ -92,6 +98,7 @@ namespace Serilog
             TimeSpan? period = null,
             IFormatProvider formatProvider = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
+            int queueLimit = DefaultQueueLimit,
             LoggingLevelSwitch levelSwitch = null,
             bool useCopy = true,
             string schemaName = "",
@@ -120,6 +127,7 @@ namespace Serilog
                 period.Value,
                 formatProvider,
                 batchSizeLimit,
+                queueLimit,
                 useCopy,
                 schemaName,
                 needAutoCreateTable,
@@ -141,6 +149,7 @@ namespace Serilog
         /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+        /// <param name="queueLimit">The maximum number of events that should be stored in the batching queue.</param>
         /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
@@ -160,6 +169,7 @@ namespace Serilog
             TimeSpan? period = null,
             IFormatProvider formatProvider = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
+            int queueLimit = DefaultQueueLimit,
             LoggingLevelSwitch levelSwitch = null,
             bool useCopy = true,
             string schemaName = "",
@@ -231,6 +241,7 @@ namespace Serilog
                     period.Value,
                     formatProvider,
                     batchSizeLimit,
+                    queueLimit,
                     useCopy,
                     schemaName,
                     needAutoCreateTable,
@@ -254,6 +265,7 @@ namespace Serilog
                 period.Value,
                 formatProvider,
                 batchSizeLimit,
+                queueLimit,
                 useCopy,
                 schemaName,
                 needAutoCreateTable,
@@ -317,7 +329,8 @@ namespace Serilog
                 columnOptions,
                 TimeSpan.Zero,
                 formatProvider,
-                1,
+                DefaultBatchSizeLimit,
+                DefaultQueueLimit,
                 false,
                 schemaName,
                 needAutoCreateTable,
@@ -358,6 +371,7 @@ namespace Serilog
         /// <param name="period">The time to wait between checking for event batches.</param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+        /// <param name="queueLimit">The maximum number of events that should be stored in the batching queue.</param>
         /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
         /// <param name="schemaName">The schema name.</param>
         /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
@@ -370,6 +384,7 @@ namespace Serilog
             TimeSpan period,
             IFormatProvider formatProvider,
             int batchSizeLimit,
+            int queueLimit,
             bool useCopy,
             string schemaName,
             bool needAutoCreateTable,
@@ -386,6 +401,7 @@ namespace Serilog
                 FormatProvider = formatProvider,
                 ColumnOptions = columnOptionsLocal,
                 BatchSizeLimit = batchSizeLimit,
+                QueueLimit = queueLimit,
                 UseCopy = useCopy,
                 SchemaName = schemaName.Replace("\"", string.Empty),
                 NeedAutoCreateTable = needAutoCreateTable,
@@ -488,7 +504,8 @@ namespace Serilog
                     columns,
                     TimeSpan.Zero,
                     formatProvider,
-                    1,
+                    DefaultBatchSizeLimit,
+                    DefaultQueueLimit,
                     false,
                     schemaName,
                     needAutoCreateTable,
@@ -511,7 +528,8 @@ namespace Serilog
                 columns,
                 TimeSpan.Zero,
                 formatProvider,
-                1,
+                DefaultBatchSizeLimit,
+                DefaultQueueLimit,
                 false,
                 schemaName,
                 needAutoCreateTable,

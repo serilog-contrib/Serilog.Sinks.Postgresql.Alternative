@@ -34,7 +34,7 @@ namespace Serilog.Sinks.PostgreSQL
         ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
         /// </summary>
         /// <param name="options">The sink options.</param>
-        public PostgreSqlSink(PostgreSqlOptions options) : base(options.BatchSizeLimit, options.Period)
+        public PostgreSqlSink(PostgreSqlOptions options) : base(options.BatchSizeLimit, options.Period, options.QueueLimit)
         {
             this.sinkHelper = new SinkHelper(options);
         }

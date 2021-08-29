@@ -49,7 +49,7 @@ namespace Serilog
         /// <summary>
         /// The default queue limit.
         /// </summary>
-        private const int DefaultQueueLimit = 1000;
+        private const int DefaultQueueLimit = int.MaxValue;
 
         /// <summary>
         ///     Default time to wait between checking for event batches.

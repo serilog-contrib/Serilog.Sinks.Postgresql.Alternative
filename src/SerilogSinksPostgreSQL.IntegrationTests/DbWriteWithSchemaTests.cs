@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DbWriteWithSchemaTests.cs" company="Hämmer Electronics">
+// <copyright file="DbWriteWithSchemaTests.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
 // <copyright file="DbWriteWithSchemaTests.cs" company="TerumoBCT">

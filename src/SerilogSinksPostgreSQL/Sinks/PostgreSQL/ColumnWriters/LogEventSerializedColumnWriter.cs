@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogEventSerializedColumnWriter.cs" company="Hämmer Electronics">
+// <copyright file="LogEventSerializedColumnWriter.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>

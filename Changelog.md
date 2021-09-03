@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.3.8.0 (2021-09-03)** : Updated license to fit the new owning repository, updated readme and so on to fit new package name.
 * **Version 3.3.7.0 (2021-08-29)** : Added missing `queueLimit` parameter, updated nuget packages.
 * **Version 3.3.6.0 (2021-08-09)** : Removed support for soon deprecated NetCore 2.1.
 * **Version 3.3.5.0 (2021-07-25)** : Updated nuget packages, enabled source linking for debugging.

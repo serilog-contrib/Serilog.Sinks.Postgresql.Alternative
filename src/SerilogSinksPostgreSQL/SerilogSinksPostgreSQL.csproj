@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SeppPenner/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 3.3.7.0 (2021-08-29): Added missing `queueLimit` parameter, updated nuget packages.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 3.3.8.0 (2021-09-03): Updated license to fit the new owning repository, updated readme and so on to fit new package name.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <LangVersion>latest</LangVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

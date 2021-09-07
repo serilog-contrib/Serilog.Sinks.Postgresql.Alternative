@@ -7,13 +7,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>Serilog.Sinks.Postgresql.Alternative</PackageId>
-    <Authors>SeppPenner</Authors>
+    <Authors>SeppPenner and the Serilog contributors</Authors>
     <Company>SeppPenner and the Serilog contributors</Company>
     <Copyright>Copyright © SeppPenner and the Serilog contributors</Copyright>
     <Description>Serilog.Sinks.Postgresql.Alternative is a library to save logging information from https://github.com/serilog/serilog to https://www.postgresql.org/. The assembly was written and tested in .Net 5.0.</Description>
     <PackageTags>c# csharp serilog postgresql postgres sink logging log</PackageTags>
     <PackageProjectUrl>https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SeppPenner/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
+    <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
     <PackageReleaseNotes>Version 3.3.8.0 (2021-09-03): Updated license to fit the new owning repository, updated readme and so on to fit new package name.</PackageReleaseNotes>

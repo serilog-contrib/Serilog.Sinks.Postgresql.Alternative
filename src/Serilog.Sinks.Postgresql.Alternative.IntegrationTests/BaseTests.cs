@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.IntegrationTests
+namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
     /// <summary>
     /// This class is used as a base class for the integration tests.

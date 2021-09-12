@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.IntegrationTests
+namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
 
     using Serilog;
 
-    using SerilogSinksPostgreSQL.IntegrationTests.Objects;
+    using Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects;
 
     /// <summary>
     /// Tests for creating PostgreSql logger from a JSON configuration.

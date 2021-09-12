@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.IntegrationTests
+namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
     using System.Collections.Generic;
     using System.Text;

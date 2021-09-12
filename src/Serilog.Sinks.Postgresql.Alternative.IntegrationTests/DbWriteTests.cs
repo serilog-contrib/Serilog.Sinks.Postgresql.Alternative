@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.IntegrationTests
+namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace SerilogSinksPostgreSQL.IntegrationTests
     using Serilog.Sinks.PostgreSQL;
     using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
-    using SerilogSinksPostgreSQL.IntegrationTests.Objects;
+    using Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects;
 
     /// <summary>
     ///     This class is used to test the writing to the database.

@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
+namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;

@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LevelColumnWriterTest.cs" company="SeppPenner and the Serilog contributors">
+// <copyright file="ExceptionColumnWriterTest.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   This class is used to test the <seealso cref="LevelColumnWriter" /> class.
+//   This class is used to test the <seealso cref="ExceptionColumnWriter" /> class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
+namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests
 {
     using System;
     using System.Linq;
@@ -19,18 +19,18 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
     using Serilog.Sinks.PostgreSQL.ColumnWriters;
 
     /// <summary>
-    ///     This class is used to test the <seealso cref="LevelColumnWriter" /> class.
+    ///     This class is used to test the <seealso cref="ExceptionColumnWriter" /> class.
     /// </summary>
     [TestClass]
-    public class LevelColumnWriterTest
+    public class ExceptionColumnWriterTest
     {
         /// <summary>
-        ///     This method is used to test the writer with default values.
+        ///     This method is used to test the writer with empty exceptions.
         /// </summary>
         [TestMethod]
-        public void ByDefaultShouldWriteLevelNo()
+        public void ExceptionIsNullShouldReturnDbNullValue()
         {
-            var writer = new LevelColumnWriter();
+            var writer = new ExceptionColumnWriter();
 
             var testEvent = new LogEvent(
                 DateTime.Now,
@@ -41,27 +41,29 @@ namespace SerilogSinksPostgreSQL.Tests.ColumnWritersTests
 
             var result = writer.GetValue(testEvent);
 
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(DBNull.Value, result);
         }
 
         /// <summary>
-        ///     This method is used to test the writer with the write as text property.
+        ///     This method is used to test the writer with valid exceptions.
         /// </summary>
         [TestMethod]
-        public void WriteAsTextIsTrueShouldWriteLevelName()
+        public void ExceptionIsPresentShouldReturnStringRepresentation()
         {
-            var writer = new LevelColumnWriter(true);
+            var writer = new ExceptionColumnWriter();
+
+            var exception = new Exception("Test exception");
 
             var testEvent = new LogEvent(
                 DateTime.Now,
                 LogEventLevel.Debug,
-                null,
+                exception,
                 new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
                 Enumerable.Empty<LogEventProperty>());
 
             var result = writer.GetValue(testEvent);
 
-            Assert.AreEqual(nameof(LogEventLevel.Debug), result);
+            Assert.AreEqual(exception.ToString(), result);
         }
     }
 }

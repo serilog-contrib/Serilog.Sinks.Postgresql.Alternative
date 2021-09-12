@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TestObjectType2.cs" company="SeppPenner and the Serilog contributors">
+// <copyright file="TestObjectType1.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
@@ -7,31 +7,32 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SerilogSinksPostgreSQL.IntegrationTests.Objects
+namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects
 {
-    using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     ///     This class is used as an example test object.
     /// </summary>
-    public class TestObjectType2
+    public class TestObjectType1
     {
         /// <summary>
-        ///     Gets or sets the date property.
+        ///     Gets or sets the int property.
         /// </summary>
         /// <value>
-        ///     The date property.
+        ///     The int property.
         /// </value>
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public DateTime DateProp { get; set; }
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public int IntProp { get; set; }
 
         /// <summary>
-        ///     Gets or sets the nested property.
+        ///     Gets or sets the string property.
         /// </summary>
         /// <value>
-        ///     The nested property.
+        ///     The string property.
         /// </value>
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public TestObjectType1 NestedProp { get; set; }
+        public string StringProp { get; set; }
     }
 }

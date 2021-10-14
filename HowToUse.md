@@ -236,3 +236,26 @@ TableCreator.DefaultVarcharColumnsLength = 50;
 
 ## Upper or lower case table or column names
 Table or column names are always case-sensitive!
+
+## Order of columns
+With version 3.3.10+, column names can be ordered according to a custom oder. This can be achieved as follows.
+Default is alphabetic sorting / C# default sorting (Order is set to `null` per default).
+Sorting will only work if all `order` values are set to an integer value other than `null`.
+
+```csharp
+var columnProps = new Dictionary<string, ColumnWriterBase>
+{
+    { "Message", new RenderedMessageColumnWriter(order: 8) },
+    { "MessageTemplate", new MessageTemplateColumnWriter(order: 1) },
+    { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar, 2) },
+    { "RaiseDate", new TimestampColumnWriter(order: 3) },
+    { "Exception", new ExceptionColumnWriter(order: 4) },
+    { "Properties", new LogEventSerializedColumnWriter(order: 5) },
+    { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text, order: 6) },
+    {
+        "IntPropertyTest",
+        new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer, order: 7)
+    },
+    { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l", order: 0) }
+};
+```

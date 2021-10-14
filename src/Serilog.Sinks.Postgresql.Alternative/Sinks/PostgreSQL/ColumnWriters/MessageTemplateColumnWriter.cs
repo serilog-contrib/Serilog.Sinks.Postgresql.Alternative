@@ -37,7 +37,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public MessageTemplateColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text, int order = 0)
+        public MessageTemplateColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text, int? order = null)
             : base(dbType, order: order)
         {
         }

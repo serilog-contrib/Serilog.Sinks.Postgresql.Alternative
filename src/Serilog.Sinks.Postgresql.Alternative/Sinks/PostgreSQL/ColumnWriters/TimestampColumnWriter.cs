@@ -37,7 +37,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public TimestampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz, int order = 0)
+        public TimestampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz, int? order = null)
             : base(dbType, order: order)
         {
             // Set the DbType to NpgsqlDbType.TimestampTz in any case: Check https://github.com/npgsql/npgsql/issues/2470 for more details.

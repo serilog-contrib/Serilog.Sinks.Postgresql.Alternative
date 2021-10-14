@@ -40,7 +40,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public LogEventSerializedColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb, int order = 0)
+        public LogEventSerializedColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb, int? order = null)
             : base(dbType, order: order)
         {
         }

@@ -36,7 +36,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// </param>
         /// <seealso cref="ColumnWriterBase" />
         // ReSharper disable once UnusedMember.Global
-        public SinglePropertyColumnWriter(int order = 0) : base(NpgsqlDbType.Text, order : order)
+        public SinglePropertyColumnWriter(int? order = null) : base(NpgsqlDbType.Text, order : order)
         {
         }
 
@@ -63,7 +63,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString,
             NpgsqlDbType dbType = NpgsqlDbType.Text,
             string format = null,
-            int order = 0)
+            int? order = null)
             : base(dbType, order: order)
         {
             this.Name = propertyName;

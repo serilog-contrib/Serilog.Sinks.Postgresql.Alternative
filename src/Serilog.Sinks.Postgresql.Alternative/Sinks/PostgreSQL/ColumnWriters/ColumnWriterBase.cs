@@ -34,7 +34,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        protected ColumnWriterBase(NpgsqlDbType dbType, bool skipOnInsert = false, int order = 0)
+        protected ColumnWriterBase(NpgsqlDbType dbType, bool skipOnInsert = false, int? order = null)
         {
             this.DbType = dbType;
             this.SkipOnInsert = skipOnInsert;
@@ -58,7 +58,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Gets the order of the column writer if needed.
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </summary>
-        public int Order { get; }
+        public int? Order { get; }
 
         /// <summary>
         ///     Gets the part of the log event to write to the column.

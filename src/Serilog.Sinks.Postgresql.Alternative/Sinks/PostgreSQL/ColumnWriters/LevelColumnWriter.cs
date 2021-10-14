@@ -43,7 +43,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer, int order = 0)
+        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer, int? order = null)
             : base(dbType, order: order)
         {
             this.renderAsText = renderAsText;

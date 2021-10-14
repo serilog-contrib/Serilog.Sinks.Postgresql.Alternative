@@ -31,7 +31,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase"/>
-        public IdAutoIncrementColumnWriter(int order = 0) : base(NpgsqlDbType.Bigint, true, order)
+        public IdAutoIncrementColumnWriter(int? order = null) : base(NpgsqlDbType.Bigint, true, order)
         {
         }
 

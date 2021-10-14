@@ -28,13 +28,17 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     Initializes a new instance of the <see cref="TimestampColumnWriter" /> class.
         /// </summary>
         /// <param name="dbType">The column type.</param>
+        /// <param name="order">
+        /// The order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </param>
         /// <seealso cref="ColumnWriterBase" />
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public TimestampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz)
-            : base(dbType)
+        public TimestampColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.TimestampTz, int order = 0)
+            : base(dbType, order: order)
         {
             // Set the DbType to NpgsqlDbType.TimestampTz in any case: Check https://github.com/npgsql/npgsql/issues/2470 for more details.
             this.DbType = NpgsqlDbType.TimestampTz;

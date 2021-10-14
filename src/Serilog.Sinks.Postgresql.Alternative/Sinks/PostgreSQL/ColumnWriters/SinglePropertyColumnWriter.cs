@@ -30,9 +30,13 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <summary>
         ///     Initializes a new instance of the <see cref="SinglePropertyColumnWriter" /> class.
         /// </summary>
+        /// <param name="order">
+        /// The order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </param>
         /// <seealso cref="ColumnWriterBase" />
         // ReSharper disable once UnusedMember.Global
-        public SinglePropertyColumnWriter() : base(NpgsqlDbType.Text)
+        public SinglePropertyColumnWriter(int order = 0) : base(NpgsqlDbType.Text, order : order)
         {
         }
 
@@ -44,6 +48,10 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <param name="writeMethod">The write method.</param>
         /// <param name="dbType">Type of the database.</param>
         /// <param name="format">The format.</param>
+        /// <param name="order">
+        /// The order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </param>
         /// <seealso cref="ColumnWriterBase" />
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
@@ -54,8 +62,9 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             string propertyName,
             PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString,
             NpgsqlDbType dbType = NpgsqlDbType.Text,
-            string format = null)
-            : base(dbType)
+            string format = null,
+            int order = 0)
+            : base(dbType, order: order)
         {
             this.Name = propertyName;
             this.WriteMethod = writeMethod;

@@ -28,13 +28,17 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     Initializes a new instance of the <see cref="RenderedMessageColumnWriter" /> class.
         /// </summary>
         /// <param name="dbType">The column type.</param>
+        /// <param name="order">
+        /// The order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </param>
         /// <seealso cref="ColumnWriterBase" />
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public RenderedMessageColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text)
-            : base(dbType)
+        public RenderedMessageColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Text, int order = 0)
+            : base(dbType, order: order)
         {
         }
 

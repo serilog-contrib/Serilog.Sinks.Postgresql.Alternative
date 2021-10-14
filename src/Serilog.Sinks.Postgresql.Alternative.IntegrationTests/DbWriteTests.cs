@@ -388,5 +388,59 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
             Log.CloseAndFlush();
             await Task.Delay(1000);
         }
+
+        /// <summary>
+        ///     This method is used to test the auto creation of the tables and adds data with the insert command and ordered columns.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+        [TestMethod]
+        public async Task AutoCreateTableIsTrueShouldCreateTableInsertWithOrders()
+        {
+            const string TableName = "Logs9";
+            this.databaseHelper.RemoveTable(string.Empty, TableName);
+
+            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+            var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
+
+            var columnProps = new Dictionary<string, ColumnWriterBase>
+            {
+                { "Message", new RenderedMessageColumnWriter(order: 8) },
+                { "MessageTemplate", new MessageTemplateColumnWriter(order: 1) },
+                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar, 2) },
+                { "RaiseDate", new TimestampColumnWriter(order: 3) },
+                { "Exception", new ExceptionColumnWriter(order: 4) },
+                { "Properties", new LogEventSerializedColumnWriter(order: 5) },
+                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text, 6) },
+                {
+                    "IntPropertyTest",
+                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer, order: 7)
+                },
+                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l", order: 0) }
+            };
+
+            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
+                ConnectionString,
+                TableName,
+                columnProps,
+                needAutoCreateTable: true,
+                useCopy: false).Enrich.WithMachineName().CreateLogger();
+
+            const long RowsCount = 1;
+
+            for (var i = 0; i < RowsCount; i++)
+            {
+                logger.Information(
+                    "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+                    i,
+                    testObject,
+                    testObject2,
+                    "stringValue");
+            }
+
+            Log.CloseAndFlush();
+            await Task.Delay(1000);
+            var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+            Assert.AreEqual(RowsCount, actualRowsCount);
+        }
     }
 }

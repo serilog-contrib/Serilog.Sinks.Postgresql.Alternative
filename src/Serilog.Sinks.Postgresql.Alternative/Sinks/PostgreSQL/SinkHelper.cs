@@ -65,7 +65,17 @@ namespace Serilog.Sinks.PostgreSQL
 
             if (this.SinkOptions.NeedAutoCreateTable && !this.isTableCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.TableName))
             {
-                TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
+                if (this.SinkOptions.ColumnOptions.All(c => c.Value.Order == 0))
+                {
+                    TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
+                }
+                else
+                {
+                    var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
+                        .ToDictionary(c => c.Key, x => x.Value);
+                    TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, columnOptions);
+                }
+                
                 this.isTableCreated = true;
             }
 

@@ -34,13 +34,17 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// </summary>
         /// <param name="renderAsText">if set to <c>true</c> [render as text].</param>
         /// <param name="dbType">The row type.</param>
+        /// <param name="order">
+        /// The order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </param>
         /// <seealso cref="ColumnWriterBase"/>
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer)
-            : base(dbType)
+        public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer, int order = 0)
+            : base(dbType, order: order)
         {
             this.renderAsText = renderAsText;
         }

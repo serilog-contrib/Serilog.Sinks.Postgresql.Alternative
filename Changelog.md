@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.3.10.0 (2021-10-14)** : Updated nuget packages, added custom order for table columns.
 * **Version 3.3.9.0 (2021-09-12)** : Smaller changes due to switch to serilog-contrib, updated NuGet packages, updated icon.
 * **Version 3.3.8.0 (2021-09-03)** : Updated license to fit the new owning repository, updated readme and so on to fit new package name.
 * **Version 3.3.7.0 (2021-08-29)** : Added missing `queueLimit` parameter, updated nuget packages.

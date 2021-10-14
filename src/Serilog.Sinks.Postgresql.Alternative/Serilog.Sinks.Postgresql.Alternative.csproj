@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>Version 3.3.9.0 (2021-09-12): Smaller changes due to switch to serilog-contrib, updated NuGet packages, updated icon.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 3.3.10.0 (2021-10-14): Updated nuget packages, added custom order for table columns.</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <LangVersion>latest</LangVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

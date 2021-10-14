@@ -26,14 +26,19 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// </summary>
         /// <param name="dbType">The column type.</param>
         /// <param name="skipOnInsert">A value indicating whether the column in the insert queries is skipped or not.</param>
+        /// <param name="order">
+        /// The order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </param>
         [SuppressMessage(
             "StyleCop.CSharp.NamingRules",
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
-        protected ColumnWriterBase(NpgsqlDbType dbType, bool skipOnInsert = false)
+        protected ColumnWriterBase(NpgsqlDbType dbType, bool skipOnInsert = false, int order = 0)
         {
             this.DbType = dbType;
             this.SkipOnInsert = skipOnInsert;
+            this.Order = order;
         }
 
         /// <summary>
@@ -50,6 +55,12 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         public bool SkipOnInsert { get; }
 
         /// <summary>
+        /// Gets the order of the column writer if needed.
+        /// Is used for sorting the columns as the writers are ordered alphabetically per default.
+        /// </summary>
+        public int Order { get; }
+
+        /// <summary>
         ///     Gets the part of the log event to write to the column.
         /// </summary>
         /// <param name="logEvent">The log event.</param>
@@ -64,7 +75,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public virtual string GetSqlType()
         {
-            return SqlTypeHelper.GetSqlTypeStr(this.DbType);
+            return SqlTypeHelper.GetSqlTypeString(this.DbType);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Serilog.Sinks.PostgreSQL
             "StyleCop.CSharp.DocumentationRules",
             "SA1650:ElementDocumentationMustBeSpelledCorrectly",
             Justification = "Reviewed. Suppression is OK here.")]
-        public static string GetSqlTypeStr(NpgsqlDbType dbType)
+        public static string GetSqlTypeString(NpgsqlDbType dbType)
         {
             // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
             return dbType switch

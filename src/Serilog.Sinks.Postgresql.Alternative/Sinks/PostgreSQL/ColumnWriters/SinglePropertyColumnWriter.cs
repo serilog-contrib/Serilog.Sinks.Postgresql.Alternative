@@ -30,13 +30,21 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <summary>
         ///     Initializes a new instance of the <see cref="SinglePropertyColumnWriter" /> class.
         /// </summary>
+        public SinglePropertyColumnWriter() : base(NpgsqlDbType.Text, order: 0)
+        {
+        }
+
+        /// <inheritdoc cref="ColumnWriterBase" />
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SinglePropertyColumnWriter" /> class.
+        /// </summary>
         /// <param name="order">
         /// The order of the column writer if needed.
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase" />
         // ReSharper disable once UnusedMember.Global
-        public SinglePropertyColumnWriter(int? order = null) : base(NpgsqlDbType.Text, order : order)
+        public SinglePropertyColumnWriter(int? order = null) : base(NpgsqlDbType.Text, order: order)
         {
         }
 

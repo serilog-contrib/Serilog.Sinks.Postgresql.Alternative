@@ -30,6 +30,14 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <summary>
         ///     Initializes a new instance of the <see cref="PropertiesColumnWriter" /> class.
         /// </summary>
+        public PropertiesColumnWriter() : base(NpgsqlDbType.Jsonb, order: 0)
+        {
+        }
+
+        /// <inheritdoc cref="ColumnWriterBase" />
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PropertiesColumnWriter" /> class.
+        /// </summary>
         /// <param name="dbType">The column type.</param>
         /// <param name="order">
         /// The order of the column writer if needed.
@@ -41,7 +49,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Reviewed. Suppression is OK here.")]
         public PropertiesColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb, int? order = null)
-            : base(dbType, order : order)
+            : base(dbType, order: order)
         {
         }
 

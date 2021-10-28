@@ -32,6 +32,15 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <summary>
         ///     Initializes a new instance of the <see cref="LevelColumnWriter" /> class.
         /// </summary>
+        public LevelColumnWriter() : base(NpgsqlDbType.Integer, order: 0)
+        {
+            this.renderAsText = false;
+        }
+
+        /// <inheritdoc cref="ColumnWriterBase" />
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="LevelColumnWriter" /> class.
+        /// </summary>
         /// <param name="renderAsText">if set to <c>true</c> [render as text].</param>
         /// <param name="dbType">The row type.</param>
         /// <param name="order">

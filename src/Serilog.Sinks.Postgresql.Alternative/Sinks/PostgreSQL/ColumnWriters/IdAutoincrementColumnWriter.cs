@@ -24,6 +24,14 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
     {
         /// <inheritdoc cref="ColumnWriterBase" />
         /// <summary>
+        ///     Initializes a new instance of the <see cref="IdAutoIncrementColumnWriter" /> class.
+        /// </summary>
+        public IdAutoIncrementColumnWriter() : base(NpgsqlDbType.Bigint, true, 0)
+        {
+        }
+
+        /// <inheritdoc cref="ColumnWriterBase" />
+        /// <summary>
         ///     Initializes a new instance of the <see cref="ColumnWriterBase" /> class.
         /// </summary>
         /// <param name="order">

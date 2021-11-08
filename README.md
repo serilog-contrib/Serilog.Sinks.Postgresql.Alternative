@@ -2,7 +2,7 @@ Serilog.Sinks.Postgresql.Alternative
 ====================================
 
 Serilog.Sinks.Postgresql.Alternative is a library to save logging information from [Serilog](https://github.com/serilog/serilog) to [PostgreSQL](https://www.postgresql.org/).
-The assembly was written and tested in .Net 5.0.
+The assembly was written and tested in .Net 6.0.
 
 [![GitHub issues](https://img.shields.io/github/issues/serilog-contrib/Serilog.Sinks.Postgresql.Alternative.svg)](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues)
 [![GitHub forks](https://img.shields.io/github/forks/serilog-contrib/Serilog.Sinks.Postgresql.Alternative.svg)](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/network)
@@ -22,6 +22,7 @@ The assembly was written and tested in .Net 5.0.
 * NetStandard 2.1
 * NetCore 3.1
 * Net 5.0
+* Net 6.0
 
 ## Net Core and Net Framework latest and LTS versions
 * https://dotnet.microsoft.com/download/dotnet-framework

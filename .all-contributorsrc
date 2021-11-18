@@ -14,6 +14,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "ni2",
+      "name": "Krzysiu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6198146?v=4",
+      "profile": "https://github.com/ni2",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

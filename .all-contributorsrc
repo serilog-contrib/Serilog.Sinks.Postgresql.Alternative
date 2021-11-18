@@ -64,6 +64,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "b00ted",
+      "name": "Evgenii Butorin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19395635?v=4",
+      "profile": "https://github.com/b00ted",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -1,11 +1,7 @@
 Serilog.Sinks.Postgresql.Alternative
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 ====================================
 
 Serilog.Sinks.Postgresql.Alternative is a library to save logging information from [Serilog](https://github.com/serilog/serilog) to [PostgreSQL](https://www.postgresql.org/).
-The assembly was written and tested in .Net 6.0.
 
 [![GitHub issues](https://img.shields.io/github/issues/serilog-contrib/Serilog.Sinks.Postgresql.Alternative.svg)](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues)
 [![GitHub forks](https://img.shields.io/github/forks/serilog-contrib/Serilog.Sinks.Postgresql.Alternative.svg)](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/network)
@@ -15,6 +11,9 @@ The assembly was written and tested in .Net 6.0.
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Serilog.Sinks.Postgresql.Alternative.svg)](https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/)
 [![Known Vulnerabilities](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/badge.svg)](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative)
 [![Gitter](https://badges.gitter.im/Serilog.Sinks.Postgresql.Alternative/community.svg)](https://gitter.im/Serilog.Sinks.Postgresql.Alternative/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Available for
 * NetFramework 4.6.2

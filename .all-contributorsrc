@@ -24,6 +24,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "GZidar",
+      "name": "Goran Zidar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13248990?v=4",
+      "profile": "https://github.com/GZidar",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

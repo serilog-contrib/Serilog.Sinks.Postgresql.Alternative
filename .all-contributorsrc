@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "staff0rd",
+      "name": "Stafford Williams",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6289998?v=4",
+      "profile": "http://staffordwilliams.com",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Serilog.Sinks.Postgresql.Alternative",
+  "projectOwner": "serilog-contrib",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

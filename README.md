@@ -12,7 +12,7 @@ Serilog.Sinks.Postgresql.Alternative is a library to save logging information fr
 [![Known Vulnerabilities](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/badge.svg)](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative)
 [![Gitter](https://badges.gitter.im/Serilog.Sinks.Postgresql.Alternative/community.svg)](https://gitter.im/Serilog.Sinks.Postgresql.Alternative/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Available for
@@ -59,6 +59,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://staffordwilliams.com"><img src="https://avatars.githubusercontent.com/u/6289998?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stafford Williams</b></sub></a><br /><a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=staff0rd" title="Code">💻</a> <a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=staff0rd" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/ni2"><img src="https://avatars.githubusercontent.com/u/6198146?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Krzysiu</b></sub></a><br /><a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=ni2" title="Code">💻</a> <a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=ni2" title="Documentation">📖</a></td>
   </tr>
 </table>
 

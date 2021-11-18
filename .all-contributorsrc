@@ -88,6 +88,20 @@
         "projectManagement",
         "test"
       ]
+    },
+    {
+      "login": "serilog-contrib",
+      "name": "Serilog Contrib",
+      "avatar_url": "https://avatars.githubusercontent.com/u/78050538?v=4",
+      "profile": "https://github.com/serilog-contrib",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "maintenance",
+        "projectManagement",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,

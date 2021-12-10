@@ -106,7 +106,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
     "MinimumLevel": { "ControlledBy": "$controlSwitch" },
     "WriteTo": [
       {
-        "Name": "PostgreSql",
+        "Name": "PostgreSQL",
         "Args": {
           "connectionString": "DevTest",
           "tableName": "TestLogs",

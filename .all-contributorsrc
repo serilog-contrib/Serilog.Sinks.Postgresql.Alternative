@@ -102,6 +102,15 @@
         "projectManagement",
         "test"
       ]
+    },
+    {
+      "login": "Gambitier",
+      "name": "Akash Jadhav",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22792359?v=4",
+      "profile": "https://gambitier.github.io/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -12,7 +12,7 @@ Serilog.Sinks.Postgresql.Alternative is a library to save logging information fr
 [![Known Vulnerabilities](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/badge.svg)](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative)
 [![Gitter](https://badges.gitter.im/Serilog.Sinks.Postgresql.Alternative/community.svg)](https://gitter.im/Serilog.Sinks.Postgresql.Alternative/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Available for
@@ -69,6 +69,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://franzhuber23.blogspot.de/"><img src="https://avatars.githubusercontent.com/u/9639361?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HansM</b></sub></a><br /><a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=SeppPenner" title="Code">💻</a> <a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=SeppPenner" title="Documentation">📖</a> <a href="#example-SeppPenner" title="Examples">💡</a> <a href="#maintenance-SeppPenner" title="Maintenance">🚧</a> <a href="#projectManagement-SeppPenner" title="Project Management">📆</a> <a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=SeppPenner" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/serilog-contrib"><img src="https://avatars.githubusercontent.com/u/78050538?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Serilog Contrib</b></sub></a><br /><a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=serilog-contrib" title="Code">💻</a> <a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=serilog-contrib" title="Documentation">📖</a> <a href="#example-serilog-contrib" title="Examples">💡</a> <a href="#maintenance-serilog-contrib" title="Maintenance">🚧</a> <a href="#projectManagement-serilog-contrib" title="Project Management">📆</a> <a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=serilog-contrib" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://gambitier.github.io/"><img src="https://avatars.githubusercontent.com/u/22792359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Akash Jadhav</b></sub></a><br /><a href="https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/commits?author=Gambitier" title="Documentation">📖</a></td>
   </tr>
 </table>
 

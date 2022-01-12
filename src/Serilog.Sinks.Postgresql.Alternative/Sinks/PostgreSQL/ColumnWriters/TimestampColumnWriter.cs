@@ -64,7 +64,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <seealso cref="ColumnWriterBase" />
         public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
         {
-            return logEvent.Timestamp;
+            return logEvent.Timestamp.ToUniversalTime();
         }
     }
 }

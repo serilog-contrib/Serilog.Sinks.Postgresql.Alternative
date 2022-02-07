@@ -14,7 +14,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,10 +35,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
         /// <summary>
         ///     The database helper.
         /// </summary>
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
         private readonly DbHelper databaseHelper = new DbHelper(ConnectionString);
 
         /// <summary>

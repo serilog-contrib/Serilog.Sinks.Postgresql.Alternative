@@ -10,14 +10,12 @@
 namespace Serilog.Sinks.PostgreSQL
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
     /// <summary>
     /// The helper for getting types for PostgreSQL queries.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public static class SqlTypeHelper
     {
         /// <summary>
@@ -36,7 +34,6 @@ namespace Serilog.Sinks.PostgreSQL
         ///     The default varchar columns length.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public const int DefaultVarcharColumnsLength = 50;
 
         /// <summary>
@@ -45,14 +42,6 @@ namespace Serilog.Sinks.PostgreSQL
         /// <param name="dbType">The column type.</param>
         /// <returns>The SQL type string.</returns>
         /// <exception cref="ArgumentOutOfRangeException">dbType - Cannot automatically create column of type " + dbType</exception>
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
-        [SuppressMessage(
-            "StyleCop.CSharp.DocumentationRules",
-            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-            Justification = "Reviewed. Suppression is OK here.")]
         public static string GetSqlTypeString(NpgsqlDbType dbType)
         {
             // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault

@@ -9,7 +9,6 @@
 
 namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Configuration;
@@ -23,7 +22,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
     /// <summary>
     /// Tests for creating PostgreSql logger from a JSON configuration with named connection strings.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     [TestClass]
     public class JsonConfigTestNamedConnectionString : BaseTests
     {
@@ -35,7 +33,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
         /// <summary>
         /// The database helper.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
 
         /// <summary>

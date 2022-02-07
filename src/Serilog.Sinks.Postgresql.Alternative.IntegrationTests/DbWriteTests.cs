@@ -14,7 +14,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,10 +36,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
         /// <summary>
         ///     The database helper.
         /// </summary>
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
         private readonly DbHelper databaseHelper = new DbHelper(ConnectionString);
 
         /// <summary>
@@ -274,10 +269,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
         [TestMethod]
-        [SuppressMessage(
-            "StyleCop.CSharp.DocumentationRules",
-            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-            Justification = "Reviewed. Suppression is OK here.")]
         public async Task WriteEventWithZeroCodeCharInJsonShouldInsertEventToDb()
         {
             const string TableName = "Logs6";

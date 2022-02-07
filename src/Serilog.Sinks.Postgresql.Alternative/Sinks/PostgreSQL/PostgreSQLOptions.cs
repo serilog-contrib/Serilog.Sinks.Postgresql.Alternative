@@ -23,22 +23,22 @@ namespace Serilog.Sinks.PostgreSQL
         /// <summary>
         ///     Gets or sets the connection string.
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets or sets the format provider.
         /// </summary>
-        public IFormatProvider FormatProvider { get; set; }
+        public IFormatProvider? FormatProvider { get; set; }
 
         /// <summary>
         ///     Gets or sets the table name.
         /// </summary>
-        public string TableName { get; set; }
+        public string TableName { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets or sets the schema name.
         /// </summary>
-        public string SchemaName { get; set; }
+        public string SchemaName { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets or sets a value indicating whether the copy command is used or not.
@@ -48,12 +48,12 @@ namespace Serilog.Sinks.PostgreSQL
         /// <summary>
         ///  Gets or sets the failure callback.
         /// </summary>
-        public Action<Exception> FailureCallback { get; set; }
+        public Action<Exception>? FailureCallback { get; set; }
 
         /// <summary>
         ///     Gets or sets the column options.
         /// </summary>
-        public IDictionary<string, ColumnWriterBase> ColumnOptions { get; set; }
+        public IDictionary<string, ColumnWriterBase> ColumnOptions { get; set; } = new Dictionary<string, ColumnWriterBase>();
 
         /// <summary>
         /// Gets or sets the 

@@ -10,7 +10,6 @@
 namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
 
@@ -44,10 +43,6 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase" />
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
         public PropertiesColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb, int? order = null)
             : base(dbType, order: order)
         {
@@ -63,7 +58,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     An object value.
         /// </returns>
         /// <seealso cref="ColumnWriterBase" />
-        public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+        public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
         {
             return PropertiesToJson(logEvent);
         }
@@ -73,7 +68,6 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// </summary>
         /// <param name="logEvent">The log event.</param>
         /// <returns>The properties as json object.</returns>
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static object PropertiesToJson(LogEvent logEvent)
         {
             if (logEvent.Properties.Count == 0)
@@ -85,7 +79,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 
             var sb = new StringBuilder();
 
-            sb.Append("{");
+            sb.Append('{');
 
             using (var writer = new StringWriter(sb))
             {
@@ -98,7 +92,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
             }
 
             sb.Remove(sb.Length - 2, 2);
-            sb.Append("}");
+            sb.Append('}');
 
             return sb.ToString();
         }

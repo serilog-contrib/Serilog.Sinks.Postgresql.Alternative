@@ -10,7 +10,6 @@
 namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
 
@@ -43,7 +42,6 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase" />
-        // ReSharper disable once UnusedMember.Global
         public SinglePropertyColumnWriter(int? order = null) : base(NpgsqlDbType.Text, order: order)
         {
         }
@@ -61,16 +59,11 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase" />
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
-        // ReSharper disable once UnusedMember.Global
         public SinglePropertyColumnWriter(
             string propertyName,
             PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString,
             NpgsqlDbType dbType = NpgsqlDbType.Text,
-            string format = null,
+            string? format = null,
             int? order = null)
             : base(dbType, order: order)
         {
@@ -82,19 +75,16 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <summary>
         ///     Gets or sets the format.
         /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
-        public string Format { get; set; }
+        public string? Format { get; set; }
 
         /// <summary>
         ///     Gets or sets the name.
         /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets or sets the write method.
         /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
         public PropertyWriteMethod WriteMethod { get; set; }
 
         /// <inheritdoc cref="ColumnWriterBase" />
@@ -107,14 +97,13 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     An object value.
         /// </returns>
         /// <seealso cref="ColumnWriterBase" />
-        public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+        public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
         {
             if (!logEvent.Properties.ContainsKey(this.Name))
             {
                 return DBNull.Value;
             }
 
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (this.WriteMethod)
             {
                 case PropertyWriteMethod.Raw:

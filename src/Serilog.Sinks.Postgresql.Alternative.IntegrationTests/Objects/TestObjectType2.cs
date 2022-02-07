@@ -22,7 +22,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects
         /// <value>
         ///     The date property.
         /// </value>
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public DateTime DateProp { get; set; }
 
         /// <summary>
@@ -31,7 +30,6 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects
         /// <value>
         ///     The nested property.
         /// </value>
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public TestObjectType1 NestedProp { get; set; }
+        public TestObjectType1 NestedProp { get; set; } = new();
     }
 }

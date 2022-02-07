@@ -19,6 +19,7 @@
     <PackageReleaseNotes>Version 3.4.0.0 (2022-01-12): NuGet packages updated, adjusted timestamps to be written as UTC (Breaking change?).</PackageReleaseNotes>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>

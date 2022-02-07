@@ -133,7 +133,7 @@ namespace Serilog.Sinks.PostgreSQL
         /// <returns>The cleared column name.</returns>
         private static string ClearColumnNameForParameterName(string columnName)
         {
-            return columnName?.Replace("\"", string.Empty);
+            return columnName?.Replace("\"", string.Empty) ?? string.Empty;
         }
 
         /// <summary>
@@ -148,14 +148,14 @@ namespace Serilog.Sinks.PostgreSQL
 
             if (!string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
             {
-                builder.Append("\"");
+                builder.Append('"');
                 builder.Append(this.SinkOptions.SchemaName);
                 builder.Append("\".");
             }
 
-            builder.Append("\"");
+            builder.Append('"');
             builder.Append(this.SinkOptions.TableName);
-            builder.Append("\"");
+            builder.Append('"');
 
             builder.Append(" (");
             builder.Append(columns);
@@ -180,14 +180,14 @@ namespace Serilog.Sinks.PostgreSQL
 
             if (!string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
             {
-                builder.Append("\"");
+                builder.Append('"');
                 builder.Append(this.SinkOptions.SchemaName);
                 builder.Append("\".");
             }
 
-            builder.Append("\"");
+            builder.Append('"');
             builder.Append(this.SinkOptions.TableName);
-            builder.Append("\"");
+            builder.Append('"');
 
             builder.Append(" (");
             builder.Append(columns);

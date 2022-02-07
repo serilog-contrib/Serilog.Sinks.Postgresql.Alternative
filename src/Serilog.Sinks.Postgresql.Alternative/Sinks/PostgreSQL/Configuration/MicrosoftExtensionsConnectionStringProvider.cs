@@ -46,7 +46,7 @@ namespace Serilog.Sinks.PostgreSQL.Configuration
                 SelfLog.WriteLine($"The value {nameOrConnectionString} is not found in the `ConnectionStrings` settings and does not appear to be a raw connection string.");
             }
 
-            return result;
+            return result ?? string.Empty;
         }
     }
 }

@@ -10,7 +10,6 @@
 namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
 
@@ -44,10 +43,6 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase" />
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
         public LogEventSerializedColumnWriter(NpgsqlDbType dbType = NpgsqlDbType.Jsonb, int? order = null)
             : base(dbType, order: order)
         {
@@ -63,7 +58,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     An object value.
         /// </returns>
         /// <seealso cref="ColumnWriterBase" />
-        public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+        public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
         {
             return LogEventToJson(logEvent, formatProvider);
         }
@@ -74,8 +69,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <param name="logEvent">The log event.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// <returns>The log event as json string.</returns>
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        private static object LogEventToJson(LogEvent logEvent, IFormatProvider formatProvider)
+        private static object LogEventToJson(LogEvent logEvent, IFormatProvider? formatProvider)
         {
             var jsonFormatter = new JsonFormatter(formatProvider: formatProvider);
 

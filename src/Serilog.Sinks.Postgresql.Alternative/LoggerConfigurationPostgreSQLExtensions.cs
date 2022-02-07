@@ -14,7 +14,6 @@ namespace Serilog
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     using Configuration;
 
@@ -34,11 +33,6 @@ namespace Serilog
     /// <summary>
     ///     This class contains the PostgreSQL logger configuration.
     /// </summary>
-    [SuppressMessage(
-        "StyleCop.CSharp.DocumentationRules",
-        "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-        Justification = "Reviewed. Suppression is OK here.")]
-    // ReSharper disable once UnusedMember.Global
     public static class LoggerConfigurationPostgreSqlExtensions
     {
         /// <summary>
@@ -83,29 +77,23 @@ namespace Serilog
         /// <param name="failureCallback">The failure callback.</param>
         /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
-        [SuppressMessage(
-            "StyleCop.CSharp.DocumentationRules",
-            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-            Justification = "Reviewed. Suppression is OK here.")]
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once InconsistentNaming
         public static LoggerConfiguration PostgreSQL(
             this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
             string tableName,
-            IDictionary<string, ColumnWriterBase> columnOptions = null,
+            IDictionary<string, ColumnWriterBase>? columnOptions = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             TimeSpan? period = null,
-            IFormatProvider formatProvider = null,
+            IFormatProvider? formatProvider = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
             int queueLimit = DefaultQueueLimit,
-            LoggingLevelSwitch levelSwitch = null,
+            LoggingLevelSwitch? levelSwitch = null,
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
             bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null,
-            IConfiguration appConfiguration = null)
+            Action<Exception>? failureCallback = null,
+            IConfiguration? appConfiguration = null)
         {
             if (sinkConfiguration == null)
             {
@@ -163,20 +151,20 @@ namespace Serilog
             this LoggerSinkConfiguration sinkConfiguration,
             string connectionString,
             string tableName,
-            IDictionary<string, string> loggerColumnOptions = null,
-            IDictionary<string, SinglePropertyColumnWriter> loggerPropertyColumnOptions = null,
+            IDictionary<string, string>? loggerColumnOptions = null,
+            IDictionary<string, SinglePropertyColumnWriter>? loggerPropertyColumnOptions = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             TimeSpan? period = null,
-            IFormatProvider formatProvider = null,
+            IFormatProvider? formatProvider = null,
             int batchSizeLimit = DefaultBatchSizeLimit,
             int queueLimit = DefaultQueueLimit,
-            LoggingLevelSwitch levelSwitch = null,
+            LoggingLevelSwitch? levelSwitch = null,
             bool useCopy = true,
             string schemaName = "",
             bool needAutoCreateTable = false,
             bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null,
-            IConfiguration appConfiguration = null)
+            Action<Exception>? failureCallback = null,
+            IConfiguration? appConfiguration = null)
         {
             if (sinkConfiguration == null)
             {
@@ -191,7 +179,7 @@ namespace Serilog
 
             period ??= DefaultPeriod;
 
-            IDictionary<string, ColumnWriterBase> columns = null;
+            IDictionary<string, ColumnWriterBase>? columns = null;
 
             if (loggerColumnOptions != null)
             {
@@ -292,25 +280,19 @@ namespace Serilog
         /// <param name="failureCallback">The failure callback.</param>
         /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
-        [SuppressMessage(
-            "StyleCop.CSharp.DocumentationRules",
-            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-            Justification = "Reviewed. Suppression is OK here.")]
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once InconsistentNaming
         public static LoggerConfiguration PostgreSQL(
             this LoggerAuditSinkConfiguration sinkConfiguration,
             string connectionString,
             string tableName,
-            IDictionary<string, ColumnWriterBase> columnOptions = null,
+            IDictionary<string, ColumnWriterBase>? columnOptions = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            IFormatProvider formatProvider = null,
-            LoggingLevelSwitch levelSwitch = null,
+            IFormatProvider? formatProvider = null,
+            LoggingLevelSwitch? levelSwitch = null,
             string schemaName = "",
             bool needAutoCreateTable = false,
             bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null,
-            IConfiguration appConfiguration = null)
+            Action<Exception>? failureCallback = null,
+            IConfiguration? appConfiguration = null)
         {
             if (sinkConfiguration == null)
             {
@@ -380,16 +362,16 @@ namespace Serilog
         internal static PostgreSqlOptions GetOptions(
             string connectionString,
             string tableName,
-            IDictionary<string, ColumnWriterBase> columnOptions,
+            IDictionary<string, ColumnWriterBase>? columnOptions,
             TimeSpan period,
-            IFormatProvider formatProvider,
+            IFormatProvider? formatProvider,
             int batchSizeLimit,
             int queueLimit,
             bool useCopy,
             string schemaName,
             bool needAutoCreateTable,
             bool needAutoCreateSchema,
-            Action<Exception> failureCallback)
+            Action<Exception>? failureCallback)
         {
             var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
@@ -428,21 +410,20 @@ namespace Serilog
         /// <param name="failureCallback">The failure callback.</param>
         /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
-        // ReSharper disable once InconsistentNaming
         public static LoggerConfiguration PostgreSQL(
             this LoggerAuditSinkConfiguration sinkConfiguration,
             string connectionString,
             string tableName,
-            IDictionary<string, string> loggerColumnOptions = null,
-            IDictionary<string, SinglePropertyColumnWriter> loggerPropertyColumnOptions = null,
+            IDictionary<string, string>? loggerColumnOptions = null,
+            IDictionary<string, SinglePropertyColumnWriter>? loggerPropertyColumnOptions = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            IFormatProvider formatProvider = null,
-            LoggingLevelSwitch levelSwitch = null,
+            IFormatProvider? formatProvider = null,
+            LoggingLevelSwitch? levelSwitch = null,
             string schemaName = "",
             bool needAutoCreateTable = false,
             bool needAutoCreateSchema = false,
-            Action<Exception> failureCallback = null,
-            IConfiguration appConfiguration = null)
+            Action<Exception>? failureCallback = null,
+            IConfiguration? appConfiguration = null)
         {
             if (sinkConfiguration == null)
             {
@@ -455,7 +436,7 @@ namespace Serilog
                     MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
             }
 
-            IDictionary<string, ColumnWriterBase> columns = null;
+            IDictionary<string, ColumnWriterBase>? columns = null;
 
             if (loggerColumnOptions != null)
             {
@@ -496,7 +477,7 @@ namespace Serilog
                 }
             }
 
-            if (loggerPropertyColumnOptions == null)
+            if (loggerPropertyColumnOptions is null)
             {
                 var optionsLocal = GetOptions(
                     connectionString,

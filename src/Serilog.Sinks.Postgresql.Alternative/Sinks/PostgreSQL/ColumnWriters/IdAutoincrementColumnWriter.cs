@@ -53,7 +53,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     An object value.
         /// </returns>
         /// <seealso cref="ColumnWriterBase"/>
-        public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+        public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
         {
             // this method should not be called, because of the autoincrement
             throw new Exception("Auto-increment column should not have a value to be written!");

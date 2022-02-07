@@ -10,7 +10,6 @@
 namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
@@ -48,10 +47,6 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
         /// <seealso cref="ColumnWriterBase"/>
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
         public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer, int? order = null)
             : base(dbType, order: order)
         {
@@ -68,7 +63,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         ///     An object value.
         /// </returns>
         /// <seealso cref="ColumnWriterBase"/>
-        public override object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null)
+        public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
         {
             if (this.renderAsText)
             {

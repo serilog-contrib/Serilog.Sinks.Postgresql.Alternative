@@ -10,7 +10,6 @@
 namespace Serilog.Sinks.PostgreSQL.ColumnWriters
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     using NpgsqlTypes;
 
@@ -30,10 +29,6 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// The order of the column writer if needed.
         /// Is used for sorting the columns as the writers are ordered alphabetically per default.
         /// </param>
-        [SuppressMessage(
-            "StyleCop.CSharp.NamingRules",
-            "SA1305:FieldNamesMustNotUseHungarianNotation",
-            Justification = "Reviewed. Suppression is OK here.")]
         protected ColumnWriterBase(NpgsqlDbType dbType, bool skipOnInsert = false, int? order = null)
         {
             this.DbType = dbType;
@@ -66,13 +61,12 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters
         /// <param name="logEvent">The log event.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// <returns>An object value.</returns>
-        public abstract object GetValue(LogEvent logEvent, IFormatProvider formatProvider = null);
+        public abstract object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null);
 
         /// <summary>
         /// Gets the type of the SQL query.
         /// </summary>
         /// <returns>The PostgreSql type for inserting it into the CREATE TABLE query.</returns>
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public virtual string GetSqlType()
         {
             return SqlTypeHelper.GetSqlTypeString(this.DbType);

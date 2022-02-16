@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PropertyWriteMethod.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
@@ -7,26 +7,25 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.PostgreSQL
+namespace Serilog.Sinks.PostgreSQL;
+
+/// <summary>
+///     This enumeration contains the property write method.
+/// </summary>
+public enum PropertyWriteMethod
 {
     /// <summary>
-    ///     This enumeration contains the property write method.
+    ///     The raw method.
     /// </summary>
-    public enum PropertyWriteMethod
-    {
-        /// <summary>
-        ///     The raw method.
-        /// </summary>
-        Raw,
+    Raw,
 
-        /// <summary>
-        ///     The to string method.
-        /// </summary>
-        ToString,
+    /// <summary>
+    ///     The to string method.
+    /// </summary>
+    ToString,
 
-        /// <summary>
-        ///     The json method.
-        /// </summary>
-        Json
-    }
+    /// <summary>
+    ///     The json method.
+    /// </summary>
+    Json
 }

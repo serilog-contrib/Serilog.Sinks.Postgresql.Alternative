@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IdAutoincrementColumnWriterTest.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
@@ -7,51 +7,41 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests
+namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
+
+/// <summary>
+/// This class is used to test the <seealso cref="IdAutoIncrementColumnWriter" /> class.
+/// </summary>
+[TestClass]
+public class IdAutoIncrementColumnWriterTest
 {
-    using System;
-    using System.Linq;
+    /// <summary>
+    ///     This method is used to test the <see cref="IdAutoIncrementColumnWriter"/> with empty values.
+    /// </summary>
+    [TestMethod]
+    public void GetValueShouldThrowException()
+    {
+        var writer = new IdAutoIncrementColumnWriter();
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+        var testEvent = new LogEvent(
+            DateTime.Now,
+            LogEventLevel.Debug,
+            null,
+            new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
+            Enumerable.Empty<LogEventProperty>());
 
-    using Serilog.Events;
-    using Serilog.Parsing;
-    using Serilog.Sinks.PostgreSQL.ColumnWriters;
+        Assert.ThrowsException<Exception>(() => writer.GetValue(testEvent));
+    }
 
     /// <summary>
-    /// This class is used to test the <seealso cref="IdAutoIncrementColumnWriter" /> class.
+    ///     This method is used to test the <see cref="IdAutoIncrementColumnWriter"/> with default values.
     /// </summary>
-    [TestClass]
-    public class IdAutoIncrementColumnWriterTest
+    [TestMethod]
+
+    public void WriterShouldBeSkippedOnInsert()
     {
-        /// <summary>
-        ///     This method is used to test the <see cref="IdAutoIncrementColumnWriter"/> with empty values.
-        /// </summary>
-        [TestMethod]
-        public void GetValueShouldThrowException()
-        {
-            var writer = new IdAutoIncrementColumnWriter();
-
-            var testEvent = new LogEvent(
-                DateTime.Now,
-                LogEventLevel.Debug,
-                null,
-                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
-                Enumerable.Empty<LogEventProperty>());
-
-            Assert.ThrowsException<Exception>(() => writer.GetValue(testEvent));
-        }
-
-        /// <summary>
-        ///     This method is used to test the <see cref="IdAutoIncrementColumnWriter"/> with default values.
-        /// </summary>
-        [TestMethod]
-
-        public void WriterShouldBeSkippedOnInsert()
-        {
-            var writer = new IdAutoIncrementColumnWriter();
-            var result = writer.SkipOnInsert;
-            Assert.IsTrue(result);
-        }
+        var writer = new IdAutoIncrementColumnWriter();
+        var result = writer.SkipOnInsert;
+        Assert.IsTrue(result);
     }
 }

@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="JsonConfigTestNamedConnectionString.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
@@ -7,80 +7,69 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests
+namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests;
+
+/// <summary>
+/// Tests for creating PostgreSql logger from a JSON configuration with named connection strings.
+/// </summary>
+[TestClass]
+public class JsonConfigTestNamedConnectionString : BaseTests
 {
-    using System.Threading.Tasks;
-
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using Serilog;
-    using Serilog.Events;
-
-    using Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects;
+    /// <summary>
+    /// The test logs.
+    /// </summary>
+    private const string TableName = "TestLogsNamedConnectionString";
 
     /// <summary>
-    /// Tests for creating PostgreSql logger from a JSON configuration with named connection strings.
+    /// The database helper.
     /// </summary>
-    [TestClass]
-    public class JsonConfigTestNamedConnectionString : BaseTests
+    private readonly DbHelper dbHelper = new(ConnectionString);
+
+    /// <summary>
+    ///     This method is used to test the logger creation from the configuration.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+    [TestMethod]
+    public async Task ShouldCreateLoggerFromConfig()
     {
-        /// <summary>
-        /// The test logs.
-        /// </summary>
-        private const string TableName = "TestLogsNamedConnectionString";
+        await this.dbHelper.RemoveTable(string.Empty, TableName);
 
-        /// <summary>
-        /// The database helper.
-        /// </summary>
-        private readonly DbHelper dbHelper = new DbHelper(ConnectionString);
+        var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
 
-        /// <summary>
-        ///     This method is used to test the logger creation from the configuration.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
-        [TestMethod]
-        public async Task ShouldCreateLoggerFromConfig()
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile(".\\PostgreSinkConfigurationConnectionString.json", false, true)
+            .Build();
+
+        var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
+            ConnectionString,
+            TableName,
+            null,
+            LogEventLevel.Verbose,
+            null,
+            null,
+            30,
+            1000,
+            null,
+            false,
+            string.Empty,
+            true,
+            false,
+            null,
+            configuration).CreateLogger();
+
+        const long RowsCount = 2;
+
+        for (var i = 0; i < RowsCount; i++)
         {
-            this.dbHelper.RemoveTable(string.Empty, TableName);
-
-            var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(".\\PostgreSinkConfigurationConnectionString.json", false, true)
-                .Build();
-
-            var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
-                ConnectionString,
-                TableName,
-                null,
-                LogEventLevel.Verbose,
-                null,
-                null,
-                30,
-                1000,
-                null,
-                false,
-                string.Empty,
-                true,
-                false,
-                null,
-                configuration).CreateLogger();
-
-            const long RowsCount = 2;
-
-            for (var i = 0; i < RowsCount; i++)
-            {
-                logger.Information(
-                    "{@LogEvent} {TestProperty}",
-                    testObject,
-                    "TestValue");
-            }
-
-            Log.CloseAndFlush();
-            await Task.Delay(1000);
-            var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
-            Assert.AreEqual(RowsCount, actualRowsCount);
+            logger.Information(
+                "{@LogEvent} {TestProperty}",
+                testObject,
+                "TestValue");
         }
+
+        Log.CloseAndFlush();
+        await Task.Delay(1000);
+        var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
+        Assert.AreEqual(RowsCount, actualRowsCount);
     }
 }

@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PostgreSQLSink.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
@@ -7,64 +7,61 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.PostgreSQL
+namespace Serilog.Sinks.PostgreSQL;
+
+/// <inheritdoc cref="IBatchedLogEventSink" />
+/// <summary>
+///     This class is the main class and contains all options for the PostgreSQL sink.
+/// </summary>
+/// <seealso cref="IBatchedLogEventSink" />
+public class PostgreSqlSink : IBatchedLogEventSink
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Events;
-    using PeriodicBatching;
-
-    using Serilog.Debugging;
-
-    /// <inheritdoc cref="PeriodicBatchingSink" />
     /// <summary>
-    ///     This class is the main class and contains all options for the PostgreSQL sink.
+    /// The sink helper.
     /// </summary>
-    /// <seealso cref="PeriodicBatchingSink" />
-    public class PostgreSqlSink : PeriodicBatchingSink
+    private readonly SinkHelper sinkHelper;
+
+    /// <inheritdoc cref="IBatchedLogEventSink" />
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
+    /// </summary>
+    /// <param name="options">The sink options.</param>
+    public PostgreSqlSink(PostgreSqlOptions options)
     {
-        /// <summary>
-        /// The sink helper.
-        /// </summary>
-        private readonly SinkHelper sinkHelper;
+        this.sinkHelper = new SinkHelper(options);
+    }
 
-        /// <inheritdoc cref="PeriodicBatchingSink" />
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
-        /// </summary>
-        /// <param name="options">The sink options.</param>
-        public PostgreSqlSink(PostgreSqlOptions options) : base(options.BatchSizeLimit, options.Period, options.QueueLimit)
+    /// <inheritdoc cref="IBatchedLogEventSink" />
+    /// <summary>
+    /// Emit a batch of log events, running asynchronously.
+    /// </summary>
+    /// <param name="events">The events to emit.</param>
+    /// <returns></returns>
+    /// <exception cref="LoggingFailedException">Received failed result {result.StatusCode} when posting events to Microsoft Teams</exception>
+    /// <remarks>
+    /// Override either <see cref="M:Serilog.Sinks.PeriodicBatching.IBatchedLogEventSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" /> or <see cref="M:Serilog.Sinks.PeriodicBatching.IBatchedLogEventSink.EmitBatchAsync(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />,
+    /// not both. Overriding EmitBatch() is preferred.
+    /// </remarks>
+    public async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+    {
+        try
         {
-            this.sinkHelper = new SinkHelper(options);
+            await this.sinkHelper.Emit(events);
         }
+        catch (Exception ex)
+        {
+            SelfLog.WriteLine($"{ex.Message} {ex.StackTrace}");
+            this.sinkHelper.SinkOptions.FailureCallback?.Invoke(ex);
+        }
+    }
 
-        /// <inheritdoc cref="PeriodicBatchingSink" />
-        /// <summary>
-        ///     Emit a batch of log events, running to completion synchronously.
-        /// </summary>
-        /// <param name="events">The events to emit.</param>
-        /// <remarks>
-        ///     Override either
-        ///     <see
-        ///         cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />
-        ///     or
-        ///     <see
-        ///         cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatchAsync(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />
-        ///     ,
-        ///     not both.
-        /// </remarks>
-        protected override void EmitBatch(IEnumerable<LogEvent> events)
-        {
-            try
-            {
-                this.sinkHelper.Emit(events);
-            }
-            catch (Exception ex)
-            {
-                SelfLog.WriteLine($"{ex.Message} {ex.StackTrace}");
-                this.sinkHelper.SinkOptions.FailureCallback?.Invoke(ex);
-            }
-        }
+    /// <inheritdoc cref="IBatchedLogEventSink" />
+    /// <summary>
+    /// Allows sinks to perform periodic work without requiring additional threads or
+    /// timers (thus avoiding additional flush/shut-down complexity).   
+    /// </summary>
+    public Task OnEmptyBatchAsync()
+    {
+        return Task.CompletedTask;
     }
 }

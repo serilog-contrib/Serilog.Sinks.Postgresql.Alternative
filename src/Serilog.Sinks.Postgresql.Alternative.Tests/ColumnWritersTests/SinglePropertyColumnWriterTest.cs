@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SinglePropertyColumnWriterTest.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
@@ -7,96 +7,85 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests
+namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
+
+/// <summary>
+///     This class is used to test the <seealso cref="SinglePropertyColumnWriter" /> class.
+/// </summary>
+[TestClass]
+public class SinglePropertyColumnWriterTest
 {
-    using System;
-    using System.Linq;
+    /// <summary>
+    ///     This method is used to test the writer with not present properties.
+    /// </summary>
+    [TestMethod]
+    public void PropertyIsNotPresentShouldReturnDbNullValue()
+    {
+        const string PropertyName = "TestProperty";
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+        var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.ToString, format: "l");
 
-    using Serilog.Events;
-    using Serilog.Parsing;
-    using Serilog.Sinks.PostgreSQL;
-    using Serilog.Sinks.PostgreSQL.ColumnWriters;
+        var testEvent = new LogEvent(
+            DateTime.Now,
+            LogEventLevel.Debug,
+            null,
+            new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
+            Enumerable.Empty<LogEventProperty>());
+
+        var result = writer.GetValue(testEvent);
+
+        Assert.AreEqual(DBNull.Value, result);
+    }
 
     /// <summary>
-    ///     This class is used to test the <seealso cref="SinglePropertyColumnWriter" /> class.
+    ///     This method is used to test the writer with the selected for scalar property.
     /// </summary>
-    [TestClass]
-    public class SinglePropertyColumnWriterTest
+    [TestMethod]
+    public void RawSelectedForScalarPropertyShouldReturnPropertyValue()
     {
-        /// <summary>
-        ///     This method is used to test the writer with not present properties.
-        /// </summary>
-        [TestMethod]
-        public void PropertyIsNotPresentShouldReturnDbNullValue()
-        {
-            const string PropertyName = "TestProperty";
+        const string PropertyName = "TestProperty";
 
-            var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.ToString, format: "l");
+        const int PropertyValue = 42;
 
-            var testEvent = new LogEvent(
-                DateTime.Now,
-                LogEventLevel.Debug,
-                null,
-                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
-                Enumerable.Empty<LogEventProperty>());
+        var property = new LogEventProperty(PropertyName, new ScalarValue(PropertyValue));
 
-            var result = writer.GetValue(testEvent);
+        var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.Raw);
 
-            Assert.AreEqual(DBNull.Value, result);
-        }
+        var testEvent = new LogEvent(
+            DateTime.Now,
+            LogEventLevel.Debug,
+            null,
+            new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
+            new[] { property });
 
-        /// <summary>
-        ///     This method is used to test the writer with the selected for scalar property.
-        /// </summary>
-        [TestMethod]
-        public void RawSelectedForScalarPropertyShouldReturnPropertyValue()
-        {
-            const string PropertyName = "TestProperty";
+        var result = writer.GetValue(testEvent);
 
-            const int PropertyValue = 42;
+        Assert.AreEqual(PropertyValue, result);
+    }
 
-            var property = new LogEventProperty(PropertyName, new ScalarValue(PropertyValue));
+    /// <summary>
+    ///     This method is used to test the writer with respected format.
+    /// </summary>
+    [TestMethod]
+    public void WithToStringSelectedShouldRespectFormatPassed()
+    {
+        const string PropertyName = "TestProperty";
 
-            var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.Raw);
+        const string PropertyValue = "TestValue";
 
-            var testEvent = new LogEvent(
-                DateTime.Now,
-                LogEventLevel.Debug,
-                null,
-                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
-                new[] { property });
+        var property = new LogEventProperty(PropertyName, new ScalarValue(PropertyValue));
 
-            var result = writer.GetValue(testEvent);
+        var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.ToString, format: "l");
 
-            Assert.AreEqual(PropertyValue, result);
-        }
+        var testEvent = new LogEvent(
+            DateTime.Now,
+            LogEventLevel.Debug,
+            null,
+            new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
+            new[] { property });
 
-        /// <summary>
-        ///     This method is used to test the writer with respected format.
-        /// </summary>
-        [TestMethod]
-        public void WithToStringSelectedShouldRespectFormatPassed()
-        {
-            const string PropertyName = "TestProperty";
+        var result = writer.GetValue(testEvent);
 
-            const string PropertyValue = "TestValue";
-
-            var property = new LogEventProperty(PropertyName, new ScalarValue(PropertyValue));
-
-            var writer = new SinglePropertyColumnWriter(PropertyName, PropertyWriteMethod.ToString, format: "l");
-
-            var testEvent = new LogEvent(
-                DateTime.Now,
-                LogEventLevel.Debug,
-                null,
-                new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
-                new[] { property });
-
-            var result = writer.GetValue(testEvent);
-
-            Assert.AreEqual(PropertyValue, result);
-        }
+        Assert.AreEqual(PropertyValue, result);
     }
 }

@@ -308,4 +308,4 @@ And `PropertiesColumnWriter` for the same event:
 }
 ```
 
-If there is an exception `LogEventSerializedColumnWriter` will have a property called `Exception` containing the stack trace, the same stack trace inside `ExceptionColumnWriter`.
+If there is an exception, `LogEventSerializedColumnWriter` will have a property called `Exception` containing the stack trace, the same stack trace inside `ExceptionColumnWriter`.

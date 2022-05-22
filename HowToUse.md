@@ -23,6 +23,9 @@ var logger = new LoggerConfiguration()
 
 The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/).
 
+## Hints
+Since the sink uses PeriodicBatching, which queues the log events and uses a timer to dequeue and finally log the events, you need to call `Log.CloseAndFlush();` sometimes to create the table if it should be auto-created. Check out https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/50 for an example.
+
 ## Configuration options
 
 |Parameter|Meaning|Example|Default value|

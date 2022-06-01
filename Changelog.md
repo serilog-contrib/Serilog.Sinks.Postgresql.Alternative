@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.4.3.0 (2022-06-01)** : Updated NuGet packages.
 * **Version 3.4.2.0 (2022-04-04)** : Updated NuGet packages.
 * **Version 3.4.1.0 (2022-02-16)** : Updated NuGet packages, added nullable checks, added editorconfig, added file scoped namespaces, added global usings, removed native support for Net Framework (Breaking change).
 * **Version 3.4.0.0 (2022-01-12)** : NuGet packages updated, adjusted timestamps to be written as UTC (Breaking change?).

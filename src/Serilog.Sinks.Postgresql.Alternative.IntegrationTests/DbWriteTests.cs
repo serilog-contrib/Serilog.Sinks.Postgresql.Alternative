@@ -432,11 +432,11 @@ public class DbWriteTests : BaseTests
 
         var columnProps = new Dictionary<string, ColumnWriterBase>
         {
-            {"Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
-            {"Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-            {"TimeStamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
-            {"Exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
-            {"UserName", new SinglePropertyColumnWriter("UserName", PropertyWriteMethod.ToString, NpgsqlDbType.Text) },
+            { "Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "TimeStamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+            { "Exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+            { "UserName", new SinglePropertyColumnWriter("UserName", PropertyWriteMethod.ToString, NpgsqlDbType.Text) },
         };
 
         var logger = new LoggerConfiguration()
@@ -451,6 +451,44 @@ public class DbWriteTests : BaseTests
           ).CreateLogger();
 
         LogContext.PushProperty("UserName", "Hans");
+
+        logger.Information("A test error occured.");
+
+        Log.CloseAndFlush();
+        await Task.Delay(1000);
+    }
+
+    /// <summary>
+    ///     This method is used to test the issue of https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/52.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+    [TestMethod]
+    public async Task TestIssue52()
+    {
+        const string TableName = "Logs11";
+        await this.databaseHelper.RemoveTable(string.Empty, TableName);
+
+        var columnProps = new Dictionary<string, ColumnWriterBase>
+        {
+            { "Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "TimeStamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
+            { "Exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
+            { "EnumTest", new SinglePropertyColumnWriter("EnumTest", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) }
+        };
+
+        var logger = new LoggerConfiguration()
+          .Enrich.FromLogContext()
+          .WriteTo.PostgreSQL(
+            ConnectionString,
+            TableName,
+            columnProps,
+            needAutoCreateTable: true,
+            needAutoCreateSchema: true,
+            failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")
+          ).CreateLogger();
+
+        LogContext.PushProperty("EnumTest", DummyEnum.Test1);
 
         logger.Information("A test error occured.");
 

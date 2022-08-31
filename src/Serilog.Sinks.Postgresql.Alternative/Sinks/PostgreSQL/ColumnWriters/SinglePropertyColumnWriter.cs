@@ -126,6 +126,12 @@ public class SinglePropertyColumnWriter : ColumnWriterBase
         // TODO: Add support for arrays
         if (logEventProperty is ScalarValue scalarValue)
         {
+            // In case of an enum and write method "raw", write it as integer.
+            if (scalarValue.Value is Enum enumValue)
+            {
+                return Convert.ToInt32(enumValue);
+            }
+
             return scalarValue.Value;
         }
 

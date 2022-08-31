@@ -44,12 +44,13 @@ public class LevelColumnWriter : ColumnWriterBase
     public LevelColumnWriter(bool renderAsText = false, NpgsqlDbType dbType = NpgsqlDbType.Integer, int? order = null)
         : base(dbType, order: order)
     {
-        if (renderAsText && dbType != NpgsqlDbType.Varchar)
-        {
-            throw new InvalidOperationException("If 'renderAsText' is set, you must use 'NpgsqlDbType.Varchar'.");
-        }
-
         this.renderAsText = renderAsText;
+
+        if (this.renderAsText)
+        {
+            // Set the DbType to NpgsqlDbType.Varchar if 'renderAsText' is set.
+            this.DbType = NpgsqlDbType.Varchar;
+        }
     }
 
     /// <inheritdoc cref="ColumnWriterBase" />

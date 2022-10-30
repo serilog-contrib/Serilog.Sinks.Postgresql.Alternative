@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 3.4.5.0 (2022-10-30)** : Updated nuget packages.
 * **Version 3.4.4.0 (2022-08-31)** : Updated NuGet packages, fixed issue that enum couldn't be written as integer (Check https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/52).
 * **Version 3.4.3.0 (2022-06-01)** : Updated NuGet packages.
 * **Version 3.4.2.0 (2022-04-04)** : Updated NuGet packages.

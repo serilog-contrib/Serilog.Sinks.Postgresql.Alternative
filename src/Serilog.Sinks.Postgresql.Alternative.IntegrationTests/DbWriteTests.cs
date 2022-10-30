@@ -73,7 +73,7 @@ public class DbWriteTests : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 

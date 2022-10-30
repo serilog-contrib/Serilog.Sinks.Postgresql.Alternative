@@ -75,7 +75,7 @@ public class DbWriteWithSchemaTests : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(10000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 

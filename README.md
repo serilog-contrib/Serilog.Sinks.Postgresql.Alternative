@@ -18,7 +18,6 @@ Serilog.Sinks.Postgresql.Alternative is a library to save logging information fr
 ## Available for
 * NetStandard 2.0
 * NetStandard 2.1
-* NetCore 3.1
 * Net 6.0
 * Net 7.0
 

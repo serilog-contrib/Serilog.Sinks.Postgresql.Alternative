@@ -111,7 +111,7 @@ public class SinkHelper
                 command.Parameters.AddWithValue(
                     ClearColumnNameForParameterName(columnKey),
                     this.SinkOptions.ColumnOptions[columnKey].DbType,
-                    this.SinkOptions.ColumnOptions[columnKey].GetValue(logEvent, this.SinkOptions.FormatProvider));
+                    this.SinkOptions.ColumnOptions[columnKey].GetValue(logEvent, this.SinkOptions.FormatProvider)) ?? DBNull.Value;
             }
 
             await command.ExecuteNonQueryAsync();

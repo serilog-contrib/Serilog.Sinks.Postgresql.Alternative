@@ -69,7 +69,7 @@ public class JsonConfigTestNamedConnectionString : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.dbHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.dbHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 }

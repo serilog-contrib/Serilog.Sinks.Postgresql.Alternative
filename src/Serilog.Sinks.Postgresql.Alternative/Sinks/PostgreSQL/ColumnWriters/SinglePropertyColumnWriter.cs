@@ -88,7 +88,7 @@ public class SinglePropertyColumnWriter : ColumnWriterBase
     ///     An object value.
     /// </returns>
     /// <seealso cref="ColumnWriterBase" />
-    public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
+    public override object? GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
     {
         if (!logEvent.Properties.ContainsKey(this.Name))
         {
@@ -121,7 +121,7 @@ public class SinglePropertyColumnWriter : ColumnWriterBase
     /// </summary>
     /// <param name="logEventProperty">The log event property.</param>
     /// <returns>The property value.</returns>
-    private static object GetPropertyValue(LogEventPropertyValue logEventProperty)
+    private static object? GetPropertyValue(LogEventPropertyValue logEventProperty)
     {
         // TODO: Add support for arrays
         if (logEventProperty is ScalarValue scalarValue)
@@ -132,7 +132,7 @@ public class SinglePropertyColumnWriter : ColumnWriterBase
                 return Convert.ToInt32(enumValue);
             }
 
-            return scalarValue.Value;
+            return scalarValue?.Value;
         }
 
         return logEventProperty;

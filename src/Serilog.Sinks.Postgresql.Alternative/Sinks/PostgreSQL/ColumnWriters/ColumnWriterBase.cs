@@ -55,7 +55,7 @@ public abstract class ColumnWriterBase
     /// <param name="logEvent">The log event.</param>
     /// <param name="formatProvider">The format provider.</param>
     /// <returns>An object value.</returns>
-    public abstract object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null);
+    public abstract object? GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null);
 
     /// <summary>
     /// Gets the type of the SQL query.

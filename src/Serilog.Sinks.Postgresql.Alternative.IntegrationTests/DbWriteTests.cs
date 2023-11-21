@@ -40,7 +40,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "MessageTemplate", new MessageTemplateColumnWriter() },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -64,7 +64,7 @@ public class DbWriteTests : BaseTests
         for (var i = 0; i < RowsCount; i++)
         {
             logger.Information(
-                "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+                "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
                 i,
                 testObject,
                 testObject2,
@@ -94,7 +94,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "MessageTemplate", new MessageTemplateColumnWriter() },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -115,7 +115,7 @@ public class DbWriteTests : BaseTests
         for (var i = 0; i < RowsCount; i++)
         {
             logger.Information(
-                "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+                "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
                 i,
                 testObject,
                 testObject2,
@@ -124,7 +124,7 @@ public class DbWriteTests : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 
@@ -144,7 +144,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "MessageTemplate", new MessageTemplateColumnWriter() },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -157,11 +157,11 @@ public class DbWriteTests : BaseTests
         var logger = new LoggerConfiguration().WriteTo
             .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
 
-        logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
+        logger.Information("Test: {@TestObject} testStr: {@TestStr:l}", testObject, "stringValue");
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(1, actualRowsCount);
     }
 
@@ -181,7 +181,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "\"MessageTemplate\"", new MessageTemplateColumnWriter() },
-            { "\"Level\"", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "\"Level\"", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -193,11 +193,11 @@ public class DbWriteTests : BaseTests
         var logger = new LoggerConfiguration().WriteTo
             .PostgreSQL(ConnectionString, TableName, columnProps, useCopy: false).CreateLogger();
 
-        logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
+        logger.Information("Test: {@TestObject} testStr: {@TestStr:l}", testObject, "stringValue");
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(1, actualRowsCount);
     }
 
@@ -218,7 +218,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "MessageTemplate", new MessageTemplateColumnWriter() },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -236,7 +236,7 @@ public class DbWriteTests : BaseTests
         for (var i = 0; i < RowsCount; i++)
         {
             logger.Information(
-                "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+                "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
                 i,
                 testObject,
                 testObject2,
@@ -245,7 +245,7 @@ public class DbWriteTests : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(10000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 
@@ -265,7 +265,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "MessageTemplate", new MessageTemplateColumnWriter() },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -277,11 +277,11 @@ public class DbWriteTests : BaseTests
         var logger = new LoggerConfiguration().WriteTo.PostgreSQL(ConnectionString, TableName, columnProps)
             .CreateLogger();
 
-        logger.Information("Test: {@testObject} testStr: {@testStr:l}", testObject, "stringValue");
+        logger.Information("Test: {@TestObject} testStr: {@TestStr:l}", testObject, "stringValue");
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(1, actualRowsCount);
     }
 
@@ -302,7 +302,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter() },
             { "MessageTemplate", new MessageTemplateColumnWriter() },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "RaiseDate", new TimestampColumnWriter() },
             { "Exception", new ExceptionColumnWriter() },
             { "Properties", new LogEventSerializedColumnWriter() },
@@ -323,7 +323,7 @@ public class DbWriteTests : BaseTests
         for (var i = 0; i < RowsCount; i++)
         {
             logger.Information(
-                "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+                "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
                 10,
                 testObject,
                 testObject2,
@@ -332,7 +332,7 @@ public class DbWriteTests : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 
@@ -357,7 +357,7 @@ public class DbWriteTests : BaseTests
             .WithMachineName().CreateLogger();
 
         logger.Information(
-            "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+            "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
             1,
             testObject,
             testObject2,
@@ -383,7 +383,7 @@ public class DbWriteTests : BaseTests
         {
             { "Message", new RenderedMessageColumnWriter(order: 8) },
             { "MessageTemplate", new MessageTemplateColumnWriter(order: 1) },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar, 2) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text, 2) },
             { "RaiseDate", new TimestampColumnWriter(order: 3) },
             { "Exception", new ExceptionColumnWriter(order: 4) },
             { "Properties", new LogEventSerializedColumnWriter(order: 5) },
@@ -407,7 +407,7 @@ public class DbWriteTests : BaseTests
         for (var i = 0; i < RowsCount; i++)
         {
             logger.Information(
-                "Test{testNo}: {@testObject} test2: {@testObject2} testStr: {@testStr:l}",
+                "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
                 i,
                 testObject,
                 testObject2,
@@ -416,7 +416,7 @@ public class DbWriteTests : BaseTests
 
         Log.CloseAndFlush();
         await Task.Delay(1000);
-        var actualRowsCount = this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
 
@@ -433,7 +433,7 @@ public class DbWriteTests : BaseTests
         var columnProps = new Dictionary<string, ColumnWriterBase>
         {
             { "Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "TimeStamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
             { "Exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
             { "UserName", new SinglePropertyColumnWriter("UserName", PropertyWriteMethod.ToString, NpgsqlDbType.Text) },
@@ -471,7 +471,7 @@ public class DbWriteTests : BaseTests
         var columnProps = new Dictionary<string, ColumnWriterBase>
         {
             { "Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
-            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
             { "TimeStamp", new TimestampColumnWriter(NpgsqlDbType.Timestamp) },
             { "Exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
             { "EnumTest", new SinglePropertyColumnWriter("EnumTest", PropertyWriteMethod.Raw, NpgsqlDbType.Integer) }

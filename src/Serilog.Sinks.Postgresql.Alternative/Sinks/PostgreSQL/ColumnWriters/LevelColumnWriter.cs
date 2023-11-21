@@ -48,8 +48,8 @@ public class LevelColumnWriter : ColumnWriterBase
 
         if (this.renderAsText)
         {
-            // Set the DbType to NpgsqlDbType.Varchar if 'renderAsText' is set.
-            this.DbType = NpgsqlDbType.Varchar;
+            // Set the DbType to NpgsqlDbType.Text if 'renderAsText' is set.
+            this.DbType = NpgsqlDbType.Text;
         }
     }
 

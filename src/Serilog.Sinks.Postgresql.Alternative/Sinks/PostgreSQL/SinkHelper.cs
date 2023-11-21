@@ -108,10 +108,10 @@ public class SinkHelper
             command.Parameters.Clear();
             foreach (var columnKey in this.ColumnNamesWithoutSkipped())
             {
-                command.Parameters.AddWithValue(
-                    ClearColumnNameForParameterName(columnKey),
-                    this.SinkOptions.ColumnOptions[columnKey].DbType,
-                    this.SinkOptions.ColumnOptions[columnKey].GetValue(logEvent, this.SinkOptions.FormatProvider)) ?? DBNull.Value;
+                var parameterName = ClearColumnNameForParameterName(columnKey);
+                var dbType = this.SinkOptions.ColumnOptions[columnKey].DbType;
+                var value = this.SinkOptions.ColumnOptions[columnKey].GetValue(logEvent, this.SinkOptions.FormatProvider) ?? DBNull.Value;
+                command.Parameters.AddWithValue(parameterName, dbType, value);
             }
 
             await command.ExecuteNonQueryAsync();

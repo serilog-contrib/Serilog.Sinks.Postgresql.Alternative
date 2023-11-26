@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
-        <PackageReleaseNotes>Version 4.0.0.0 (2023-11-21): Updated NuGet packages, removed support for NetCore3.1 and netstandard, added support for Net8.0, fixed silent error with null values, changed level column to render as text instead of varchar(50) - BREAKING?</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 4.0.1.0 (2023-11-26): Fixed issue with ordered columns from JSON configuration (https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/57) - BREAKING</PackageReleaseNotes>
         <PackageLicenseFile>License.txt</PackageLicenseFile>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>

@@ -39,27 +39,28 @@ public sealed class DbWriteWithSchemaTests : BaseTests
         var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
         var columnProps = new Dictionary<string, ColumnWriterBase>
+        {
+            { "Message", new RenderedMessageColumnWriter() },
+            { "MessageTemplate", new MessageTemplateColumnWriter() },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
+            { "RaiseDate", new TimestampColumnWriter() },
+            { "Exception", new ExceptionColumnWriter() },
+            { "Properties", new LogEventSerializedColumnWriter() },
+            { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
             {
-                { "Message", new RenderedMessageColumnWriter() },
-                { "MessageTemplate", new MessageTemplateColumnWriter() },
-                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
-                { "RaiseDate", new TimestampColumnWriter() },
-                { "Exception", new ExceptionColumnWriter() },
-                { "Properties", new LogEventSerializedColumnWriter() },
-                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                {
-                    "IntPropertyTest",
-                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
-                },
-                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-            };
+                "IntPropertyTest",
+                new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
+            },
+            { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+        };
 
         var logger = new LoggerConfiguration().WriteTo.PostgreSQL(
             ConnectionString,
             TableName,
             columnProps,
             schemaName: SchemaName,
-            needAutoCreateTable: true).Enrich.WithMachineName().CreateLogger();
+            needAutoCreateTable: true,
+            needAutoCreateSchema: true).Enrich.WithMachineName().CreateLogger();
 
         const long RowsCount = 50;
 
@@ -95,16 +96,16 @@ public sealed class DbWriteWithSchemaTests : BaseTests
         var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
         var columnProps = new Dictionary<string, ColumnWriterBase>
-            {
-                { "Message", new RenderedMessageColumnWriter() },
-                { "MessageTemplate", new MessageTemplateColumnWriter() },
-                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
-                { "RaiseDate", new TimestampColumnWriter() },
-                { "Exception", new ExceptionColumnWriter() },
-                { "Properties", new LogEventSerializedColumnWriter() },
-                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                { "MachineName", new SinglePropertyColumnWriter("MachineName") }
-            };
+        {
+            { "Message", new RenderedMessageColumnWriter() },
+            { "MessageTemplate", new MessageTemplateColumnWriter() },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
+            { "RaiseDate", new TimestampColumnWriter() },
+            { "Exception", new ExceptionColumnWriter() },
+            { "Properties", new LogEventSerializedColumnWriter() },
+            { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
+            { "MachineName", new SinglePropertyColumnWriter("MachineName") }
+        };
 
         await this.databaseHelper.CreateTable(SchemaName, TableName, columnProps);
 
@@ -141,20 +142,20 @@ public sealed class DbWriteWithSchemaTests : BaseTests
         var testObject2 = new TestObjectType2 { DateProp = DateTime.Now, NestedProp = testObject };
 
         var columnProps = new Dictionary<string, ColumnWriterBase>
+        {
+            { "Message", new RenderedMessageColumnWriter() },
+            { "MessageTemplate", new MessageTemplateColumnWriter() },
+            { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
+            { "RaiseDate", new TimestampColumnWriter() },
+            { "Exception", new ExceptionColumnWriter() },
+            { "Properties", new LogEventSerializedColumnWriter() },
+            { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
             {
-                { "Message", new RenderedMessageColumnWriter() },
-                { "MessageTemplate", new MessageTemplateColumnWriter() },
-                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
-                { "RaiseDate", new TimestampColumnWriter() },
-                { "Exception", new ExceptionColumnWriter() },
-                { "Properties", new LogEventSerializedColumnWriter() },
-                { "PropertyTest", new PropertiesColumnWriter(NpgsqlDbType.Text) },
-                {
-                    "IntPropertyTest",
-                    new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
-                },
-                { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
-            };
+                "IntPropertyTest",
+                new SinglePropertyColumnWriter("testNo", PropertyWriteMethod.Raw, NpgsqlDbType.Integer)
+            },
+            { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l") }
+        };
 
         var logger = new LoggerConfiguration().AuditTo.PostgreSQL(
             ConnectionString,

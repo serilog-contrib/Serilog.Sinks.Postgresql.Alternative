@@ -53,7 +53,7 @@ public sealed class DbHelper
         builder.Append("\";");
 
         using var connection = new NpgsqlConnection(this.connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         command.CommandText = builder.ToString();
         await command.ExecuteNonQueryAsync();
@@ -85,7 +85,7 @@ public sealed class DbHelper
         builder.Append("\";");
 
         using var connection = new NpgsqlConnection(this.connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         command.CommandText = builder.ToString();
         var result = await command.ExecuteScalarAsync();
@@ -117,7 +117,7 @@ public sealed class DbHelper
         builder.Append("\";");
 
         using var connection = new NpgsqlConnection(this.connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         using var command = connection.CreateCommand();
         command.CommandText = builder.ToString();
         await command.ExecuteNonQueryAsync();
@@ -134,7 +134,7 @@ public sealed class DbHelper
         schemaName = schemaName.Replace("\"", string.Empty);
         tableName = tableName.Replace("\"", string.Empty);
         using var connection = new NpgsqlConnection(this.connectionString);
-        connection.Open();
+        await connection.OpenAsync();
         await TableCreator.CreateTable(connection, schemaName, tableName, ClearQuotationMarksFromColumnOptions(columnsInfo));
     }
 

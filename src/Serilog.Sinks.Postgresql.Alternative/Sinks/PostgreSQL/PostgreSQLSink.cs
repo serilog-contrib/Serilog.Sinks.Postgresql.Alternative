@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL;
 ///     This class is the main class and contains all options for the PostgreSQL sink.
 /// </summary>
 /// <seealso cref="IBatchedLogEventSink" />
-public class PostgreSqlSink : IBatchedLogEventSink
+public sealed class PostgreSqlSink : IBatchedLogEventSink
 {
     /// <summary>
     /// The sink helper.

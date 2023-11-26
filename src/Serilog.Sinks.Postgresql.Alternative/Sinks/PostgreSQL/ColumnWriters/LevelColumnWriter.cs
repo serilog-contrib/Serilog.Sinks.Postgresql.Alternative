@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write the level.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class LevelColumnWriter : ColumnWriterBase
+public sealed class LevelColumnWriter : ColumnWriterBase
 {
     /// <summary>
     ///     A boolean value indicating whether the level is rendered as text.

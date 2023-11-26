@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write the not rendered message template.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class MessageTemplateColumnWriter : ColumnWriterBase
+public sealed class MessageTemplateColumnWriter : ColumnWriterBase
 {
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
 /// This class is used to test the <seealso cref="IdAutoIncrementColumnWriter" /> class.
 /// </summary>
 [TestClass]
-public class IdAutoIncrementColumnWriterTest
+public sealed class IdAutoIncrementColumnWriterTest
 {
     /// <summary>
     ///     This method is used to test the <see cref="IdAutoIncrementColumnWriter"/> with empty values.

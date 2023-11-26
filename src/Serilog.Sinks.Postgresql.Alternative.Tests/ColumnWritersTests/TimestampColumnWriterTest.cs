@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
 ///     This class is used to test the <seealso cref="TimestampColumnWriter" /> class.
 /// </summary>
 [TestClass]
-public class TimestampColumnWriterTest
+public sealed class TimestampColumnWriterTest
 {
     /// <summary>
     ///     This method is used to test the writer with a timestamp without time zone.

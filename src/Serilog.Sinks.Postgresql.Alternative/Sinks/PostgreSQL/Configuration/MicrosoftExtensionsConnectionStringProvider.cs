@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.Configuration;
 /// A class to read named connection strings.
 /// </summary>
 /// <seealso cref="IMicrosoftExtensionsConnectionStringProvider"/>
-internal class MicrosoftExtensionsConnectionStringProvider : IMicrosoftExtensionsConnectionStringProvider
+internal sealed class MicrosoftExtensionsConnectionStringProvider : IMicrosoftExtensionsConnectionStringProvider
 {
     /// <inheritdoc cref="IMicrosoftExtensionsConnectionStringProvider"/>
     /// <summary>

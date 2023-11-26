@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
 ///     This class is used to test the <seealso cref="LevelColumnWriter" /> class.
 /// </summary>
 [TestClass]
-public class LevelColumnWriterTest
+public sealed class LevelColumnWriterTest
 {
     /// <summary>
     ///     This method is used to test the writer with default values.

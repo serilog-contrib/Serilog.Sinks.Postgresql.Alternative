@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write the exception.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class ExceptionColumnWriter : ColumnWriterBase
+public sealed class ExceptionColumnWriter : ColumnWriterBase
 {
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

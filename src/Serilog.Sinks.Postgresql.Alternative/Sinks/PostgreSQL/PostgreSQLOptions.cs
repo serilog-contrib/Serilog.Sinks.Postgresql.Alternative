@@ -12,7 +12,7 @@ namespace Serilog.Sinks.PostgreSQL;
 /// <summary>
 /// A options class for the PostgreSql sink.
 /// </summary>
-public class PostgreSqlOptions
+public sealed class PostgreSqlOptions
 {
     /// <summary>
     ///     Gets or sets the connection string.

@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write all event properties.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class PropertiesColumnWriter : ColumnWriterBase
+public sealed class PropertiesColumnWriter : ColumnWriterBase
 {
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

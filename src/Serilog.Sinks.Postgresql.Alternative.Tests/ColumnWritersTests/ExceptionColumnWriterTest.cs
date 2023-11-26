@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
 ///     This class is used to test the <seealso cref="ExceptionColumnWriter" /> class.
 /// </summary>
 [TestClass]
-public class ExceptionColumnWriterTest
+public sealed class ExceptionColumnWriterTest
 {
     /// <summary>
     ///     This method is used to test the writer with empty exceptions.

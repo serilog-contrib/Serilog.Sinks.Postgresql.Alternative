@@ -12,7 +12,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests;
 /// <summary>
 ///     This class is used as helper class for the database connection.
 /// </summary>
-public class DbHelper
+public sealed class DbHelper
 {
     /// <summary>
     ///     The connection string.

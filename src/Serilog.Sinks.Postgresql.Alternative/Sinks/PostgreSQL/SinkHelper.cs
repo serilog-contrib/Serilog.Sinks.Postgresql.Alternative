@@ -12,7 +12,7 @@ namespace Serilog.Sinks.PostgreSQL;
 /// <summary>
 /// The sink helper class to not duplicate the code in the audit sink.
 /// </summary>
-public class SinkHelper
+public sealed class SinkHelper
 {
     /// <summary>
     ///     A boolean value indicating whether the table is created or not.

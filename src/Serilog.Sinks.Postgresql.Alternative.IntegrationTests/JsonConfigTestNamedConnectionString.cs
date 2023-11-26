@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests;
 /// Tests for creating PostgreSql logger from a JSON configuration with named connection strings.
 /// </summary>
 [TestClass]
-public class JsonConfigTestNamedConnectionString : BaseTests
+public sealed class JsonConfigTestNamedConnectionString : BaseTests
 {
     /// <summary>
     /// The test logs.

@@ -12,7 +12,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 /// <summary>
 /// The default column writer, needed for JSON configuration of the default columns.
 /// </summary>
-public class DefaultColumnWriter
+public sealed class DefaultColumnWriter
 {
     /// <summary>
     /// Gets or sets the column name.

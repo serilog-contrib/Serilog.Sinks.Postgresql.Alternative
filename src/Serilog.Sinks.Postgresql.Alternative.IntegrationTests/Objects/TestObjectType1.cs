@@ -12,7 +12,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests.Objects;
 /// <summary>
 ///     This class is used as an example test object.
 /// </summary>
-public class TestObjectType1
+public sealed class TestObjectType1
 {
     /// <summary>
     ///     Gets or sets the int property.

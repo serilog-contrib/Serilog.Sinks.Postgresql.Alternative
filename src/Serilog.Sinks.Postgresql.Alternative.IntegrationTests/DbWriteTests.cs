@@ -16,7 +16,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests;
 ///     This class is used to test the writing to the database.
 /// </summary>
 [TestClass]
-public class DbWriteTests : BaseTests
+public sealed class DbWriteTests : BaseTests
 {
     /// <summary>
     ///     The database helper.

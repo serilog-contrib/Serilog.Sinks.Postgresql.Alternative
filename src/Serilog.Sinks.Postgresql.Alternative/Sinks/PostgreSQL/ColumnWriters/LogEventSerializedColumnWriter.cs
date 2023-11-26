@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write the log event as JSON.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class LogEventSerializedColumnWriter : ColumnWriterBase
+public sealed class LogEventSerializedColumnWriter : ColumnWriterBase
 {
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write columns with auto increment and primary key.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class IdAutoIncrementColumnWriter : ColumnWriterBase
+public sealed class IdAutoIncrementColumnWriter : ColumnWriterBase
 {
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

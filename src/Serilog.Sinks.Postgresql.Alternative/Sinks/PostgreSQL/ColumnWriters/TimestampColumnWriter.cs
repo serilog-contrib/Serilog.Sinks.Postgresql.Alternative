@@ -14,7 +14,7 @@ namespace Serilog.Sinks.PostgreSQL.ColumnWriters;
 ///     This class is used to write the timestamp.
 /// </summary>
 /// <seealso cref="ColumnWriterBase" />
-public class TimestampColumnWriter : ColumnWriterBase
+public sealed class TimestampColumnWriter : ColumnWriterBase
 {
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>

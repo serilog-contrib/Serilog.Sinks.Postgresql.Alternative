@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.Tests.ColumnWritersTests;
 ///     This class is used to test the <seealso cref="SinglePropertyColumnWriter" /> class.
 /// </summary>
 [TestClass]
-public class SinglePropertyColumnWriterTest
+public sealed class SinglePropertyColumnWriterTest
 {
     /// <summary>
     ///     This method is used to test the writer with not present properties.

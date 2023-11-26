@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Postgresql.Alternative.IntegrationTests;
 /// Tests for creating PostgreSql logger from a JSON configuration.
 /// </summary>
 [TestClass]
-public class JsonConfigTest : BaseTests
+public sealed class JsonConfigTest : BaseTests
 {
     /// <summary>
     /// The database helper.

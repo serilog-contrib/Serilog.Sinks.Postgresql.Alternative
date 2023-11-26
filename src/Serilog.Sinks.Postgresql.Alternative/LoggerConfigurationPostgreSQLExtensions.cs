@@ -76,12 +76,12 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null)
     {
-        if (sinkConfiguration == null)
+        if (sinkConfiguration is null)
         {
             throw new ArgumentNullException(nameof(sinkConfiguration));
         }
 
-        if (appConfiguration != null)
+        if (appConfiguration is not null)
         {
             connectionString =
                 MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
@@ -154,12 +154,12 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null)
     {
-        if (sinkConfiguration == null)
+        if (sinkConfiguration is null)
         {
             throw new ArgumentNullException(nameof(sinkConfiguration));
         }
 
-        if (appConfiguration != null)
+        if (appConfiguration is not null)
         {
             connectionString =
                 MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
@@ -169,7 +169,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
 
         IDictionary<string, ColumnWriterBase>? columns = null;
 
-        if (loggerColumnOptions != null)
+        if (loggerColumnOptions is not null)
         {
             columns = new Dictionary<string, ColumnWriterBase>();
 
@@ -208,7 +208,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
             }
         }
 
-        if (loggerPropertyColumnOptions == null)
+        if (loggerPropertyColumnOptions is null)
         {
             var optionsLocal = GetOptions(
                 connectionString,
@@ -298,12 +298,12 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null)
     {
-        if (sinkConfiguration == null)
+        if (sinkConfiguration is null)
         {
             throw new ArgumentNullException(nameof(sinkConfiguration));
         }
 
-        if (appConfiguration != null)
+        if (appConfiguration is not null)
         {
             connectionString =
                 MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
@@ -429,12 +429,12 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null)
     {
-        if (sinkConfiguration == null)
+        if (sinkConfiguration is null)
         {
             throw new ArgumentNullException(nameof(sinkConfiguration));
         }
 
-        if (appConfiguration != null)
+        if (appConfiguration is not null)
         {
             connectionString =
                 MicrosoftExtensionsConnectionStringProvider.GetConnectionString(connectionString, appConfiguration);
@@ -442,7 +442,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
 
         IDictionary<string, ColumnWriterBase>? columns = null;
 
-        if (loggerColumnOptions != null)
+        if (loggerColumnOptions is not null)
         {
             columns = new Dictionary<string, ColumnWriterBase>();
 

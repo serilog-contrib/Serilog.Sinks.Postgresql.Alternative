@@ -57,7 +57,7 @@ public class SinkHelper
 
         if (this.SinkOptions.NeedAutoCreateTable && !this.isTableCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.TableName))
         {
-            if (this.SinkOptions.ColumnOptions.All(c => c.Value.Order != null))
+            if (this.SinkOptions.ColumnOptions.All(c => c.Value.Order is not null))
             {
                 var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
                     .ToDictionary(c => c.Key, x => x.Value);

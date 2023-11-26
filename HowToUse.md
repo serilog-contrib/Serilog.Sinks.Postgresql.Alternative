@@ -60,40 +60,93 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 
 ```json
 {
-  "Serilog": {
-    "LevelSwitches": {
-      "$controlSwitch": "Verbose"
-    },
-    "MinimumLevel": {
-      "ControlledBy": "$controlSwitch"
-    },
-    "WriteTo": [
-      {
-        "Name": "PostgreSQL",
-        "Args": {
-          "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
-          "tableName": "TestLogs",
-          "schemaName": null,
-          "needAutoCreateTable": true,
-          "loggerColumnOptions": {
-            "Id": "IdAutoIncrement",
-            "TimeStamp": "Timestamp",
-            "LogEvent": "LogEvent"
-          },
-          "loggerPropertyColumnOptions": {
-            "TestColumnName": {
-              "Name": "TestProperty",
-              "Format": "{0}",
-              "WriteMethod": "Raw",
-              "DbType": "Text"
+    "Serilog": {
+        "LevelSwitches": {
+            "$controlSwitch": "Verbose"
+        },
+        "MinimumLevel": {
+            "ControlledBy": "$controlSwitch"
+        },
+        "WriteTo": [
+            {
+                "Name": "PostgreSQL",
+                "Args": {
+                    "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
+                    "tableName": "TestLogs",
+                    "schemaName": null,
+                    "needAutoCreateTable": true,
+                    "loggerColumnOptions": {
+                        "Id": {
+                            "Name": "IdAutoIncrement"
+                        },
+                        "TimeStamp": {
+                            "Name": "Timestamp"
+                        },
+                        "LogEvent": {
+                            "Name": "LogEvent"
+                        }
+                    },
+                    "loggerPropertyColumnOptions": {
+                        "TestColumnName": {
+                            "Name": "TestProperty",
+                            "Format": "{0}",
+                            "WriteMethod": "Raw",
+                            "DbType": "Text"
+                        }
+                    },
+                    "period": "0.00:00:30",
+                    "batchSizeLimit": 50
+                }
             }
-          },
-          "period": "0.00:00:30",
-          "batchSizeLimit": 50
-        }
-      }
-    ]
-  }
+        ]
+    }
+}
+```
+
+## Configuration via JSON file to use ordered columns
+
+```json
+{
+    "Serilog": {
+        "LevelSwitches": { "$controlSwitch": "Verbose" },
+        "MinimumLevel": { "ControlledBy": "$controlSwitch" },
+        "WriteTo": [
+            {
+                "Name": "PostgreSQL",
+                "Args": {
+                    "connectionString": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;",
+                    "tableName": "ConfigLogs3",
+                    "schemaName": null,
+                    "needAutoCreateTable": true,
+                    "loggerColumnOptions": {
+                        "Id": {
+                            "Name": "IdAutoIncrement",
+                            "Order": 0
+                        },
+                        "TimeStamp": {
+                            "Name": "Timestamp",
+                            "Order": 2
+                        },
+                        "LogEvent": {
+                            "Name": "LogEvent",
+                            "Order": 3
+                        }
+                    },
+                    "loggerPropertyColumnOptions": {
+                        "TestColumnName": {
+                            "Format": "{0}",
+                            "Name": "TestProperty",
+                            "WriteMethod": "Raw",
+                            "DbType": "Text",
+                            "Order": 1
+                        }
+                    },
+                    "period": "0.00:00:30",
+                    "batchSizeLimit": 50
+                }
+            }
+        ]
+    }
 }
 ```
 
@@ -101,39 +154,49 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 
 ```json
 {
-  "ConnectionStrings": {
-    "DevTest": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;"
-  },
-  "Serilog": {
-    "LevelSwitches": { "$controlSwitch": "Verbose" },
-    "MinimumLevel": { "ControlledBy": "$controlSwitch" },
-    "WriteTo": [
-      {
-        "Name": "PostgreSQL",
-        "Args": {
-          "connectionString": "DevTest",
-          "tableName": "TestLogs",
-          "schemaName": null,
-          "needAutoCreateTable": true,
-          "loggerColumnOptions": {
-            "Id": "IdAutoIncrement",
-            "TimeStamp": "Timestamp",
-            "LogEvent": "Properties"
-          },
-          "loggerPropertyColumnOptions": {
-            "TestColumnName": {
-              "Format": "{0}",
-              "Name": "TestProperty",
-              "WriteMethod": "Raw",
-              "DbType": "Text"
+    "ConnectionStrings": {
+        "DevTest": "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Serilog;"
+    },
+    "Serilog": {
+        "LevelSwitches": {
+            "$controlSwitch": "Verbose"
+        },
+        "MinimumLevel": {
+            "ControlledBy": "$controlSwitch"
+        },
+        "WriteTo": [
+            {
+                "Name": "PostgreSQL",
+                "Args": {
+                    "connectionString": "DevTest",
+                    "tableName": "TestLogs",
+                    "schemaName": null,
+                    "needAutoCreateTable": true,
+                    "loggerColumnOptions": {
+                        "Id": {
+                            "Name": "IdAutoIncrement"
+                        },
+                        "TimeStamp": {
+                            "Name": "Timestamp"
+                        },
+                        "LogEvent": {
+                            "Name": "Properties"
+                        }
+                    },
+                    "loggerPropertyColumnOptions": {
+                        "TestColumnName": {
+                            "Format": "{0}",
+                            "Name": "TestProperty",
+                            "WriteMethod": "Raw",
+                            "DbType": "Text"
+                        }
+                    },
+                    "period": "0.00:00:30",
+                    "batchSizeLimit": 50
+                }
             }
-          },
-          "period": "0.00:00:30",
-          "batchSizeLimit": 50
-        }
-      }
-    ]
-  }
+        ]
+    }
 }
 ```
 

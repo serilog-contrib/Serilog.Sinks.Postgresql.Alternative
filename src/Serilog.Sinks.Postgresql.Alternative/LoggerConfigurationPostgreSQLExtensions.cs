@@ -139,7 +139,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
         this LoggerSinkConfiguration sinkConfiguration,
         string connectionString,
         string tableName,
-        IDictionary<string, string>? loggerColumnOptions = null,
+        IDictionary<string, DefaultColumnWriter>? loggerColumnOptions = null,
         IDictionary<string, SinglePropertyColumnWriter>? loggerPropertyColumnOptions = null,
         LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
         TimeSpan? period = null,
@@ -175,34 +175,36 @@ public static class LoggerConfigurationPostgreSqlExtensions
 
             foreach (var columnOption in loggerColumnOptions)
             {
-                switch (columnOption.Value)
+                var name = columnOption.Value.Name;
+
+                switch (name)
                 {
                     case "Level":
-                        columns.Add(columnOption.Key, new LevelColumnWriter());
+                        columns.Add(columnOption.Key, new LevelColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "LevelAsText":
-                        columns.Add(columnOption.Key, new LevelColumnWriter(true, NpgsqlDbType.Text));
+                        columns.Add(columnOption.Key, new LevelColumnWriter(true, NpgsqlDbType.Text, columnOption.Value.Order));
                         break;
                     case "Timestamp":
-                        columns.Add(columnOption.Key, new TimestampColumnWriter());
+                        columns.Add(columnOption.Key, new TimestampColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "LogEvent":
-                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter());
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "Properties":
-                        columns.Add(columnOption.Key, new PropertiesColumnWriter());
+                        columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "Message":
-                        columns.Add(columnOption.Key, new MessageTemplateColumnWriter());
+                        columns.Add(columnOption.Key, new MessageTemplateColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "RenderedMessage":
-                        columns.Add(columnOption.Key, new RenderedMessageColumnWriter());
+                        columns.Add(columnOption.Key, new RenderedMessageColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "Exception":
-                        columns.Add(columnOption.Key, new ExceptionColumnWriter());
+                        columns.Add(columnOption.Key, new ExceptionColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "IdAutoIncrement":
-                        columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter());
+                        columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter(order: columnOption.Value.Order));
                         break;
                 }
             }
@@ -418,7 +420,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
         this LoggerAuditSinkConfiguration sinkConfiguration,
         string connectionString,
         string tableName,
-        IDictionary<string, string>? loggerColumnOptions = null,
+        IDictionary<string, DefaultColumnWriter>? loggerColumnOptions = null,
         IDictionary<string, SinglePropertyColumnWriter>? loggerPropertyColumnOptions = null,
         LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
         IFormatProvider? formatProvider = null,
@@ -448,34 +450,36 @@ public static class LoggerConfigurationPostgreSqlExtensions
 
             foreach (var columnOption in loggerColumnOptions)
             {
-                switch (columnOption.Value)
+                var name = columnOption.Value.Name;
+
+                switch (name)
                 {
                     case "Level":
-                        columns.Add(columnOption.Key, new LevelColumnWriter());
+                        columns.Add(columnOption.Key, new LevelColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "LevelAsText":
-                        columns.Add(columnOption.Key, new LevelColumnWriter(true, NpgsqlDbType.Text));
+                        columns.Add(columnOption.Key, new LevelColumnWriter(true, NpgsqlDbType.Text, columnOption.Value.Order));
                         break;
                     case "Timestamp":
-                        columns.Add(columnOption.Key, new TimestampColumnWriter());
+                        columns.Add(columnOption.Key, new TimestampColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "LogEvent":
-                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter());
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "Properties":
-                        columns.Add(columnOption.Key, new PropertiesColumnWriter());
+                        columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "Message":
-                        columns.Add(columnOption.Key, new MessageTemplateColumnWriter());
+                        columns.Add(columnOption.Key, new MessageTemplateColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "RenderedMessage":
-                        columns.Add(columnOption.Key, new RenderedMessageColumnWriter());
+                        columns.Add(columnOption.Key, new RenderedMessageColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "Exception":
-                        columns.Add(columnOption.Key, new ExceptionColumnWriter());
+                        columns.Add(columnOption.Key, new ExceptionColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "IdAutoIncrement":
-                        columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter());
+                        columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter(order: columnOption.Value.Order));
                         break;
                 }
             }

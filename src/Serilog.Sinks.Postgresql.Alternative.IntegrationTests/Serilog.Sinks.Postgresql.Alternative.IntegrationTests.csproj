@@ -37,6 +37,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="PostgreSinkConfigurationOrderedColumns.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="PostgreSinkConfigurationConnectionString.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

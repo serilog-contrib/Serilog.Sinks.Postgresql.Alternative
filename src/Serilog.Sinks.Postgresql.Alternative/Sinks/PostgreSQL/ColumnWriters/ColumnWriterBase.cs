@@ -44,10 +44,10 @@ public abstract class ColumnWriterBase
     public bool SkipOnInsert { get; }
 
     /// <summary>
-    /// Gets the order of the column writer if needed.
+    /// Gets or sets the order of the column writer if needed.
     /// Is used for sorting the columns as the writers are ordered alphabetically per default.
     /// </summary>
-    public int? Order { get; }
+    public int? Order { get; set; }
 
     /// <summary>
     ///     Gets the part of the log event to write to the column.

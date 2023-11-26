@@ -91,4 +91,41 @@ public class JsonConfigTest : BaseTests
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
+
+    /// <summary>
+    ///     This method is used to test the logger creation from the configuration with ordered columns.
+    ///     Test for issue https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/57.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+    [TestMethod]
+    public async Task ShouldCreateLoggerFromConfigWithOrderedColumns()
+    {
+        const string TableName = "ConfigLogs3";
+        await this.databaseHelper.RemoveTable(string.Empty, TableName);
+
+        var testObject = new TestObjectType1 { IntProp = 42, StringProp = "Test" };
+
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile(".\\PostgreSinkConfigurationOrderedColumns.json", false, true)
+            .Build();
+
+        var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+
+        const long RowsCount = 2;
+
+        for (var i = 0; i < RowsCount; i++)
+        {
+            logger.Information(
+                "{@LogEvent} {TestProperty}",
+                testObject,
+                "TestValue");
+        }
+
+        Log.CloseAndFlush();
+        await Task.Delay(1000);
+        var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
+        Assert.AreEqual(RowsCount, actualRowsCount);
+    }
 }

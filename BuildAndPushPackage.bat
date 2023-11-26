@@ -16,12 +16,13 @@ FOR /d /r . %%d in (bin,obj) DO (
 
 @ECHO on
 @ECHO.Building solution...
-@dotnet build -c Release -o bin/publish
+@dotnet restore
+@dotnet build -c Release --property:OutputPath=../publish
 @ECHO.Deleting *.pdb files...
-@cd bin/publish
+@cd ./publish
 @del *.pdb
 @ECHO.Build successful.
 
-dotnet nuget push *.nupkg -s "nuget.org" --skip-duplicate -k "%NUGET_API_KEY%"
+dotnet nuget push *.nupkg -s "nuget.org" -k "%NUGET_API_KEY%"
 @ECHO.Upload success. Press any key to exit.
 PAUSE

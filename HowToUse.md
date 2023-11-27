@@ -43,6 +43,8 @@ Since the sink uses PeriodicBatching, which queues the log events and uses a tim
 |needAutoCreateSchema|Specifies whether the schema should be auto-created if it does not already exist or not.|`needAutoCreateSchema: true`|`false`|
 |failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
 |appConfiguration|The app configuration section. Required if the connection string is a name.|-|`null`|
+|onCreateTableCallback|Adds an option to add a create table callback action.|`onCreateTableCallback: e => Console.WriteLine($"Create table called: {e.ToString()}")`|`null`|
+|onCreateSchemaCallback|Adds an option to add a create schema callback action.|`onCreateSchemaCallback: e => Console.WriteLine($"Create schema called: {e.ToString()}")`|`null`|
 
 ## Configuration via JSON file
 

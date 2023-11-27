@@ -82,11 +82,21 @@ public sealed class SinkHelper
     }
 
     /// <summary>
+    ///     Clears the name of the column name for parameter.
+    /// </summary>
+    /// <param name="columnName">Name of the column.</param>
+    /// <returns>The cleared column name.</returns>
+    private static string ClearColumnNameForParameterName(string columnName)
+    {
+        return columnName?.Replace("\"", string.Empty) ?? string.Empty;
+    }
+
+    /// <summary>
     ///     Processes the events by the copy command.
     /// </summary>
     /// <param name="events">The events.</param>
     /// <param name="connection">The connection.</param>
-    public async Task ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
+    private async Task ProcessEventsByCopyCommand(IEnumerable<LogEvent> events, NpgsqlConnection connection)
     {
         using var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand());
         this.WriteToStream(binaryCopyWriter, events);
@@ -98,7 +108,7 @@ public sealed class SinkHelper
     /// </summary>
     /// <param name="events">The events.</param>
     /// <param name="connection">The connection.</param>
-    public async Task ProcessEventsByInsertStatements(IEnumerable<LogEvent> events, NpgsqlConnection connection)
+    private async Task ProcessEventsByInsertStatements(IEnumerable<LogEvent> events, NpgsqlConnection connection)
     {
         using var command = connection.CreateCommand();
         command.CommandText = this.GetInsertQuery();
@@ -116,16 +126,6 @@ public sealed class SinkHelper
 
             await command.ExecuteNonQueryAsync();
         }
-    }
-
-    /// <summary>
-    ///     Clears the name of the column name for parameter.
-    /// </summary>
-    /// <param name="columnName">Name of the column.</param>
-    /// <returns>The cleared column name.</returns>
-    private static string ClearColumnNameForParameterName(string columnName)
-    {
-        return columnName?.Replace("\"", string.Empty) ?? string.Empty;
     }
 
     /// <summary>

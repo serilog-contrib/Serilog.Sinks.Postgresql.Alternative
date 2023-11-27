@@ -23,11 +23,11 @@ public static class ColumnOptions
     public static IDictionary<string, ColumnWriterBase> Default =>
         new Dictionary<string, ColumnWriterBase>
         {
-                { DefaultColumnNames.RenderedMessage, new RenderedMessageColumnWriter() },
-                { DefaultColumnNames.MessageTemplate, new MessageTemplateColumnWriter() },
-                { DefaultColumnNames.Level, new LevelColumnWriter() },
-                { DefaultColumnNames.Timestamp, new TimestampColumnWriter() },
-                { DefaultColumnNames.Exception, new ExceptionColumnWriter() },
-                { DefaultColumnNames.LogEventSerialized, new LogEventSerializedColumnWriter() }
+            { DefaultColumnNames.RenderedMessage, new RenderedMessageColumnWriter() },
+            { DefaultColumnNames.MessageTemplate, new MessageTemplateColumnWriter() },
+            { DefaultColumnNames.Level, new LevelColumnWriter() },
+            { DefaultColumnNames.Timestamp, new TimestampColumnWriter() },
+            { DefaultColumnNames.Exception, new ExceptionColumnWriter() },
+            { DefaultColumnNames.LogEventSerialized, new LogEventSerializedColumnWriter() }
         };
 }

@@ -59,13 +59,27 @@ public sealed class SinkHelper
         {
             if (this.SinkOptions.ColumnOptions.All(c => c.Value.Order is not null))
             {
-                var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
+                if (this.SinkOptions.OnBeforeCreateTable is null)
+                {
+                    var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
                     .ToDictionary(c => c.Key, x => x.Value);
-                await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, columnOptions);
+                    await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, columnOptions);
+                }
+                else
+                {
+                    this.SinkOptions.OnBeforeCreateTable.Invoke(new BeforeCreateTableEventArgs());
+                }                
             }
             else
             {
-                await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
+                if (this.SinkOptions.OnBeforeCreateTable is null)
+                {
+                    await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
+                }
+                else
+                {
+                    this.SinkOptions.OnBeforeCreateTable.Invoke(new BeforeCreateTableEventArgs());
+                }
             }
 
             this.isTableCreated = true;

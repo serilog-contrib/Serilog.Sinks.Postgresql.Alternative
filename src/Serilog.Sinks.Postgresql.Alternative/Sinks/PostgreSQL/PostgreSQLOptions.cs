@@ -73,4 +73,9 @@ public sealed class PostgreSqlOptions
     /// Gets or sets the maximum number of events that should be stored in the batching queue.
     /// </summary>
     public int QueueLimit { get; set; }
+
+    /// <summary>
+    ///  Gets or sets the before create table callback.
+    /// </summary>
+    public Action<BeforeCreateTableEventArgs>? OnBeforeCreateTable { get; set; }
 }

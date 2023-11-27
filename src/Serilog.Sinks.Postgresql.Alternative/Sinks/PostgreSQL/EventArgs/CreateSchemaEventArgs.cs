@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BeforeCreateTableEventArgs.cs" company="SeppPenner and the Serilog contributors">
+// <copyright file="CreateSchemaEventArgs.cs" company="SeppPenner and the Serilog contributors">
 // The project is licensed under the MIT license.
 // </copyright>
 // <summary>
-//   The before create table event args.
+//   The create schema event args.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,15 +11,15 @@ namespace Serilog.Sinks.PostgreSQL.EventArgs;
 
 /// <inheritdoc cref="SystemEventArgs" />
 /// <summary>
-/// The before create table event args.
+/// The create schema event args.
 /// </summary>
 /// <seealso cref="SystemEventArgs" />
-public class BeforeCreateTableEventArgs : SystemEventArgs
+public class CreateSchemaEventArgs : SystemEventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BeforeCreateTableEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="CreateSchemaEventArgs"/> class.
     /// </summary>
-    public BeforeCreateTableEventArgs()
+    public CreateSchemaEventArgs()
     {
     }
 }

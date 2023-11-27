@@ -57,6 +57,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
     /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerSinkConfiguration sinkConfiguration,
@@ -74,7 +76,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
         Action<Exception>? failureCallback = null,
-        IConfiguration? appConfiguration = null)
+        IConfiguration? appConfiguration = null,
+        Action<CreateTableEventArgs>? onCreateTableCallback = null,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
     {
         if (sinkConfiguration is null)
         {
@@ -101,7 +105,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback);
+            failureCallback,
+            onCreateTableCallback,
+            onCreateSchemaCallback);
 
         var batchingOptions = new PeriodicBatchingSinkOptions()
         {
@@ -134,6 +140,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
     /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerSinkConfiguration sinkConfiguration,
@@ -152,7 +160,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
         Action<Exception>? failureCallback = null,
-        IConfiguration? appConfiguration = null)
+        IConfiguration? appConfiguration = null,
+        Action<CreateTableEventArgs>? onCreateTableCallback = null,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
     {
         if (sinkConfiguration is null)
         {
@@ -224,7 +234,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 schemaName,
                 needAutoCreateTable,
                 needAutoCreateSchema,
-                failureCallback);
+                failureCallback,
+                onCreateTableCallback,
+                onCreateSchemaCallback);
 
             var batchingOptions = new PeriodicBatchingSinkOptions()
             {
@@ -256,7 +268,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback);
+            failureCallback,
+            onCreateTableCallback,
+            onCreateSchemaCallback);
 
         var batchingOptions2 = new PeriodicBatchingSinkOptions()
         {
@@ -285,6 +299,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
     /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerAuditSinkConfiguration sinkConfiguration,
@@ -298,7 +314,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
         Action<Exception>? failureCallback = null,
-        IConfiguration? appConfiguration = null)
+        IConfiguration? appConfiguration = null,
+        Action<CreateTableEventArgs>? onCreateTableCallback = null,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
     {
         if (sinkConfiguration is null)
         {
@@ -323,7 +341,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback);
+            failureCallback,
+            onCreateTableCallback,
+            onCreateSchemaCallback);
 
         return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
     }
@@ -365,6 +385,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
     /// <param name="failureCallback">The failure callback.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     internal static PostgreSqlOptions GetOptions(
         string connectionString,
         string tableName,
@@ -377,7 +399,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
         string schemaName,
         bool needAutoCreateTable,
         bool needAutoCreateSchema,
-        Action<Exception>? failureCallback)
+        Action<Exception>? failureCallback,
+        Action<CreateTableEventArgs>? onCreateTableCallback,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback)
     {
         var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
@@ -394,7 +418,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
             SchemaName = schemaName.Replace("\"", string.Empty),
             NeedAutoCreateTable = needAutoCreateTable,
             NeedAutoCreateSchema = needAutoCreateSchema,
-            FailureCallback = failureCallback
+            FailureCallback = failureCallback,
+            OnCreateTable = onCreateTableCallback,
+            OnCreateSchema = onCreateSchemaCallback
         };
     }
 
@@ -415,6 +441,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
     /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerAuditSinkConfiguration sinkConfiguration,
@@ -429,7 +457,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
         Action<Exception>? failureCallback = null,
-        IConfiguration? appConfiguration = null)
+        IConfiguration? appConfiguration = null,
+        Action<CreateTableEventArgs>? onCreateTableCallback = null,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
     {
         if (sinkConfiguration is null)
         {
@@ -499,7 +529,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 schemaName,
                 needAutoCreateTable,
                 needAutoCreateSchema,
-                failureCallback);
+                failureCallback,
+                onCreateTableCallback,
+                onCreateSchemaCallback);
 
             return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
         }
@@ -523,7 +555,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback);
+            failureCallback,
+            onCreateTableCallback,
+            onCreateSchemaCallback);
 
         return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal2), restrictedToMinimumLevel, levelSwitch);
     }

@@ -75,7 +75,12 @@ public sealed class PostgreSqlOptions
     public int QueueLimit { get; set; }
 
     /// <summary>
-    ///  Gets or sets the before create table callback.
+    ///  Gets or sets the create table callback.
     /// </summary>
-    public Action<BeforeCreateTableEventArgs>? OnBeforeCreateTable { get; set; }
+    public Action<CreateTableEventArgs>? OnCreateTable { get; set; }
+
+    /// <summary>
+    ///  Gets or sets the create schema callback.
+    /// </summary>
+    public Action<CreateSchemaEventArgs>? OnCreateSchema { get; set; }
 }

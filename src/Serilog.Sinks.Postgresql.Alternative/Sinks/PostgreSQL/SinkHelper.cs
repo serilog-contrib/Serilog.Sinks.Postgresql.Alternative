@@ -51,7 +51,15 @@ public sealed class SinkHelper
 
         if (this.SinkOptions.NeedAutoCreateSchema && !this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
         {
-            await SchemaCreator.CreateSchema(connection, this.SinkOptions.SchemaName);
+            if (this.SinkOptions.OnCreateSchema is null)
+            {
+                await SchemaCreator.CreateSchema(connection, this.SinkOptions.SchemaName);
+            }
+            else
+            {
+                this.SinkOptions.OnCreateSchema.Invoke(new CreateSchemaEventArgs());
+            }
+
             this.isSchemaCreated = true;
         }
 
@@ -59,7 +67,7 @@ public sealed class SinkHelper
         {
             if (this.SinkOptions.ColumnOptions.All(c => c.Value.Order is not null))
             {
-                if (this.SinkOptions.OnBeforeCreateTable is null)
+                if (this.SinkOptions.OnCreateTable is null)
                 {
                     var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
                     .ToDictionary(c => c.Key, x => x.Value);
@@ -67,18 +75,18 @@ public sealed class SinkHelper
                 }
                 else
                 {
-                    this.SinkOptions.OnBeforeCreateTable.Invoke(new BeforeCreateTableEventArgs());
+                    this.SinkOptions.OnCreateTable.Invoke(new CreateTableEventArgs());
                 }                
             }
             else
             {
-                if (this.SinkOptions.OnBeforeCreateTable is null)
+                if (this.SinkOptions.OnCreateTable is null)
                 {
                     await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
                 }
                 else
                 {
-                    this.SinkOptions.OnBeforeCreateTable.Invoke(new BeforeCreateTableEventArgs());
+                    this.SinkOptions.OnCreateTable.Invoke(new CreateTableEventArgs());
                 }
             }
 

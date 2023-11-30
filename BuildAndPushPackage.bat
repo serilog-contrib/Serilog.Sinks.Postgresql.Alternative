@@ -16,14 +16,11 @@ FOR /d /r . %%d in (bin,obj) DO (
 
 @ECHO on
 @ECHO.Building solution...
-@del publish /F /Q
 @dotnet restore
-@dotnet build -c Release --property:OutputPath=../publish
-@ECHO.Deleting *.pdb files...
-@cd ./publish
-@del *.pdb
+@dotnet build -c Release
+@cd .\Serilog.Sinks.Postgresql.Alternative\bin\Release
 @ECHO.Build successful.
-
 dotnet nuget push *.nupkg -s "nuget.org" --skip-duplicate -k "%NUGET_API_KEY%"
+dotnet nuget push *.snupkg -s "nuget.org" --skip-duplicate -k "%NUGET_API_KEY%"
 @ECHO.Upload success. Press any key to exit.
 PAUSE

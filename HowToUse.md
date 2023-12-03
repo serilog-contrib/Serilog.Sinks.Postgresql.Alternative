@@ -24,7 +24,14 @@ var logger = new LoggerConfiguration()
 The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/).
 
 ## Hints
-Since the sink uses PeriodicBatching, which queues the log events and uses a timer to dequeue and finally log the events, you need to call `Log.CloseAndFlush();` sometimes to create the table if it should be auto-created. Check out https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/50 for an example.
+- Since the sink uses PeriodicBatching, which queues the log events and uses a timer to dequeue and finally log the events, you need to call `Log.CloseAndFlush();` sometimes to create the table if it should be auto-created. Check out https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/50 for an example.
+- The database is not created by the program itself as most of the people don't want to use a `root` kind of user or logging, e.g. the logging user doesn't have the privileges to `CREATE DATABASE xy`. Therefore, you need to create the database on your own before running the sink.
+- The database user does need the privilege to create a schema if you don't create it manually.
+- The database user does need the privilege to create a table if you don't create it manually.
+- If you use `onCreateTableCallback`, you need to specify the creation code by yourself, e.g. no automation is used in this case.
+- If you use `onCreateSchemaCallback`, you need to specify the creation code by yourself, e.g. no automation is used in this case.
+- If you want to auto-create a table without a schema (Or with a schema that is already created), just set `needAutoCreateTable` to `true`.
+- If you want to auto-create a table and a schema, set `needAutoCreateTable` to `true` and `needAutoCreateSchema` to `true`.
 
 ## Configuration options
 
@@ -43,8 +50,8 @@ Since the sink uses PeriodicBatching, which queues the log events and uses a tim
 |needAutoCreateSchema|Specifies whether the schema should be auto-created if it does not already exist or not.|`needAutoCreateSchema: true`|`false`|
 |failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
 |appConfiguration|The app configuration section. Required if the connection string is a name.|-|`null`|
-|onCreateTableCallback|Adds an option to add a create table callback action. Setting this disables the table creation and allows you to add a custom behaviour.|`onCreateTableCallback: e => Console.WriteLine($"Create table called: {e.ToString()}")`|`null`|
-|onCreateSchemaCallback|Adds an option to add a create schema callback action. Setting this disables the schema creation and allows you to add a custom behaviour.|`onCreateSchemaCallback: e => Console.WriteLine($"Create schema called: {e.ToString()}")`|`null`|
+|onCreateTableCallback|Adds an option to add a create table callback action. **Setting this disables the table creation and allows you to add a custom behaviour.**|`onCreateTableCallback: e => Console.WriteLine($"Create table called: {e.ToString()}")`|`null`|
+|onCreateSchemaCallback|Adds an option to add a create schema callback action. **Setting this disables the schema creation and allows you to add a custom behaviour.**|`onCreateSchemaCallback: e => Console.WriteLine($"Create schema called: {e.ToString()}")`|`null`|
 
 ## Configuration via JSON file
 

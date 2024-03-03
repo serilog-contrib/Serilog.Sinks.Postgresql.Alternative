@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
-        <PackageReleaseNotes>Version 4.0.2.0 (2023-11-27): Added callback handlers for create table and create schema actions (https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/53).</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 4.0.3.0 (2024-03-03): Updated NuGet packages.</PackageReleaseNotes>
         <PackageLicenseFile>License.txt</PackageLicenseFile>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
@@ -36,9 +36,9 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-        <PackageReference Include="Npgsql" Version="8.0.0" />
+        <PackageReference Include="Npgsql" Version="8.0.2" />
         <PackageReference Include="Serilog" Version="3.1.1" />
-        <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="3.1.0" />
+        <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="4.0.0" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
 

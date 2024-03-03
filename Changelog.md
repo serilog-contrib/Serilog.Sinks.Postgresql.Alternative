@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 4.0.3.0 (2024-03-03)**: Updated NuGet packages.
 * **Version 4.0.2.0 (2023-11-27)**: Added callback handlers for create table and create schema actions (https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/53).
 * **Version 4.0.1.0 (2023-11-26)**: Fixed issue with ordered columns from JSON configuration (https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/57) - BREAKING
 * **Version 4.0.0.0 (2023-11-21)**: Updated NuGet packages, removed support for NetCore3.1 and netstandard, added support for Net8.0, fixed silent error with null values, changed level column to render as text instead of varchar(50) - BREAKING?

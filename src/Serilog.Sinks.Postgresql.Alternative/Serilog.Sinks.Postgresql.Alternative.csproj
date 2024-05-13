@@ -36,9 +36,9 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-        <PackageReference Include="Npgsql" Version="8.0.2" />
+        <PackageReference Include="Npgsql" Version="8.0.3" />
         <PackageReference Include="Serilog" Version="3.1.1" />
-        <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="4.0.0" />
+        <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="4.1.0" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
 

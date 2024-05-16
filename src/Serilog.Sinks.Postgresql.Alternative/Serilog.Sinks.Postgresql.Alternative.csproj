@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
-        <PackageReleaseNotes>Version 4.0.3.0 (2024-03-03): Updated NuGet packages.</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 4.0.4.0 (2024-05-16): Removed support for Net7.0.</PackageReleaseNotes>
         <PackageLicenseFile>License.txt</PackageLicenseFile>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>

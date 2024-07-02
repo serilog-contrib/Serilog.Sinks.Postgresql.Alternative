@@ -109,15 +109,14 @@ public static class LoggerConfigurationPostgreSqlExtensions
             onCreateTableCallback,
             onCreateSchemaCallback);
 
-        var batchingOptions = new PeriodicBatchingSinkOptions()
+        var batchingOptions = new BatchingOptions()
         {
             BatchSizeLimit = optionsLocal.BatchSizeLimit,
-            Period = optionsLocal.Period,
+            BufferingTimeLimit = optionsLocal.Period,
             QueueLimit = optionsLocal.QueueLimit
         };
 
-        var batchingSink = new PeriodicBatchingSink(new PostgreSqlSink(optionsLocal), batchingOptions);
-        return sinkConfiguration.Sink(batchingSink, restrictedToMinimumLevel, levelSwitch);
+        return sinkConfiguration.Sink(new PostgreSqlSink(optionsLocal), batchingOptions, restrictedToMinimumLevel, levelSwitch);
     }
 
     /// <summary>
@@ -238,15 +237,14 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 onCreateTableCallback,
                 onCreateSchemaCallback);
 
-            var batchingOptions = new PeriodicBatchingSinkOptions()
+            var batchingOptions = new BatchingOptions()
             {
                 BatchSizeLimit = optionsLocal.BatchSizeLimit,
-                Period = optionsLocal.Period,
+                BufferingTimeLimit = optionsLocal.Period,
                 QueueLimit = optionsLocal.QueueLimit
             };
 
-            var batchingSink = new PeriodicBatchingSink(new PostgreSqlSink(optionsLocal), batchingOptions);
-            return sinkConfiguration.Sink(batchingSink, restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(new PostgreSqlSink(optionsLocal), batchingOptions, restrictedToMinimumLevel, levelSwitch);
         }
 
         columns ??= new Dictionary<string, ColumnWriterBase>();
@@ -272,15 +270,14 @@ public static class LoggerConfigurationPostgreSqlExtensions
             onCreateTableCallback,
             onCreateSchemaCallback);
 
-        var batchingOptions2 = new PeriodicBatchingSinkOptions()
+        var batchingOptions2 = new BatchingOptions()
         {
             BatchSizeLimit = optionsLocal2.BatchSizeLimit,
-            Period = optionsLocal2.Period,
+            BufferingTimeLimit = optionsLocal2.Period,
             QueueLimit = optionsLocal2.QueueLimit
         };
 
-        var batchingSink2 = new PeriodicBatchingSink(new PostgreSqlSink(optionsLocal2), batchingOptions2);
-        return sinkConfiguration.Sink(batchingSink2, restrictedToMinimumLevel, levelSwitch);
+        return sinkConfiguration.Sink(new PostgreSqlSink(optionsLocal2), batchingOptions2, restrictedToMinimumLevel, levelSwitch);
     }
 
     /// <summary>

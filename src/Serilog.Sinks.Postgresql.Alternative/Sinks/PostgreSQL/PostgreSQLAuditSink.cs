@@ -23,7 +23,6 @@ public class PostgreSqlAuditSink : ILogEventSink, IDisposable
     /// </summary>
     private readonly SinkHelper sinkHelper;
 
-    /// <inheritdoc cref="PeriodicBatchingSink" />
     /// <summary>
     ///     Initializes a new instance of the <see cref="PostgreSqlSink" /> class.
     /// </summary>
@@ -39,7 +38,7 @@ public class PostgreSqlAuditSink : ILogEventSink, IDisposable
     /// <param name="logEvent"> a log event to emit </param>
     public async void Emit(LogEvent logEvent)
     {
-        await this.sinkHelper.Emit(new List<LogEvent> { logEvent });
+        await this.sinkHelper.Emit([logEvent]);
     }
 
     /// <summary>

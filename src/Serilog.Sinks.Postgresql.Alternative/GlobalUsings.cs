@@ -13,7 +13,6 @@ global using Serilog.Core;
 global using Serilog.Debugging;
 global using Serilog.Events;
 global using Serilog.Formatting.Json;
-global using Serilog.Sinks.PeriodicBatching;
 global using Serilog.Sinks.PostgreSQL;
 global using Serilog.Sinks.PostgreSQL.ColumnWriters;
 global using Serilog.Sinks.PostgreSQL.Configuration;

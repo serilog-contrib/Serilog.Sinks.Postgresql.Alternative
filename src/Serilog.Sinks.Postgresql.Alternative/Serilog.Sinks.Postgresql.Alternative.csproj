@@ -17,7 +17,7 @@
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
         <PackageReleaseNotes>Version 4.1.1.0 (2024-07-02): Added support for netstandard2.0 again (https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/74).</PackageReleaseNotes>
-        <PackageLicenseFile>License.txt</PackageLicenseFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>

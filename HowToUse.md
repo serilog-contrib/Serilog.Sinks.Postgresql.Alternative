@@ -276,6 +276,8 @@ var logger = new LoggerConfiguration()
 	.CreateLogger();
 ```
 
+Note that when using `SinglePropertyColumnWriter`, the ["l" format specifier](https://github.com/serilog/serilog/wiki/Formatting-Output#formatting-plain-text) switches off quoting of strings.
+
 ## Using the sink with NodaTime in .Net Core 2.2+
 For the use with [NodaTime](https://nodatime.org/) in .Net Core 2.2, you need to add a new column writer class for the `DateTimeOffset` values.
 Check the issue https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/10, too.

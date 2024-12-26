@@ -41,7 +41,7 @@ public sealed class SinglePropertyColumnWriter : ColumnWriterBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="SinglePropertyColumnWriter" /> class.
     /// </summary>
-    /// <param name="propertyName">Name of the property.</param>
+    /// <param name="name">The name of the property.</param>
     /// <param name="writeMethod">The write method.</param>
     /// <param name="dbType">Type of the database.</param>
     /// <param name="format">The format.</param>
@@ -51,14 +51,14 @@ public sealed class SinglePropertyColumnWriter : ColumnWriterBase
     /// </param>
     /// <seealso cref="ColumnWriterBase" />
     public SinglePropertyColumnWriter(
-        string propertyName,
+        string name,
         PropertyWriteMethod writeMethod = PropertyWriteMethod.ToString,
         NpgsqlDbType dbType = NpgsqlDbType.Text,
         string? format = null,
         int? order = null)
         : base(dbType, order: order)
     {
-        this.Name = propertyName;
+        this.Name = name;
         this.WriteMethod = writeMethod;
         this.Format = format;
     }

@@ -130,6 +130,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "lonix1",
+      "name": "lonix1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40320097?v=4",
+      "profile": "https://github.com/lonix1",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -138,5 +147,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "angular"
+  "commitConvention": "angular",
+  "commitType": "docs"
 }

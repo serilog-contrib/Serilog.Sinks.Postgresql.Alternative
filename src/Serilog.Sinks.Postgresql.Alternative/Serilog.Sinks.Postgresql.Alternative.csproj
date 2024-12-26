@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
-        <PackageReleaseNotes>Version 4.1.2.0 (2024-12-26): Removed support for Net6.0, removed support for NetStandard, added support for Net9.0, updated NuGet packages.</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 4.1.3.0 (2024-12-26): Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/75, adds option to set retention time (fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/59).</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
@@ -28,6 +28,8 @@
         <NoWarn>NU1803</NoWarn>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAudit>true</NuGetAudit>
     </PropertyGroup>
 
     <ItemGroup>

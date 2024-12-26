@@ -59,6 +59,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerSinkConfiguration sinkConfiguration,
@@ -78,7 +79,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
-        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
+        TimeSpan? retentionTime = null)
     {
         if (sinkConfiguration is null)
         {
@@ -107,7 +109,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
             needAutoCreateSchema,
             failureCallback,
             onCreateTableCallback,
-            onCreateSchemaCallback);
+            onCreateSchemaCallback,
+            retentionTime);
 
         var batchingOptions = new BatchingOptions()
         {
@@ -141,6 +144,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerSinkConfiguration sinkConfiguration,
@@ -161,7 +165,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
-        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
+        TimeSpan? retentionTime = null)
     {
         if (sinkConfiguration is null)
         {
@@ -235,7 +240,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 needAutoCreateSchema,
                 failureCallback,
                 onCreateTableCallback,
-                onCreateSchemaCallback);
+                onCreateSchemaCallback,
+                retentionTime);
 
             var batchingOptions = new BatchingOptions()
             {
@@ -298,6 +304,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerAuditSinkConfiguration sinkConfiguration,
@@ -313,7 +320,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
-        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
+        TimeSpan? retentionTime = null)
     {
         if (sinkConfiguration is null)
         {
@@ -340,7 +348,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
             needAutoCreateSchema,
             failureCallback,
             onCreateTableCallback,
-            onCreateSchemaCallback);
+            onCreateSchemaCallback,
+            retentionTime);
 
         return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
     }
@@ -368,60 +377,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
     }
 
     /// <summary>
-    /// Gets the column options.
-    /// </summary>
-    /// <param name="connectionString">The connection string to the database where to store the events.</param>
-    /// <param name="tableName">Name of the table to store the events in.</param>
-    /// <param name="columnOptions">The current column options.</param>
-    /// <param name="period">The time to wait between checking for event batches.</param>
-    /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
-    /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
-    /// <param name="queueLimit">The maximum number of events that should be stored in the batching queue.</param>
-    /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
-    /// <param name="schemaName">The schema name.</param>
-    /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
-    /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-    /// <param name="failureCallback">The failure callback.</param>
-    /// <param name="onCreateTableCallback">The on create table callback.</param>
-    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
-    internal static PostgreSqlOptions GetOptions(
-        string connectionString,
-        string tableName,
-        IDictionary<string, ColumnWriterBase>? columnOptions,
-        TimeSpan period,
-        IFormatProvider? formatProvider,
-        int batchSizeLimit,
-        int queueLimit,
-        bool useCopy,
-        string schemaName,
-        bool needAutoCreateTable,
-        bool needAutoCreateSchema,
-        Action<Exception>? failureCallback,
-        Action<CreateTableEventArgs>? onCreateTableCallback,
-        Action<CreateSchemaEventArgs>? onCreateSchemaCallback)
-    {
-        var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
-
-        return new PostgreSqlOptions
-        {
-            ConnectionString = connectionString,
-            TableName = tableName.Replace("\"", string.Empty),
-            Period = period,
-            FormatProvider = formatProvider,
-            ColumnOptions = columnOptionsLocal,
-            BatchSizeLimit = batchSizeLimit,
-            QueueLimit = queueLimit,
-            UseCopy = useCopy,
-            SchemaName = schemaName.Replace("\"", string.Empty),
-            NeedAutoCreateTable = needAutoCreateTable,
-            NeedAutoCreateSchema = needAutoCreateSchema,
-            FailureCallback = failureCallback,
-            OnCreateTable = onCreateTableCallback,
-            OnCreateSchema = onCreateSchemaCallback
-        };
-    }
-
-    /// <summary>
     /// Adds a sink that writes log events to a table in a the PostgreSQL table. The configuration for the sink can be taken from the JSON file.
     /// LoggerAuditSinkConfiguration
     /// </summary>
@@ -440,6 +395,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
     /// <returns>Logger configuration, allowing configuration to continue.</returns>
     public static LoggerConfiguration PostgreSQL(
         this LoggerAuditSinkConfiguration sinkConfiguration,
@@ -456,7 +412,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
         Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
-        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null)
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
+        TimeSpan? retentionTime = null)
     {
         if (sinkConfiguration is null)
         {
@@ -528,7 +485,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 needAutoCreateSchema,
                 failureCallback,
                 onCreateTableCallback,
-                onCreateSchemaCallback);
+                onCreateSchemaCallback,
+                retentionTime);
 
             return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
         }
@@ -554,8 +512,66 @@ public static class LoggerConfigurationPostgreSqlExtensions
             needAutoCreateSchema,
             failureCallback,
             onCreateTableCallback,
-            onCreateSchemaCallback);
+            onCreateSchemaCallback,
+            retentionTime);
 
         return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal2), restrictedToMinimumLevel, levelSwitch);
+    }
+
+    /// <summary>
+    /// Gets the column options.
+    /// </summary>
+    /// <param name="connectionString">The connection string to the database where to store the events.</param>
+    /// <param name="tableName">Name of the table to store the events in.</param>
+    /// <param name="columnOptions">The current column options.</param>
+    /// <param name="period">The time to wait between checking for event batches.</param>
+    /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
+    /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+    /// <param name="queueLimit">The maximum number of events that should be stored in the batching queue.</param>
+    /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
+    /// <param name="schemaName">The schema name.</param>
+    /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+    /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
+    /// <param name="failureCallback">The failure callback.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
+    internal static PostgreSqlOptions GetOptions(
+        string connectionString,
+        string tableName,
+        IDictionary<string, ColumnWriterBase>? columnOptions,
+        TimeSpan period,
+        IFormatProvider? formatProvider,
+        int batchSizeLimit,
+        int queueLimit,
+        bool useCopy,
+        string schemaName,
+        bool needAutoCreateTable,
+        bool needAutoCreateSchema,
+        Action<Exception>? failureCallback,
+        Action<CreateTableEventArgs>? onCreateTableCallback,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback,
+        TimeSpan? retentionTime = null)
+    {
+        var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
+
+        return new PostgreSqlOptions
+        {
+            ConnectionString = connectionString,
+            TableName = tableName.Replace("\"", string.Empty),
+            Period = period,
+            FormatProvider = formatProvider,
+            ColumnOptions = columnOptionsLocal,
+            BatchSizeLimit = batchSizeLimit,
+            QueueLimit = queueLimit,
+            UseCopy = useCopy,
+            SchemaName = schemaName.Replace("\"", string.Empty),
+            NeedAutoCreateTable = needAutoCreateTable,
+            NeedAutoCreateSchema = needAutoCreateSchema,
+            FailureCallback = failureCallback,
+            OnCreateTable = onCreateTableCallback,
+            OnCreateSchema = onCreateSchemaCallback,
+            RetentionTime = retentionTime
+        };
     }
 }

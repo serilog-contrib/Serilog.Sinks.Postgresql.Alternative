@@ -341,7 +341,6 @@ public sealed class DbWriteTests : BaseTests
     /// </summary>
     /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
     [TestMethod]
-    [ExpectedException(typeof(AggregateException))]
     public async Task IncorrectDatabaseConnectionStringNoSchemaLogShouldThrowException()
     {
         const string TableName = "Logs8";
@@ -363,7 +362,7 @@ public sealed class DbWriteTests : BaseTests
             testObject2,
             "stringValue");
         Log.CloseAndFlush();
-        await Task.Delay(1000);
+        await Assert.ThrowsExceptionAsync<AggregateException>(async () => await Task.Delay(1000));
     }
 
     /// <summary>

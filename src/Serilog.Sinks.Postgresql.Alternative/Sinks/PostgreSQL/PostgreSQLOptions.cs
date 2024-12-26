@@ -50,7 +50,7 @@ public sealed class PostgreSqlOptions
     public IDictionary<string, ColumnWriterBase> ColumnOptions { get; set; } = new Dictionary<string, ColumnWriterBase>();
 
     /// <summary>
-    /// Gets or sets the 
+    /// Gets or sets the batching period.
     /// </summary>
     public TimeSpan Period { get; set; }
 
@@ -83,4 +83,9 @@ public sealed class PostgreSqlOptions
     ///  Gets or sets the create schema callback.
     /// </summary>
     public Action<CreateSchemaEventArgs>? OnCreateSchema { get; set; }
+
+    /// <summary>
+    /// Gets or sets the retention time of the log entries in the database.
+    /// </summary>
+    public TimeSpan? RetentionTime { get; set; }
 }

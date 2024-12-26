@@ -39,11 +39,13 @@ The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks
 |-|-|-|-|
 |connectionString|The connection string to connect to the PostgreSQL database.|`"User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Serilog;"`|None, is mandatory.|
 |tableName|The table name to write the data to. Is case-sensitive!|`"logs"`|None, is mandatory.|
+|columnOptions|The column options to use.|See the examples under the [Full example](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative#full-example) section below.|`null`|
+|restrictedToMinimumLevel|The minimum log event level required in order to write an event to the sink.|`LogEventLevel.Information`|`LogEventLevel.Verbose`|
 |period|The time to wait between checking for event batches.|`period: new TimeSpan(0, 0, 20)`|`00:00:05`|
 |formatProvider|The `IFormatProvider` to use. Supplies culture-specific formatting information. Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8.|`new CultureInfo("de-DE")`|`null`|
-|columnOptions|The column options to use.|See the examples under the [Full example](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative#full-example) section below.|`null`|
 |batchSizeLimit|The maximum number of events to include in a single batch.|`batchSizeLimit: 40`|`30`|
 |queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
+|levelSwitch|Maximum number of events in the queue.|`levelSwitch: new LoggingLevelSwitch()`|`null`|
 |useCopy|Enables the copy command to allow batch inserting instead of multiple `INSERT` commands.|`useCopy: true`|`true`|
 |schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
@@ -52,6 +54,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks
 |appConfiguration|The app configuration section. Required if the connection string is a name.|-|`null`|
 |onCreateTableCallback|Adds an option to add a create table callback action. **Setting this disables the table creation and allows you to add a custom behaviour.**|`onCreateTableCallback: e => Console.WriteLine($"Create table called: {e.ToString()}")`|`null`|
 |onCreateSchemaCallback|Adds an option to add a create schema callback action. **Setting this disables the schema creation and allows you to add a custom behaviour.**|`onCreateSchemaCallback: e => Console.WriteLine($"Create schema called: {e.ToString()}")`|`null`|
+|retentionTime|The retention time of the log entries in the database, `null` means unlimited, negative values are not allowed.|`retentionTime: TimeSpan.FromDays(30)`|`null`|
 
 ## Configuration via JSON file
 

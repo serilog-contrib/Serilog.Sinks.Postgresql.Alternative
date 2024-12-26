@@ -70,7 +70,7 @@ public sealed class SinkHelper
                 if (this.SinkOptions.OnCreateTable is null)
                 {
                     var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
-                    .ToDictionary(c => c.Key, x => x.Value);
+                        .ToDictionary(c => c.Key, x => x.Value);
                     await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, columnOptions);
                 }
                 else
@@ -100,6 +100,11 @@ public sealed class SinkHelper
         else
         {
             await this.ProcessEventsByInsertStatements(events, connection);
+        }
+
+        if (this.SinkOptions.RetentionTime is not null && this.SinkOptions.RetentionTime > TimeSpan.Zero)
+        {
+            await this.DeleteOldLogEvents(connection);
         }
     }
 
@@ -148,6 +153,21 @@ public sealed class SinkHelper
 
             await command.ExecuteNonQueryAsync();
         }
+    }
+
+    /// <summary>
+    /// Deletes the old log events based on the specified retention time.
+    /// </summary>
+    /// <param name="connection">The connection.</param>
+    private async Task DeleteOldLogEvents(NpgsqlConnection connection)
+    {
+        // Retention time can't be null here, because we check it before.
+        var cutoffDate = DateTime.UtcNow - this.SinkOptions.RetentionTime!;
+        var sql = this.GetDeleteQuery();
+        await using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@cutoffDate", cutoffDate);
+        var deletedRows = await command.ExecuteNonQueryAsync();
+        SelfLog.WriteLine($"Deleted {deletedRows} log entries older than {cutoffDate}.");
     }
 
     /// <summary>
@@ -208,6 +228,39 @@ public sealed class SinkHelper
         builder.Append(") VALUES (");
         builder.Append(parameters);
         builder.Append(");");
+        return builder.ToString();
+    }
+
+    /// <summary>
+    ///     Gets the delete query.
+    /// </summary>
+    /// <returns>A SQL string with the delete query.</returns>
+    private string GetDeleteQuery()
+    {
+        var timestampColumnName = this.SinkOptions.ColumnOptions.FirstOrDefault(c => c.Value is TimestampColumnWriter).Key;
+
+        if (string.IsNullOrWhiteSpace(timestampColumnName))
+        {
+            throw new ArgumentException("No timestamp column found.");
+        }
+
+        var builder = new StringBuilder();
+        builder.Append("DELETE FROM ");
+
+        if (!string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
+        {
+            builder.Append('"');
+            builder.Append(this.SinkOptions.SchemaName);
+            builder.Append("\".");
+        }
+
+        builder.Append('"');
+        builder.Append(this.SinkOptions.TableName);
+        builder.Append('"');
+
+        builder.Append(" WHERE ");
+        builder.Append(timestampColumnName);
+        builder.Append(" < @cutoffDate;");
         return builder.ToString();
     }
 

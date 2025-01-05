@@ -10,7 +10,7 @@ Serilog.Sinks.Postgresql.Alternative is a library to save logging information fr
 [![Nuget](https://img.shields.io/badge/Serilog.Sinks.Postgresql.Alternative-Nuget-brightgreen.svg)](https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Serilog.Sinks.Postgresql.Alternative.svg)](https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/)
 [![Known Vulnerabilities](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/badge.svg)](https://snyk.io/test/github/serilog-contrib/Serilog.Sinks.Postgresql.Alternative)
-[![Gitter](https://badges.gitter.im/Serilog.Sinks.Postgresql.Alternative/community.svg)](https://gitter.im/Serilog.Sinks.Postgresql.Alternative/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://img.shields.io/matrix/SerilogSinkForPostgreSQL_community%3Agitter.im?server_fqdn=matrix.org)](https://matrix.to/#/#SerilogSinkForPostgreSQL_community:gitter.im)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->

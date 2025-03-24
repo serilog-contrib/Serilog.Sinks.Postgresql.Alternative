@@ -555,6 +555,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
     {
         var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
         return new PostgreSqlOptions
         {
             ConnectionString = connectionString,
@@ -568,10 +569,12 @@ public static class LoggerConfigurationPostgreSqlExtensions
             SchemaName = schemaName.Replace("\"", string.Empty),
             NeedAutoCreateTable = needAutoCreateTable,
             NeedAutoCreateSchema = needAutoCreateSchema,
+            // Todo: Remove this in next version!
             FailureCallback = failureCallback,
             OnCreateTable = onCreateTableCallback,
             OnCreateSchema = onCreateSchemaCallback,
             RetentionTime = retentionTime
         };
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
     }
 }

@@ -50,7 +50,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks
 |schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
 |needAutoCreateSchema|Specifies whether the schema should be auto-created if it does not already exist or not.|`needAutoCreateSchema: true`|`false`|
-|failureCallback|Adds an option to add a failure callback action.|`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`|`null`|
+|~~failureCallback~~|~~Adds an option to add a failure callback action.~~  (Deprecated, use fallback logging instead.Check https://nblumhardt.com/2024/10/fallback-logging/.)|~~`failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")`~~|~~`null`~~|
 |appConfiguration|The app configuration section. Required if the connection string is a name.|-|`null`|
 |onCreateTableCallback|Adds an option to add a create table callback action. **Setting this disables the table creation and allows you to add a custom behaviour.**|`onCreateTableCallback: e => Console.WriteLine($"Create table called: {e.ToString()}")`|`null`|
 |onCreateSchemaCallback|Adds an option to add a create schema callback action. **Setting this disables the schema creation and allows you to add a custom behaviour.**|`onCreateSchemaCallback: e => Console.WriteLine($"Create schema called: {e.ToString()}")`|`null`|

@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 4.2.0.0 (2024-12-26)** : Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/83, updates NuGet packages, deprecates `failureCallback`.
 * **Version 4.1.3.0 (2024-12-26)** : Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/75, adds option to set retention time (fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/59).
 * **Version 4.1.2.0 (2024-12-26)** : Removed support for Net6.0, removed support for NetStandard, added support for Net9.0, updated NuGet packages.
 * **Version 4.1.1.0 (2024-07-02)**: Added support for netstandard2.0 again (https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/74).

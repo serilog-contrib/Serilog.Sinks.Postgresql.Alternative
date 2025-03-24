@@ -50,8 +50,11 @@ public sealed class PostgreSqlSink : IBatchedLogEventSink
         }
         catch (Exception ex)
         {
-            SelfLog.WriteLine($"{ex.Message} {ex.StackTrace}");
+            // Todo: Remove this in next version!
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
             this.sinkHelper.SinkOptions.FailureCallback?.Invoke(ex);
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
+            throw;
         }
     }
 

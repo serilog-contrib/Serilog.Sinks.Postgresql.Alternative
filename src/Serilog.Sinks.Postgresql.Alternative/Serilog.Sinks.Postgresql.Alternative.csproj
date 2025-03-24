@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
-        <PackageReleaseNotes>Version 4.2.0.0 (2024-12-26): Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/83, updates NuGet packages, deprecates `failureCallback`.</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 4.2.0.0 (2025-03-24): Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/83, updates NuGet packages, deprecates `failureCallback`.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>

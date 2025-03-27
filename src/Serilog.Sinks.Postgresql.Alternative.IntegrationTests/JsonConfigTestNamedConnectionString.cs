@@ -54,7 +54,6 @@ public sealed class JsonConfigTestNamedConnectionString : BaseTests
             string.Empty,
             true,
             false,
-            null,
             configuration).CreateLogger();
 
         const long RowsCount = 2;

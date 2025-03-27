@@ -44,18 +44,7 @@ public sealed class PostgreSqlSink : IBatchedLogEventSink
     /// </remarks>
     public async Task EmitBatchAsync(IReadOnlyCollection<LogEvent> events)
     {
-        try
-        {
-            await this.sinkHelper.Emit(events);
-        }
-        catch (Exception ex)
-        {
-            // Todo: Remove this in next version!
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
-            this.sinkHelper.SinkOptions.FailureCallback?.Invoke(ex);
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
-            throw;
-        }
+        await this.sinkHelper.Emit(events);
     }
 
     /// <inheritdoc cref="IBatchedLogEventSink" />

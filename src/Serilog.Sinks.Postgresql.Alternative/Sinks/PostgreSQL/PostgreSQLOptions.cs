@@ -40,12 +40,6 @@ public sealed class PostgreSqlOptions
     public bool UseCopy { get; set; }
 
     /// <summary>
-    ///  Gets or sets the failure callback.
-    /// </summary>
-    [Obsolete("Use fallback logging instead. Check https://nblumhardt.com/2024/10/fallback-logging/.")]
-    public Action<Exception>? FailureCallback { get; set; }
-
-    /// <summary>
     ///     Gets or sets the column options.
     /// </summary>
     public IDictionary<string, ColumnWriterBase> ColumnOptions { get; set; } = new Dictionary<string, ColumnWriterBase>();

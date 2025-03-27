@@ -445,8 +445,7 @@ public sealed class DbWriteTests : BaseTests
             TableName,
             columnProps,
             needAutoCreateTable: true,
-            needAutoCreateSchema: true,
-            failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")
+            needAutoCreateSchema: true
           ).CreateLogger();
 
         LogContext.PushProperty("UserName", "Hans");
@@ -483,8 +482,7 @@ public sealed class DbWriteTests : BaseTests
             TableName,
             columnProps,
             needAutoCreateTable: true,
-            needAutoCreateSchema: true,
-            failureCallback: e => Console.WriteLine($"Sink error: {e.Message}")
+            needAutoCreateSchema: true
           ).CreateLogger();
 
         LogContext.PushProperty("EnumTest", DummyEnum.Test1);

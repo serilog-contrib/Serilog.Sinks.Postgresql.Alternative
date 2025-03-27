@@ -55,7 +55,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="schemaName">The schema name.</param>
     /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-    /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
@@ -76,7 +75,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
         string schemaName = "",
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
-        Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
         Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
@@ -107,7 +105,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback,
             onCreateTableCallback,
             onCreateSchemaCallback,
             retentionTime);
@@ -140,7 +137,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="schemaName">The schema name.</param>
     /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-    /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
@@ -162,7 +158,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
         string schemaName = "",
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
-        Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
         Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
@@ -238,7 +233,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 schemaName,
                 needAutoCreateTable,
                 needAutoCreateSchema,
-                failureCallback,
                 onCreateTableCallback,
                 onCreateSchemaCallback,
                 retentionTime);
@@ -272,7 +266,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback,
             onCreateTableCallback,
             onCreateSchemaCallback);
 
@@ -300,7 +293,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="schemaName">The schema name.</param>
     /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-    /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
@@ -317,7 +309,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
         string schemaName = "",
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
-        Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
         Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
@@ -346,7 +337,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback,
             onCreateTableCallback,
             onCreateSchemaCallback,
             retentionTime);
@@ -391,7 +381,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="schemaName">The schema name.</param>
     /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-    /// <param name="failureCallback">The failure callback.</param>
     /// <param name="appConfiguration">The app configuration section. Required if the connection string is a name.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
@@ -409,7 +398,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
         string schemaName = "",
         bool needAutoCreateTable = false,
         bool needAutoCreateSchema = false,
-        Action<Exception>? failureCallback = null,
         IConfiguration? appConfiguration = null,
         Action<CreateTableEventArgs>? onCreateTableCallback = null,
         Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
@@ -483,7 +471,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
                 schemaName,
                 needAutoCreateTable,
                 needAutoCreateSchema,
-                failureCallback,
                 onCreateTableCallback,
                 onCreateSchemaCallback,
                 retentionTime);
@@ -510,7 +497,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
             schemaName,
             needAutoCreateTable,
             needAutoCreateSchema,
-            failureCallback,
             onCreateTableCallback,
             onCreateSchemaCallback,
             retentionTime);
@@ -532,7 +518,6 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="schemaName">The schema name.</param>
     /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
     /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
-    /// <param name="failureCallback">The failure callback.</param>
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     /// <param name="retentionTime">The retention time of the log entries in the database.</param>
@@ -548,14 +533,12 @@ public static class LoggerConfigurationPostgreSqlExtensions
         string schemaName,
         bool needAutoCreateTable,
         bool needAutoCreateSchema,
-        Action<Exception>? failureCallback,
         Action<CreateTableEventArgs>? onCreateTableCallback,
         Action<CreateSchemaEventArgs>? onCreateSchemaCallback,
         TimeSpan? retentionTime = null)
     {
         var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
-#pragma warning disable CS0618 // Typ oder Element ist veraltet
         return new PostgreSqlOptions
         {
             ConnectionString = connectionString,
@@ -569,12 +552,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
             SchemaName = schemaName.Replace("\"", string.Empty),
             NeedAutoCreateTable = needAutoCreateTable,
             NeedAutoCreateSchema = needAutoCreateSchema,
-            // Todo: Remove this in next version!
-            FailureCallback = failureCallback,
             OnCreateTable = onCreateTableCallback,
             OnCreateSchema = onCreateSchemaCallback,
             RetentionTime = retentionTime
         };
-#pragma warning restore CS0618 // Typ oder Element ist veraltet
     }
 }

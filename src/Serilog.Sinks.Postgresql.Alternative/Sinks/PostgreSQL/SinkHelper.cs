@@ -259,7 +259,9 @@ public sealed class SinkHelper
         builder.Append('"');
 
         builder.Append(" WHERE ");
+        builder.Append('"');
         builder.Append(timestampColumnName);
+        builder.Append('"');
         builder.Append(" < @cutoffDate;");
         return builder.ToString();
     }

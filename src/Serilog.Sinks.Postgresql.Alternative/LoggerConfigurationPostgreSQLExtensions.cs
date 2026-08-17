@@ -267,7 +267,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
             needAutoCreateTable,
             needAutoCreateSchema,
             onCreateTableCallback,
-            onCreateSchemaCallback);
+            onCreateSchemaCallback,
+            retentionTime);
 
         var batchingOptions2 = new BatchingOptions()
         {

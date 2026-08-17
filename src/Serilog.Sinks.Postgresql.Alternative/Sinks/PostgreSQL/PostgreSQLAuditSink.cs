@@ -36,9 +36,14 @@ public class PostgreSqlAuditSink : ILogEventSink, IDisposable
     /// Emit the provided log event to the sink.
     /// </summary>
     /// <param name="logEvent"> a log event to emit </param>
-    public async void Emit(LogEvent logEvent)
+    /// <remarks>
+    /// <see cref="ILogEventSink.Emit(LogEvent)"/> is synchronous and an audit sink has to propagate its errors to
+    /// the caller, so the write is awaited here. All awaits below this call use <c>ConfigureAwait(false)</c>, which
+    /// is what makes blocking safe in applications that have a synchronization context.
+    /// </remarks>
+    public void Emit(LogEvent logEvent)
     {
-        await this.sinkHelper.Emit([logEvent]);
+        this.sinkHelper.Emit([logEvent]).GetAwaiter().GetResult();
     }
 
     /// <summary>

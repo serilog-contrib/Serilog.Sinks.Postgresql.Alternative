@@ -124,6 +124,82 @@ public sealed class DbHelper
     }
 
     /// <summary>
+    ///     Inserts a row that only carries a timestamp, used to simulate an outdated log entry.
+    /// </summary>
+    /// <param name="schemaName">The name of the schema.</param>
+    /// <param name="tableName">The name of the table.</param>
+    /// <param name="timestampColumnName">The name of the timestamp column.</param>
+    /// <param name="timestamp">The timestamp to write.</param>
+    public async Task InsertTimestampOnlyRow(string schemaName, string tableName, string timestampColumnName, DateTimeOffset timestamp)
+    {
+        schemaName = schemaName.Replace("\"", string.Empty);
+        tableName = tableName.Replace("\"", string.Empty);
+        timestampColumnName = timestampColumnName.Replace("\"", string.Empty);
+
+        var builder = new StringBuilder();
+        builder.Append("INSERT INTO ");
+
+        if (!string.IsNullOrWhiteSpace(schemaName))
+        {
+            builder.Append('"');
+            builder.Append(schemaName);
+            builder.Append("\".");
+        }
+
+        builder.Append('"');
+        builder.Append(tableName);
+        builder.Append("\" (\"");
+        builder.Append(timestampColumnName);
+        builder.Append("\") VALUES (@timestamp);");
+
+        using var connection = new NpgsqlConnection(this.connectionString);
+        await connection.OpenAsync();
+        using var command = connection.CreateCommand();
+        command.CommandText = builder.ToString();
+        command.Parameters.AddWithValue("@timestamp", NpgsqlDbType.TimestampTz, timestamp);
+        await command.ExecuteNonQueryAsync();
+    }
+
+    /// <summary>
+    ///     Gets the number of rows that are older than the given point in time.
+    /// </summary>
+    /// <param name="schemaName">The name of the schema.</param>
+    /// <param name="tableName">The name of the table.</param>
+    /// <param name="timestampColumnName">The name of the timestamp column.</param>
+    /// <param name="cutoffDate">The point in time to compare against.</param>
+    /// <returns>The number of rows older than the cutoff date.</returns>
+    public async Task<long> GetTableRowsCountOlderThan(string schemaName, string tableName, string timestampColumnName, DateTimeOffset cutoffDate)
+    {
+        schemaName = schemaName.Replace("\"", string.Empty);
+        tableName = tableName.Replace("\"", string.Empty);
+        timestampColumnName = timestampColumnName.Replace("\"", string.Empty);
+
+        var builder = new StringBuilder();
+        builder.Append("SELECT count(*) FROM ");
+
+        if (!string.IsNullOrWhiteSpace(schemaName))
+        {
+            builder.Append('"');
+            builder.Append(schemaName);
+            builder.Append("\".");
+        }
+
+        builder.Append('"');
+        builder.Append(tableName);
+        builder.Append("\" WHERE \"");
+        builder.Append(timestampColumnName);
+        builder.Append("\" < @cutoffDate;");
+
+        using var connection = new NpgsqlConnection(this.connectionString);
+        await connection.OpenAsync();
+        using var command = connection.CreateCommand();
+        command.CommandText = builder.ToString();
+        command.Parameters.AddWithValue("@cutoffDate", NpgsqlDbType.TimestampTz, cutoffDate);
+        var result = await command.ExecuteScalarAsync();
+        return (long?)result ?? 0;
+    }
+
+    /// <summary>
     ///     Creates the table.
     /// </summary>
     /// <param name="schemaName">The name of the schema.</param>

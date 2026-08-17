@@ -44,7 +44,7 @@ public sealed class PostgreSqlSink : IBatchedLogEventSink
     /// </remarks>
     public async Task EmitBatchAsync(IReadOnlyCollection<LogEvent> events)
     {
-        await this.sinkHelper.Emit(events);
+        await this.sinkHelper.Emit(events).ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="IBatchedLogEventSink" />

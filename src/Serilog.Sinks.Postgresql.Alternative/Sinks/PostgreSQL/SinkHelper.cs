@@ -47,13 +47,13 @@ public sealed class SinkHelper
     public async Task Emit(IEnumerable<LogEvent> events)
     {
         using var connection = new NpgsqlConnection(this.SinkOptions.ConnectionString);
-        await connection.OpenAsync();
+        await connection.OpenAsync().ConfigureAwait(false);
 
         if (this.SinkOptions.NeedAutoCreateSchema && !this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))
         {
             if (this.SinkOptions.OnCreateSchema is null)
             {
-                await SchemaCreator.CreateSchema(connection, this.SinkOptions.SchemaName);
+                await SchemaCreator.CreateSchema(connection, this.SinkOptions.SchemaName).ConfigureAwait(false);
             }
             else
             {
@@ -71,7 +71,7 @@ public sealed class SinkHelper
                 {
                     var columnOptions = this.SinkOptions.ColumnOptions.OrderBy(c => c.Value.Order)
                         .ToDictionary(c => c.Key, x => x.Value);
-                    await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, columnOptions);
+                    await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, columnOptions).ConfigureAwait(false);
                 }
                 else
                 {
@@ -82,7 +82,7 @@ public sealed class SinkHelper
             {
                 if (this.SinkOptions.OnCreateTable is null)
                 {
-                    await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions);
+                    await TableCreator.CreateTable(connection, this.SinkOptions.SchemaName, this.SinkOptions.TableName, this.SinkOptions.ColumnOptions).ConfigureAwait(false);
                 }
                 else
                 {
@@ -95,16 +95,16 @@ public sealed class SinkHelper
 
         if (this.SinkOptions.UseCopy)
         {
-            await this.ProcessEventsByCopyCommand(events, connection);
+            await this.ProcessEventsByCopyCommand(events, connection).ConfigureAwait(false);
         }
         else
         {
-            await this.ProcessEventsByInsertStatements(events, connection);
+            await this.ProcessEventsByInsertStatements(events, connection).ConfigureAwait(false);
         }
 
         if (this.SinkOptions.RetentionTime is not null && this.SinkOptions.RetentionTime > TimeSpan.Zero)
         {
-            await this.DeleteOldLogEvents(connection);
+            await this.DeleteOldLogEvents(connection).ConfigureAwait(false);
         }
     }
 
@@ -127,7 +127,7 @@ public sealed class SinkHelper
     {
         using var binaryCopyWriter = connection.BeginBinaryImport(this.GetCopyCommand());
         this.WriteToStream(binaryCopyWriter, events);
-        await binaryCopyWriter.CompleteAsync();
+        await binaryCopyWriter.CompleteAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -151,7 +151,7 @@ public sealed class SinkHelper
                 command.Parameters.AddWithValue(parameterName, dbType, value);
             }
 
-            await command.ExecuteNonQueryAsync();
+            await command.ExecuteNonQueryAsync().ConfigureAwait(false);
         }
     }
 
@@ -164,10 +164,14 @@ public sealed class SinkHelper
         // Retention time can't be null here, because we check it before.
         var cutoffDate = DateTime.UtcNow - this.SinkOptions.RetentionTime!;
         var sql = this.GetDeleteQuery();
-        await using var command = new NpgsqlCommand(sql, connection);
-        command.Parameters.AddWithValue("@cutoffDate", cutoffDate);
-        var deletedRows = await command.ExecuteNonQueryAsync();
-        SelfLog.WriteLine($"Deleted {deletedRows} log entries older than {cutoffDate}.");
+        var command = new NpgsqlCommand(sql, connection);
+
+        await using (command.ConfigureAwait(false))
+        {
+            command.Parameters.AddWithValue("@cutoffDate", cutoffDate);
+            var deletedRows = await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+            SelfLog.WriteLine($"Deleted {deletedRows} log entries older than {cutoffDate}.");
+        }
     }
 
     /// <summary>
@@ -258,9 +262,11 @@ public sealed class SinkHelper
         builder.Append(this.SinkOptions.TableName);
         builder.Append('"');
 
-        builder.Append(" WHERE ");
+        // The column name must be quoted like everywhere else, PostgreSQL folds an unquoted
+        // identifier to lower case and would then not find the column at all.
+        builder.Append(" WHERE \"");
         builder.Append(timestampColumnName);
-        builder.Append(" < @cutoffDate;");
+        builder.Append("\" < @cutoffDate;");
         return builder.ToString();
     }
 

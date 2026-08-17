@@ -82,10 +82,12 @@ dotnet test src/Serilog.Sinks.Postgresql.Alternative.Tests/Serilog.Sinks.Postgre
   `.csproj` files and duplicated there. Do not assume a property is inherited, check the csproj.
 - Versions come from GitVersion.MsBuild out of the git tags, for example `4.2.1-1` for the first
   commit after tag `4.2.0`. Never edit a version property or an assembly version by hand.
-- `dotnet test` on the **solution** also runs the integration tests, which need a PostgreSQL server
-  on `localhost:5432` with user `postgres`, password `postgres` and an existing database `Serilog`
-  (see `IntegrationTests/BaseTests.cs`). Without it those tests fail. For a quick check run the
-  unit test project alone, that is the 12 tests above. Never claim a test run happened without
+- `dotnet test` on the **solution** also runs the 21 integration tests, which need a PostgreSQL
+  server on `localhost:5432` with user `postgres`, password `postgres` and an existing database
+  `Serilog` (see `IntegrationTests/BaseTests.cs`). The schemas `Logs2`, `Logs3` and `Logs4` have to
+  exist in that database as well, the test comments say so and only `Logs1` is created by the test
+  that uses `needAutoCreateSchema`. Without them two tests fail with `3F000`. For a quick check run
+  the unit test project alone, that is the 12 tests above. Never claim a test run happened without
   running it.
 - `dotnet list package --outdated` ignores `--source` for its own restore step and therefore dies
   on the private feed. Query `https://api.nuget.org/v3-flatcontainer/<id>/index.json` instead.
@@ -137,11 +139,14 @@ Do not silently "clean up" these, they are existing behaviour:
   leftovers of the `failureCallback` that version 4.2.0.0 deprecated and the commit
   "Removed failurecallback option." took out. Nothing in the library references them any more.
   They are public API, so deleting them is a breaking change and needs its own release note.
-- **The audit sink's `Emit` is `async void`.** `ILogEventSink.Emit` is synchronous, so the class
-  summary promise that "any errors that occur are propagated to the caller" does not hold: an
-  exception surfaces on the synchronization context instead of at the call site. Changing this to a
-  blocking wait risks a deadlock in applications that have a synchronization context, so it needs a
-  verified fix, not a quick edit.
+- **The audit sink blocks on purpose and every library await is `ConfigureAwait(false)`.**
+  `PostgreSqlAuditSink.Emit` implements the synchronous `ILogEventSink.Emit` and therefore waits on
+  `SinkHelper.Emit` with `GetAwaiter().GetResult()`, which is what lets an error reach the caller as
+  Serilog's `AggregateException`. That only stays deadlock free because `SinkHelper`, `SchemaCreator`
+  and `TableCreator` never resume on a captured synchronization context. Any new `await` in the
+  library needs `ConfigureAwait(false)` for the same reason. Until version 4.3.0.0 the method was
+  `async void`, which turned every failed write into an unhandled exception on the thread pool and
+  took the whole process down.
 - **The audit sink never uses `COPY`.** Both audit overloads pass `useCopy: false` and
   `period: TimeSpan.Zero` to `GetOptions`, the batched overloads default to `useCopy: true`. That is
   the point of the audit sink, one row per event, committed synchronously.

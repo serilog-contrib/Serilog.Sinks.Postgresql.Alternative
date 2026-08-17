@@ -29,7 +29,7 @@ public static class TableCreator
     {
         using var command = connection.CreateCommand();
         command.CommandText = GetCreateTableQuery(schemaName, tableName, columnsInfo);
-        await command.ExecuteNonQueryAsync();
+        await command.ExecuteNonQueryAsync().ConfigureAwait(false);
     }
 
     /// <summary>

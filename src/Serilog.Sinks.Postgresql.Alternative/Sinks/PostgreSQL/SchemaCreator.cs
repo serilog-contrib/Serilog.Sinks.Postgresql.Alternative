@@ -23,7 +23,7 @@ public static class SchemaCreator
     {
         using var command = connection.CreateCommand();
         command.CommandText = GetCreateTableQuery(schemaName);
-        await command.ExecuteNonQueryAsync();
+        await command.ExecuteNonQueryAsync().ConfigureAwait(false);
     }
 
     /// <summary>

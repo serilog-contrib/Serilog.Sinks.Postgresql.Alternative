@@ -8,7 +8,7 @@ IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, Col
 {
     { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
     { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
-    { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+    { "level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
     { "raise_date", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
     { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
@@ -45,7 +45,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks
 |formatProvider|The `IFormatProvider` to use. Supplies culture-specific formatting information. Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8.|`new CultureInfo("de-DE")`|`null`|
 |batchSizeLimit|The maximum number of events to include in a single batch.|`batchSizeLimit: 40`|`30`|
 |queueLimit|Maximum number of events in the queue.|`queueLimit: 3000`|`int.MaxValue` or `2147483647`|
-|levelSwitch|Maximum number of events in the queue.|`levelSwitch: new LoggingLevelSwitch()`|`null`|
+|levelSwitch|A switch allowing the pass-through minimum level to be changed at runtime.|`levelSwitch: new LoggingLevelSwitch()`|`null`|
 |useCopy|Enables the copy command to allow batch inserting instead of multiple `INSERT` commands.|`useCopy: true`|`true`|
 |schemaName|The schema in which the table should be created.|`schemaName: "Logs"`|`string.Empty` which defaults to the PostgreSQL `public` schema.|
 |needAutoCreateTable|Specifies whether the table should be auto-created if it does not already exist or not.|`needAutoCreateTable: true`|`false`|
@@ -266,7 +266,7 @@ IDictionary<string, ColumnWriterBase> columnOptions = new Dictionary<string, Col
 {
     { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
     { "message_template", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
-    { "level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
+    { "level", new LevelColumnWriter(true, NpgsqlDbType.Text) },
     { "raise_date", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
     { "exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
     { "properties", new LogEventSerializedColumnWriter(NpgsqlDbType.Jsonb) },
@@ -300,19 +300,19 @@ public class OffsetDateTimeColumnWriterBase : ColumnWriterBase
 }
 ```
 
-## Adjusting column sizes
+## Column sizes
 
-You can change column sizes by setting the values in the `SqlTypeHelper` class:
+The lengths used for the `BIT`, `BIT VARYING`, `CHAR` and `VARCHAR` columns of an auto-created
+table are compile time constants of the `SqlTypeHelper` class and cannot be changed from outside:
+
 ```csharp
-// Sets size of all BIT and BIT VARYING columns to 20
-TableCreator.DefaultBitColumnsLength = 20;
-
-// Sets size of all CHAR columns to 30
-TableCreator.DefaultCharColumnsLength = 30;
-
-// Sets size of all VARCHAR columns to 50
-TableCreator.DefaultVarcharColumnsLength = 50;
+SqlTypeHelper.DefaultBitColumnsLength     // 8, used for BIT and BIT VARYING
+SqlTypeHelper.DefaultCharColumnsLength    // 50, used for CHAR
+SqlTypeHelper.DefaultVarcharColumnsLength // 50, used for VARCHAR
 ```
+
+If you need other lengths, create the table yourself, either beforehand or through
+`onCreateTableCallback`.
 
 ## Upper or lower case table or column names
 Table or column names are always case-sensitive!
@@ -327,7 +327,7 @@ var columnProps = new Dictionary<string, ColumnWriterBase>
 {
     { "Message", new RenderedMessageColumnWriter(order: 8) },
     { "MessageTemplate", new MessageTemplateColumnWriter(order: 1) },
-    { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar, 2) },
+    { "Level", new LevelColumnWriter(true, NpgsqlDbType.Text, 2) },
     { "RaiseDate", new TimestampColumnWriter(order: 3) },
     { "Exception", new ExceptionColumnWriter(order: 4) },
     { "Properties", new LogEventSerializedColumnWriter(order: 5) },

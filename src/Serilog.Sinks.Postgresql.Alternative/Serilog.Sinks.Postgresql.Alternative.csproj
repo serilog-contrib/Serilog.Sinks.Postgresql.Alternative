@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative</RepositoryUrl>
         <PackageIcon>Icon.png</PackageIcon>
         <RepositoryType>Github</RepositoryType>
-        <PackageReleaseNotes>Version 4.2.0.0 (2025-03-24): Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/83, updates NuGet packages, deprecates `failureCallback`.</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 4.3.0.0 (2026-08-17): Removes support for Net9.0, adds support for Net10.0, updates NuGet packages, fixes `retentionTime` being ignored when `loggerPropertyColumnOptions` are used, fixes the delete query not quoting the timestamp column name, fixes the audit sink taking the process down instead of propagating its errors, fixes a `NullReferenceException` for `"schemaName": null` in a JSON configuration.</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>

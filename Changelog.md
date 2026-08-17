@@ -1,6 +1,7 @@
 Change history
 --------------
 
+* **Version 4.3.0.0 (2026-08-17)** : Removed support for Net9.0, added support for Net10.0, updated NuGet packages, fixed `retentionTime` being ignored when `loggerPropertyColumnOptions` are used, fixed the delete query not quoting the timestamp column name, fixed the audit sink taking the process down instead of propagating its errors, fixed a `NullReferenceException` for `"schemaName": null` in a JSON configuration.
 * **Version 4.2.0.0 (2025-03-24)** : Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/83, updates NuGet packages, deprecates `failureCallback`.
 * **Version 4.1.3.0 (2024-12-26)** : Fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/75, adds option to set retention time (fixes https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/59).
 * **Version 4.1.2.0 (2024-12-26)** : Removed support for Net6.0, removed support for NetStandard, added support for Net9.0, updated NuGet packages.

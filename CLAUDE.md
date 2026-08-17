@@ -83,8 +83,8 @@ dotnet test src/Serilog.Sinks.Postgresql.Alternative.Tests/Serilog.Sinks.Postgre
 - `src/Directory.Build.props` exists but sets exactly one property,
   `GenerateDocumentationFile`. Every other build property is written out in each of the three
   `.csproj` files and duplicated there. Do not assume a property is inherited, check the csproj.
-- Versions come from GitVersion.MsBuild out of the git tags, for example `4.2.1-1` for the first
-  commit after tag `4.2.0`. Never edit a version property or an assembly version by hand.
+- Versions come from GitVersion.MsBuild out of the git tags, for example `4.3.1-1` for the first
+  commit after tag `4.3.0`. Never edit a version property or an assembly version by hand.
 - `dotnet test` on the **solution** also runs the 21 integration tests, which need a PostgreSQL
   server on `localhost:5432` with user `postgres`, password `postgres` and an existing database
   `Serilog` (see `IntegrationTests/BaseTests.cs`). The schemas `Logs2`, `Logs3` and `Logs4` have to

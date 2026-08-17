@@ -65,7 +65,10 @@ dotnet build src/Serilog.Sinks.Postgresql.Alternative.sln
 dotnet test src/Serilog.Sinks.Postgresql.Alternative.Tests/Serilog.Sinks.Postgresql.Alternative.Tests.csproj
 ```
 
-- The library multi-targets `net8.0;net9.0`. Both test projects are single target `net9.0`.
+- The library multi-targets `net8.0;net10.0`, the `## Available for` list in `README.md` has to
+  match. Both test projects are single target `net10.0`.
+- The test projects are on MSTest 4. `[ExpectedException]` and `Assert.ThrowsException` do not
+  exist there any more, use `Assert.Throws<T>` or `Assert.ThrowsExactly<T>`.
 - **Restore needs nuget.org.** A private feed is configured globally on this machine and answers
   404 or refuses the connection for public packages, so a plain `dotnet build` fails with `NU1301`
   and, because warnings are errors, additionally with `NU1900`. Always build with an explicit
@@ -171,6 +174,11 @@ Do not silently "clean up" these, they are existing behaviour:
   plus `IDictionary<string, SinglePropertyColumnWriter>` for JSON configuration. A bare `null`
   argument is ambiguous, callers have to name the parameter. `HowToUse.md` shows a positional
   example that relies on this.
+- **JSON configuration can hand over a real `null` for a `string` parameter.** The extension methods
+  are called through reflection by `Serilog.Settings.Configuration`, and since its version 10 a
+  `"schemaName": null` in the JSON no longer falls back to the parameter default. `GetOptions`
+  therefore treats `tableName` and `schemaName` as possibly null even though they are declared
+  non-nullable. Every JSON sample in `HowToUse.md` contains that `null`.
 - **JSON configuration silently drops unknown column writers.** The `switch` over
   `columnOption.Value.Name` in both JSON overloads has no `default` branch, so a typo in the config
   produces a missing column, not an error. The accepted names are listed in `HowToUse.md`.

@@ -30,7 +30,7 @@ public sealed class IdAutoIncrementColumnWriterTest
             new MessageTemplate(Enumerable.Empty<MessageTemplateToken>()),
             Enumerable.Empty<LogEventProperty>());
 
-        Assert.ThrowsException<Exception>(() => writer.GetValue(testEvent));
+        Assert.Throws<Exception>(() => writer.GetValue(testEvent));
     }
 
     /// <summary>

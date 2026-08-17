@@ -339,10 +339,8 @@ public sealed class DbWriteTests : BaseTests
     /// <summary>
     ///     This method is used to test AuditSink log throws exception with incorrect DB connection string (without schema name case).
     /// </summary>
-    /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
     [TestMethod]
-    [ExpectedException(typeof(AggregateException))]
-    public async Task IncorrectDatabaseConnectionStringNoSchemaLogShouldThrowException()
+    public void IncorrectDatabaseConnectionStringNoSchemaLogShouldThrowException()
     {
         const string TableName = "Logs8";
 
@@ -356,14 +354,14 @@ public sealed class DbWriteTests : BaseTests
             .PostgreSQL(invalidConnectionString, TableName, columnProps, needAutoCreateTable: true).Enrich
             .WithMachineName().CreateLogger();
 
-        logger.Information(
-            "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
-            1,
-            testObject,
-            testObject2,
-            "stringValue");
+        Assert.Throws<AggregateException>(
+            () => logger.Information(
+                "Test{TestNo}: {@TestObject} test2: {@TestObject2} testStr: {@TestStr:l}",
+                1,
+                testObject,
+                testObject2,
+                "stringValue"));
         Log.CloseAndFlush();
-        await Task.Delay(1000);
     }
 
     /// <summary>

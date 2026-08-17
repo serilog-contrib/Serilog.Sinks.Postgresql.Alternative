@@ -540,17 +540,19 @@ public static class LoggerConfigurationPostgreSqlExtensions
     {
         var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
+        // The names are declared as non-nullable, but they arrive through reflection when the sink is configured
+        // from a JSON file, and a "schemaName": null there really does hand over a null instead of the default.
         return new PostgreSqlOptions
         {
             ConnectionString = connectionString,
-            TableName = tableName.Replace("\"", string.Empty),
+            TableName = tableName?.Replace("\"", string.Empty) ?? string.Empty,
             Period = period,
             FormatProvider = formatProvider,
             ColumnOptions = columnOptionsLocal,
             BatchSizeLimit = batchSizeLimit,
             QueueLimit = queueLimit,
             UseCopy = useCopy,
-            SchemaName = schemaName.Replace("\"", string.Empty),
+            SchemaName = schemaName?.Replace("\"", string.Empty) ?? string.Empty,
             NeedAutoCreateTable = needAutoCreateTable,
             NeedAutoCreateSchema = needAutoCreateSchema,
             OnCreateTable = onCreateTableCallback,

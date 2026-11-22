@@ -65,8 +65,9 @@ dotnet build src/Serilog.Sinks.Postgresql.Alternative.sln
 dotnet test src/Serilog.Sinks.Postgresql.Alternative.Tests/Serilog.Sinks.Postgresql.Alternative.Tests.csproj
 ```
 
-- The library multi-targets `net8.0;net10.0`, the `## Available for` list in `README.md` has to
-  match. Both test projects are single target `net10.0`.
+- The library and both test projects target `net10.0;net11.0`. The `## Available for` list
+  in `README.md` has to match the library targets. Building requires the .NET 11 SDK, and
+  running all tests requires the .NET 10 and .NET 11 runtimes.
 - The test projects are on MSTest 4. `[ExpectedException]` and `Assert.ThrowsException` do not
   exist there any more, use `Assert.Throws<T>` or `Assert.ThrowsExactly<T>`.
 - **Restore needs nuget.org.** A private feed is configured globally on this machine and answers

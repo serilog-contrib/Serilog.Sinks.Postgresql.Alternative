@@ -14,19 +14,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GitVersion.MsBuild" Version="6.8.2">
+        <PackageReference Include="GitVersion.MsBuild" Version="7.0.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.11" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="11.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-        <PackageReference Include="Npgsql" Version="10.0.3" />
+        <PackageReference Include="Npgsql" Version="11.0.0" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
-        <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.1" />
-        <PackageReference Include="MSTest.TestAdapter" Version="4.3.3" />
-        <PackageReference Include="MSTest.TestFramework" Version="4.3.3" />
-        <PackageReference Include="coverlet.collector" Version="10.0.1">
+        <PackageReference Include="Serilog.Settings.Configuration" Version="11.0.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="4.5.3" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.5.3" />
+        <PackageReference Include="coverlet.collector" Version="10.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

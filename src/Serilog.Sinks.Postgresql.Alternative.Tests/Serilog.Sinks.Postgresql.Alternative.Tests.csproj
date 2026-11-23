@@ -24,6 +24,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Serilog" Version="4.4.0" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
     </ItemGroup>
 
     <ItemGroup>

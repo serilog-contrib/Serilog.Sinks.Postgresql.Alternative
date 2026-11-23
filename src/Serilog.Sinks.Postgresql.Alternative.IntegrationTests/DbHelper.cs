@@ -271,6 +271,48 @@ public sealed class DbHelper
     }
 
     /// <summary>
+    ///     Gets the values of the given columns of all rows of the table.
+    /// </summary>
+    /// <param name="schemaName">The name of the schema.</param>
+    /// <param name="tableName">The name of the table.</param>
+    /// <param name="columnNames">The names of the columns.</param>
+    /// <returns>One array of column values per row.</returns>
+    public async Task<List<object[]>> GetRows(string schemaName, string tableName, params string[] columnNames)
+    {
+        var builder = new StringBuilder();
+        builder.Append("SELECT \"");
+        builder.Append(string.Join("\", \"", columnNames));
+        builder.Append("\" FROM ");
+
+        if (!string.IsNullOrWhiteSpace(schemaName))
+        {
+            builder.Append('"');
+            builder.Append(schemaName);
+            builder.Append("\".");
+        }
+
+        builder.Append('"');
+        builder.Append(tableName);
+        builder.Append("\";");
+
+        using var connection = new NpgsqlConnection(this.connectionString);
+        await connection.OpenAsync();
+        using var command = connection.CreateCommand();
+        command.CommandText = builder.ToString();
+        using var reader = await command.ExecuteReaderAsync();
+        var rows = new List<object[]>();
+
+        while (await reader.ReadAsync())
+        {
+            var values = new object[reader.FieldCount];
+            reader.GetValues(values);
+            rows.Add(values);
+        }
+
+        return rows;
+    }
+
+    /// <summary>
     ///     Sets the password of a role.
     /// </summary>
     /// <param name="userName">The name of the role.</param>

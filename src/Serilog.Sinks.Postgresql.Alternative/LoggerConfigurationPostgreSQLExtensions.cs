@@ -295,6 +295,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
                     case "IdAutoIncrement":
                         columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter(order: columnOption.Value.Order));
                         break;
+                    case "EventType":
+                        columns.Add(columnOption.Key, new EventTypeColumnWriter(order: columnOption.Value.Order));
+                        break;
                 }
             }
         }
@@ -597,6 +600,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
                         break;
                     case "IdAutoIncrement":
                         columns.Add(columnOption.Key, new IdAutoIncrementColumnWriter(order: columnOption.Value.Order));
+                        break;
+                    case "EventType":
+                        columns.Add(columnOption.Key, new EventTypeColumnWriter(order: columnOption.Value.Order));
                         break;
                 }
             }

@@ -69,6 +69,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 * RenderedMessage: Stores the rendered message as `Text`.
 * Exception: Stores the exception as `Text`.
 * IdAutoIncrement: Stores the identifier as `Bigint` with auto increment.
+* EventType: Stores the event type, a hash of the message template, as `Text`. See [Event type](#event-type).
 
 ```json
 {
@@ -359,6 +360,20 @@ var columnProps = new Dictionary<string, ColumnWriterBase>
     { "MachineName", new SinglePropertyColumnWriter("MachineName", format: "l", order: 0) }
 };
 ```
+
+## Event type
+`EventTypeColumnWriter` stores a hash of the message template, so all events with the same template get the same value and can be grouped or found through an index. It uses the Jenkins one-at-a-time hash, the same one that [Serilog.Formatting.Compact](https://github.com/serilog/serilog-formatting-compact) writes as event id `@i`, so the values match. A text column gets eight lower case hexadecimal digits like `"7b2fe8d3"`, a `NpgsqlDbType.Bigint` column gets the number.
+
+```csharp
+IDictionary<string, ColumnWriterBase> columnOptions = new Dictionary<string, ColumnWriterBase>
+{
+    { "message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
+    { "event_type", new EventTypeColumnWriter() },
+    { "raise_date", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) }
+};
+```
+
+The writer computes the hash from the log event itself, it needs no enricher. In a JSON configuration, use the name `EventType` in `loggerColumnOptions`.
 
 ## Notes on column writers
 One difference between `Serilog.Sinks.PostgreSQL.ColumnWriters.LogEventSerializedColumnWriter` and `PropertiesColumnWriter` is that `LogEventSerializedColumnWriter` contains metadata while `PropertiesColumnWriter` only contains properties.

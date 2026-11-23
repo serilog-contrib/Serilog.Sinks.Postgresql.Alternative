@@ -1,5 +1,6 @@
 #pragma warning disable IDE0065 // Die using-Anweisung wurde falsch platziert.
 global using System;
+global using System.Globalization;
 global using System.Text;
 
 global using Microsoft.Extensions.Configuration;

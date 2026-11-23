@@ -39,7 +39,7 @@ The project can be found on [nuget](https://www.nuget.org/packages/Serilog.Sinks
 |-|-|-|-|
 |connectionString|The connection string to connect to the PostgreSQL database.|`"User ID=serilog;Password=serilog;Host=localhost;Port=5432;Database=Serilog;"`|None, is mandatory.|
 |tableName|The table name to write the data to. Is case-sensitive!|`"logs"`|None, is mandatory.|
-|columnOptions|The column options to use.|See the examples under the [Full example](https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative#full-example) section below.|`null`|
+|columnOptions|The column options to use.|See the examples under the [Full example](#full-example) section below.|`null`|
 |restrictedToMinimumLevel|The minimum log event level required in order to write an event to the sink.|`LogEventLevel.Information`|`LogEventLevel.Verbose`|
 |period|The time to wait between checking for event batches.|`period: new TimeSpan(0, 0, 20)`|`00:00:05`|
 |formatProvider|The `IFormatProvider` to use. Supplies culture-specific formatting information. Check https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider?view=netframework-4.8.|`new CultureInfo("de-DE")`|`null`|

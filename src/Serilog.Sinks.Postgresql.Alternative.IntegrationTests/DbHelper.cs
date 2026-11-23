@@ -215,6 +215,62 @@ public sealed class DbHelper
     }
 
     /// <summary>
+    ///     Creates the schema if it does not exist yet.
+    /// </summary>
+    /// <param name="schemaName">The name of the schema.</param>
+    public async Task CreateSchema(string schemaName)
+    {
+        var builder = new StringBuilder();
+        builder.Append("CREATE SCHEMA IF NOT EXISTS \"");
+        builder.Append(schemaName);
+        builder.Append("\";");
+
+        using var connection = new NpgsqlConnection(this.connectionString);
+        await connection.OpenAsync();
+        using var command = connection.CreateCommand();
+        command.CommandText = builder.ToString();
+        await command.ExecuteNonQueryAsync();
+    }
+
+    /// <summary>
+    ///     Creates a login role, if it does not exist yet, that may use the schema and read and insert rows of the table,
+    ///     but must not create a schema or a table.
+    /// </summary>
+    /// <param name="userName">The name of the role.</param>
+    /// <param name="password">The password of the role.</param>
+    /// <param name="schemaName">The name of the schema.</param>
+    /// <param name="tableName">The name of the table.</param>
+    public async Task CreateInsertOnlyUser(string userName, string password, string schemaName, string tableName)
+    {
+        var builder = new StringBuilder();
+        builder.Append("DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '");
+        builder.Append(userName);
+        builder.Append("') THEN CREATE ROLE \"");
+        builder.Append(userName);
+        builder.Append("\" LOGIN PASSWORD '");
+        builder.Append(password);
+        builder.Append("'; END IF; END $$;");
+        builder.Append("GRANT USAGE ON SCHEMA \"");
+        builder.Append(schemaName);
+        builder.Append("\" TO \"");
+        builder.Append(userName);
+        builder.Append("\";");
+        builder.Append("GRANT SELECT, INSERT ON \"");
+        builder.Append(schemaName);
+        builder.Append("\".\"");
+        builder.Append(tableName);
+        builder.Append("\" TO \"");
+        builder.Append(userName);
+        builder.Append("\";");
+
+        using var connection = new NpgsqlConnection(this.connectionString);
+        await connection.OpenAsync();
+        using var command = connection.CreateCommand();
+        command.CommandText = builder.ToString();
+        await command.ExecuteNonQueryAsync();
+    }
+
+    /// <summary>
     ///     Clears the quotation marks from the column options.
     /// </summary>
     private static IDictionary<string, ColumnWriterBase> ClearQuotationMarksFromColumnOptions(

@@ -21,9 +21,30 @@ public static class SchemaCreator
     /// <param name="schemaName">The name of the schema.</param>
     public static async Task CreateSchema(NpgsqlConnection connection, string schemaName)
     {
+        // PostgreSQL checks the create privilege on the database before it evaluates IF NOT EXISTS, so a user that may
+        // only write into an existing schema would fail here although there is nothing to create.
+        if (await SchemaExists(connection, schemaName).ConfigureAwait(false))
+        {
+            return;
+        }
+
         using var command = connection.CreateCommand();
         command.CommandText = GetCreateTableQuery(schemaName);
         await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Checks whether the schema exists.
+    /// </summary>
+    /// <param name="connection">The connection.</param>
+    /// <param name="schemaName">The name of the schema.</param>
+    /// <returns><c>true</c> if the schema exists, <c>false</c> otherwise.</returns>
+    private static async Task<bool> SchemaExists(NpgsqlConnection connection, string schemaName)
+    {
+        using var command = connection.CreateCommand();
+        command.CommandText = "SELECT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = @schemaName);";
+        command.Parameters.AddWithValue("schemaName", NpgsqlDbType.Text, schemaName);
+        return await command.ExecuteScalarAsync().ConfigureAwait(false) is true;
     }
 
     /// <summary>

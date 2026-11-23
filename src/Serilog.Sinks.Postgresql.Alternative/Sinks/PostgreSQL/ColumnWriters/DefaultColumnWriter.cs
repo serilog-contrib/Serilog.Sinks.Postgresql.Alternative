@@ -24,4 +24,16 @@ public sealed class DefaultColumnWriter
     /// Is used for sorting the columns as the writers are ordered alphabetically per default.
     /// </summary>
     public int? Order { get; set; }
+
+    /// <summary>
+    /// Gets or sets the names of the properties that the <c>Properties</c>, <c>LogEvent</c> and <c>LogEventUtc</c>
+    /// columns leave out of their JSON.
+    /// </summary>
+    public List<string>? ExcludedProperties { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the <c>Properties</c>, <c>LogEvent</c> and <c>LogEventUtc</c> columns
+    /// leave the properties out of their JSON that have their own column in the <c>loggerPropertyColumnOptions</c>.
+    /// </summary>
+    public bool ExcludeSinglePropertyColumns { get; set; }
 }

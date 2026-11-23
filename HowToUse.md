@@ -376,6 +376,32 @@ IDictionary<string, ColumnWriterBase> columnOptions = new Dictionary<string, Col
 
 The writer computes the hash from the log event itself, it needs no enricher. In a JSON configuration, use the name `EventType` in `loggerColumnOptions`.
 
+## Leaving properties out of the JSON columns
+`PropertiesColumnWriter` and `LogEventSerializedColumnWriter` can leave properties out of their JSON, for example properties that already have their own column. The log event itself is not changed, the other columns and sinks still get all properties.
+
+```csharp
+IDictionary<string, ColumnWriterBase> columnOptions = new Dictionary<string, ColumnWriterBase>
+{
+    { "properties", new PropertiesColumnWriter { ExcludedProperties = ["Password"], ExcludeSinglePropertyColumns = true } },
+    { "log_event", new LogEventSerializedColumnWriter { ExcludeSinglePropertyColumns = true } },
+    { "application", new SinglePropertyColumnWriter("Application") }
+};
+```
+
+`ExcludedProperties` lists the names of the properties to leave out, they are case-sensitive. `ExcludeSinglePropertyColumns` leaves out every property that the same sink writes to its own column with a `SinglePropertyColumnWriter`, `Application` in the example. For `LogEventSerializedColumnWriter`, both only affect the `Properties` inside the JSON, `Timestamp`, `Level` and `MessageTemplate` stay. Use `PropertiesColumnWriter` if you only need the properties.
+
+In a JSON configuration, both can be set on the `Properties`, `LogEvent` and `LogEventUtc` entries of `loggerColumnOptions`. `ExcludeSinglePropertyColumns` then refers to the columns in `loggerPropertyColumnOptions`:
+
+```json
+"loggerColumnOptions": {
+    "Properties": { "Name": "Properties", "ExcludedProperties": [ "Password" ] },
+    "LogEvent": { "Name": "LogEvent", "ExcludeSinglePropertyColumns": true }
+},
+"loggerPropertyColumnOptions": {
+    "Application": { "Name": "Application", "Format": "{0}", "WriteMethod": "Raw", "DbType": "Text" }
+}
+```
+
 ## Notes on column writers
 One difference between `Serilog.Sinks.PostgreSQL.ColumnWriters.LogEventSerializedColumnWriter` and `PropertiesColumnWriter` is that `LogEventSerializedColumnWriter` contains metadata while `PropertiesColumnWriter` only contains properties.
 

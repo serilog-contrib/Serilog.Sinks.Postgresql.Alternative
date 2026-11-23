@@ -33,6 +33,7 @@ public sealed class SinkHelper
         this.SinkOptions = options;
         this.isSchemaCreated = !options.NeedAutoCreateSchema;
         this.isTableCreated = !options.NeedAutoCreateTable;
+        SetSinglePropertyColumnNames(options.ColumnOptions);
     }
 
     /// <summary>
@@ -105,6 +106,29 @@ public sealed class SinkHelper
         if (this.SinkOptions.RetentionTime is not null && this.SinkOptions.RetentionTime > TimeSpan.Zero)
         {
             await this.DeleteOldLogEvents(connection).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Hands the property names of the single property columns to the column writers that can leave these
+    ///     properties out of their JSON.
+    /// </summary>
+    /// <param name="columnOptions">The column options of the sink.</param>
+    private static void SetSinglePropertyColumnNames(IDictionary<string, ColumnWriterBase> columnOptions)
+    {
+        var propertyNames = columnOptions.Values.OfType<SinglePropertyColumnWriter>().Select(w => w.Name).ToList();
+
+        foreach (var columnWriter in columnOptions.Values)
+        {
+            switch (columnWriter)
+            {
+                case PropertiesColumnWriter propertiesColumnWriter:
+                    propertiesColumnWriter.SinglePropertyColumnNames = propertyNames;
+                    break;
+                case LogEventSerializedColumnWriter logEventSerializedColumnWriter:
+                    logEventSerializedColumnWriter.SinglePropertyColumnNames = propertyNames;
+                    break;
+            }
         }
     }
 

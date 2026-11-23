@@ -64,6 +64,24 @@ public sealed class LogEventSerializedColumnWriter : ColumnWriterBase
         this.useUtcTimestamp = useUtcTimestamp;
     }
 
+    /// <summary>
+    ///     Gets or sets the names of the properties that are left out of the <c>Properties</c> of the JSON. The names
+    ///     are case-sensitive.
+    /// </summary>
+    public ICollection<string> ExcludedProperties { get; set; } = [];
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the properties that the same sink already writes to their own column
+    ///     with a <see cref="SinglePropertyColumnWriter"/> are left out of the <c>Properties</c> of the JSON.
+    /// </summary>
+    public bool ExcludeSinglePropertyColumns { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the property names of the <see cref="SinglePropertyColumnWriter"/> columns of the sink. The sink
+    ///     sets them when it is created, they are only used if <see cref="ExcludeSinglePropertyColumns"/> is set.
+    /// </summary>
+    internal ICollection<string> SinglePropertyColumnNames { get; set; } = [];
+
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>
     ///     Gets the part of the log event to write to the column.
@@ -76,25 +94,44 @@ public sealed class LogEventSerializedColumnWriter : ColumnWriterBase
     /// <seealso cref="ColumnWriterBase" />
     public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
     {
-        return LogEventToJson(this.useUtcTimestamp ? WithUtcTimestamp(logEvent) : logEvent, formatProvider);
+        return LogEventToJson(this.PrepareLogEvent(logEvent), formatProvider);
     }
 
     /// <summary>
-    ///     Creates a copy of the log event with the timestamp converted to UTC. The JSON formatter writes the timestamp
-    ///     with its offset and has no option for UTC.
+    ///     Gets the log event to serialize. If the timestamp is converted to UTC or properties are left out, this is a
+    ///     copy, because the same log event is handed to the other columns and sinks as well. The JSON formatter writes
+    ///     the timestamp with its offset and has no option for UTC.
     /// </summary>
     /// <param name="logEvent">The log event.</param>
-    /// <returns>The log event with the timestamp in UTC.</returns>
-    private static LogEvent WithUtcTimestamp(LogEvent logEvent)
+    /// <returns>The log event to serialize.</returns>
+    private LogEvent PrepareLogEvent(LogEvent logEvent)
     {
+        var excludesProperties = this.ExcludedProperties.Count > 0 || this.ExcludeSinglePropertyColumns;
+
+        if (!this.useUtcTimestamp && !excludesProperties)
+        {
+            return logEvent;
+        }
+
         return new LogEvent(
-            logEvent.Timestamp.ToUniversalTime(),
+            this.useUtcTimestamp ? logEvent.Timestamp.ToUniversalTime() : logEvent.Timestamp,
             logEvent.Level,
             logEvent.Exception,
             logEvent.MessageTemplate,
-            logEvent.Properties.Select(p => new LogEventProperty(p.Key, p.Value)),
+            logEvent.Properties.Where(p => !this.IsExcluded(p.Key)).Select(p => new LogEventProperty(p.Key, p.Value)),
             logEvent.TraceId ?? default,
             logEvent.SpanId ?? default);
+    }
+
+    /// <summary>
+    ///     Checks whether the property is left out of the JSON.
+    /// </summary>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <returns><c>true</c> if the property is left out, <c>false</c> otherwise.</returns>
+    private bool IsExcluded(string propertyName)
+    {
+        return this.ExcludedProperties.Contains(propertyName)
+            || (this.ExcludeSinglePropertyColumns && this.SinglePropertyColumnNames.Contains(propertyName));
     }
 
     /// <summary>

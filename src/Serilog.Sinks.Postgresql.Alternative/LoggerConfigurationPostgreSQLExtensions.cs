@@ -278,13 +278,25 @@ public static class LoggerConfigurationPostgreSqlExtensions
                         columns.Add(columnOption.Key, new TimestampColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "LogEvent":
-                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order));
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order)
+                        {
+                            ExcludedProperties = columnOption.Value.ExcludedProperties ?? [],
+                            ExcludeSinglePropertyColumns = columnOption.Value.ExcludeSinglePropertyColumns
+                        });
                         break;
                     case "LogEventUtc":
-                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(true, order: columnOption.Value.Order));
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(true, order: columnOption.Value.Order)
+                        {
+                            ExcludedProperties = columnOption.Value.ExcludedProperties ?? [],
+                            ExcludeSinglePropertyColumns = columnOption.Value.ExcludeSinglePropertyColumns
+                        });
                         break;
                     case "Properties":
-                        columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order));
+                        columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order)
+                        {
+                            ExcludedProperties = columnOption.Value.ExcludedProperties ?? [],
+                            ExcludeSinglePropertyColumns = columnOption.Value.ExcludeSinglePropertyColumns
+                        });
                         break;
                     case "Message":
                         columns.Add(columnOption.Key, new MessageTemplateColumnWriter(order: columnOption.Value.Order));
@@ -587,13 +599,25 @@ public static class LoggerConfigurationPostgreSqlExtensions
                         columns.Add(columnOption.Key, new TimestampColumnWriter(order: columnOption.Value.Order));
                         break;
                     case "LogEvent":
-                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order));
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order)
+                        {
+                            ExcludedProperties = columnOption.Value.ExcludedProperties ?? [],
+                            ExcludeSinglePropertyColumns = columnOption.Value.ExcludeSinglePropertyColumns
+                        });
                         break;
                     case "LogEventUtc":
-                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(true, order: columnOption.Value.Order));
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(true, order: columnOption.Value.Order)
+                        {
+                            ExcludedProperties = columnOption.Value.ExcludedProperties ?? [],
+                            ExcludeSinglePropertyColumns = columnOption.Value.ExcludeSinglePropertyColumns
+                        });
                         break;
                     case "Properties":
-                        columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order));
+                        columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order)
+                        {
+                            ExcludedProperties = columnOption.Value.ExcludedProperties ?? [],
+                            ExcludeSinglePropertyColumns = columnOption.Value.ExcludeSinglePropertyColumns
+                        });
                         break;
                     case "Message":
                         columns.Add(columnOption.Key, new MessageTemplateColumnWriter(order: columnOption.Value.Order));

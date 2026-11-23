@@ -70,6 +70,76 @@ public sealed class LogEventSerializedColumnWriterTest
     }
 
     /// <summary>
+    ///     This method is used to test that the excluded properties are left out of the JSON, while the log event itself
+    ///     keeps them for the other columns and sinks.
+    ///     Test for issue https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/8.
+    /// </summary>
+    [TestMethod]
+    public void ExcludedPropertiesShouldBeLeftOutWithoutChangingTheLogEvent()
+    {
+        var writer = new LogEventSerializedColumnWriter { ExcludedProperties = ["Application"] };
+        var logEvent = CreateLogEventWithApplication();
+
+        var json = (string)writer.GetValue(logEvent);
+
+        CollectionAssert.AreEqual(new[] { "RequestId" }, GetPropertyNames(json));
+        Assert.IsTrue(logEvent.Properties.ContainsKey("Application"));
+    }
+
+    /// <summary>
+    ///     This method is used to test that the properties with their own column in the same sink are left out together
+    ///     with the conversion to UTC.
+    ///     Test for issue https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/8.
+    /// </summary>
+    [TestMethod]
+    public void ExcludeSinglePropertyColumnsShouldLeaveOutPropertiesWithOwnColumn()
+    {
+        var writer = new LogEventSerializedColumnWriter(true) { ExcludeSinglePropertyColumns = true };
+
+        _ = new SinkHelper(new PostgreSqlOptions
+        {
+            ColumnOptions = new Dictionary<string, ColumnWriterBase>
+            {
+                { "LogEvent", writer },
+                { "Application", new SinglePropertyColumnWriter("Application") }
+            }
+        });
+
+        var json = (string)writer.GetValue(CreateLogEventWithApplication());
+
+        CollectionAssert.AreEqual(new[] { "RequestId" }, GetPropertyNames(json));
+        Assert.AreEqual("2024-03-01T18:07:27.2510000+00:00", GetTimestamp(json));
+    }
+
+    /// <summary>
+    ///     Creates a log event with the properties <c>RequestId</c> and <c>Application</c>.
+    /// </summary>
+    /// <returns>The log event.</returns>
+    private static LogEvent CreateLogEventWithApplication()
+    {
+        return new LogEvent(
+            Timestamp,
+            LogEventLevel.Information,
+            null,
+            new MessageTemplateParser().Parse("Request {RequestId}"),
+            [
+                new LogEventProperty("RequestId", new ScalarValue("97a1fe41")),
+                new LogEventProperty("Application", new ScalarValue("WeatherApp"))
+            ]);
+    }
+
+    /// <summary>
+    ///     Gets the names of the properties in the serialized log event.
+    /// </summary>
+    /// <param name="json">The serialized log event.</param>
+    /// <returns>The property names.</returns>
+    private static string[] GetPropertyNames(string json)
+    {
+        using var document = JsonDocument.Parse(json);
+        return [.. document.RootElement.GetProperty("Properties").EnumerateObject().Select(p => p.Name)];
+    }
+
+    /// <summary>
     ///     Creates a log event with a trace id, a span id, a property and an exception.
     /// </summary>
     /// <returns>The log event.</returns>

@@ -39,6 +39,23 @@ public sealed class PropertiesColumnWriter : ColumnWriterBase
     {
     }
 
+    /// <summary>
+    ///     Gets or sets the names of the properties that are left out of the JSON. The names are case-sensitive.
+    /// </summary>
+    public ICollection<string> ExcludedProperties { get; set; } = [];
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the properties that the same sink already writes to their own column
+    ///     with a <see cref="SinglePropertyColumnWriter"/> are left out of the JSON.
+    /// </summary>
+    public bool ExcludeSinglePropertyColumns { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the property names of the <see cref="SinglePropertyColumnWriter"/> columns of the sink. The sink
+    ///     sets them when it is created, they are only used if <see cref="ExcludeSinglePropertyColumns"/> is set.
+    /// </summary>
+    internal ICollection<string> SinglePropertyColumnNames { get; set; } = [];
+
     /// <inheritdoc cref="ColumnWriterBase" />
     /// <summary>
     ///     Gets the part of the log event to write to the column.
@@ -51,40 +68,48 @@ public sealed class PropertiesColumnWriter : ColumnWriterBase
     /// <seealso cref="ColumnWriterBase" />
     public override object GetValue(LogEvent logEvent, IFormatProvider? formatProvider = null)
     {
-        return PropertiesToJson(logEvent);
+        return this.PropertiesToJson(logEvent);
     }
 
     /// <summary>
-    ///     Converts the properties to json.
+    ///     Converts the properties that are not excluded to json.
     /// </summary>
     /// <param name="logEvent">The log event.</param>
     /// <returns>The properties as json object.</returns>
-    private static object PropertiesToJson(LogEvent logEvent)
+    private string PropertiesToJson(LogEvent logEvent)
     {
-        if (logEvent.Properties.Count == 0)
-        {
-            return "{}";
-        }
-
         var valuesFormatter = new JsonValueFormatter();
+        using var writer = new StringWriter();
+        var delimiter = string.Empty;
 
-        var sb = new StringBuilder();
+        writer.Write('{');
 
-        sb.Append('{');
-
-        using (var writer = new StringWriter(sb))
+        foreach (var keyValuePair in logEvent.Properties)
         {
-            foreach (var keyValuePair in logEvent.Properties)
+            if (this.IsExcluded(keyValuePair.Key))
             {
-                sb.Append($"\"{keyValuePair.Key}\":");
-                valuesFormatter.Format(keyValuePair.Value, writer);
-                sb.Append(", ");
+                continue;
             }
+
+            writer.Write(delimiter);
+            delimiter = ", ";
+            JsonValueFormatter.WriteQuotedJsonString(keyValuePair.Key, writer);
+            writer.Write(':');
+            valuesFormatter.Format(keyValuePair.Value, writer);
         }
 
-        sb.Remove(sb.Length - 2, 2);
-        sb.Append('}');
+        writer.Write('}');
+        return writer.ToString();
+    }
 
-        return sb.ToString();
+    /// <summary>
+    ///     Checks whether the property is left out of the JSON.
+    /// </summary>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <returns><c>true</c> if the property is left out, <c>false</c> otherwise.</returns>
+    private bool IsExcluded(string propertyName)
+    {
+        return this.ExcludedProperties.Contains(propertyName)
+            || (this.ExcludeSinglePropertyColumns && this.SinglePropertyColumnNames.Contains(propertyName));
     }
 }

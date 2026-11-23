@@ -207,6 +207,10 @@ Do not silently "clean up" these, they are existing behaviour:
 
 ## Releasing
 
+**Every new version is released completely.** Changelog, README, nuget.org, GitHub Packages and a
+GitHub release belong to every version, none of these steps is optional and none of them waits for
+a separate request.
+
 1. Make the change.
 2. Add an entry at the top of `Changelog.md` in the existing format:
    `* **Version 4.2.0.0 (2025-03-24)** : Short description.`
@@ -214,16 +218,38 @@ Do not silently "clean up" these, they are existing behaviour:
    `src/Serilog.Sinks.Postgresql.Alternative/Serilog.Sinks.Postgresql.Alternative.csproj` to the
    same text in its own format:
    `Version 4.2.0.0 (2025-03-24): Short description.`
-4. Update the `## Available for` list in `README.md` if the target frameworks changed.
+4. Update `README.md` for every version, the part above `## Contributors`. The `## Available for`
+   list has to match the target frameworks, and nothing there may describe a state the package has
+   left behind.
 5. Commit that.
 6. Tag the commit with the plain version number, no `v` prefix (`4.2.0`, `4.1.3`, ...). The existing
    tags are lightweight tags, create new ones the same way. Tag **before** building the package, so
    that GitVersion does not bake a prerelease version into the shipped assembly.
 7. Push the commits and the tag.
-8. `BuildAndPushPackage.bat` deletes all `bin` and `obj` folders, builds `-c Release` and pushes
-   `*.nupkg` and `*.snupkg` to nuget.org with `%NUGET_API_KEY%`. It runs `dotnet restore` without an
-   explicit source, so it needs the private feed to be reachable or removed from the machine
-   configuration. Publishing to nuget.org is irreversible, only run it on request.
+8. Publish to nuget.org with `BuildAndPushPackage.bat`. It deletes all `bin` and `obj` folders,
+   builds `-c Release` and pushes `*.nupkg` and `*.snupkg` to nuget.org with `%NUGET_API_KEY%`. It
+   runs `dotnet restore` without an explicit source, so it needs the private feed to be reachable or
+   removed from the machine configuration. Call it with its full path: the Claude Code shell sets
+   `NoDefaultCurrentDirectoryInExePath=1`, so cmd does not find a bare `BuildAndPushPackage.bat` in
+   the current directory. A push to nuget.org cannot be taken back, the version is burned even
+   after unlisting. nuget.org needs a few minutes to validate a new version before it is listed.
+9. Publish the same `.nupkg` from `src/Serilog.Sinks.Postgresql.Alternative/bin/Release` to GitHub
+   Packages, `https://nuget.pkg.github.com/serilog-contrib/index.json`. The script does not do
+   that. The API key is a GitHub token with the scope `write:packages`, for example from
+   `gh auth token`. If `gh auth status` lists no `write:packages`, the user has to run
+   `gh auth refresh -h github.com -s write:packages,read:packages`, it needs a browser login.
+   GitHub Packages takes no symbol packages, push the `.nupkg` only.
+10. Create the GitHub release:
+    `gh release create 4.2.0 -R serilog-contrib/Serilog.Sinks.Postgresql.Alternative --verify-tag --latest --title "Version 4.2.0.0 (2025-03-24)" --notes-file <file>`.
+    The notes are the changelog sentence plus the line
+    `NuGet: https://www.nuget.org/packages/Serilog.Sinks.Postgresql.Alternative/4.2.0`. Write
+    credits as `` `@name` `` in backticks, a bare `@name` notifies that person again.
+
+Versions 1.0.0 to 3.3.7 were published under the former package id
+`HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL`, the current id starts with 3.3.8. They
+are not missing on nuget.org, never push them under the current id. On 2026-11-23 only two tags
+had a GitHub release and GitHub Packages held one version under the current id, the older history
+there is incomplete.
 
 The version in `Changelog.md` and `PackageReleaseNotes` has four parts (`4.2.0.0`), the tag has
 three (`4.2.0`). GitVersion turns the tag into the assembly and package version, so an untagged

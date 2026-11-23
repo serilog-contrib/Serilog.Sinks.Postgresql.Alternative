@@ -50,8 +50,7 @@ public sealed class JsonConfigTest : BaseTests
                 "TestValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -86,8 +85,7 @@ public sealed class JsonConfigTest : BaseTests
                 "TestValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -123,8 +121,7 @@ public sealed class JsonConfigTest : BaseTests
                 "TestValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }

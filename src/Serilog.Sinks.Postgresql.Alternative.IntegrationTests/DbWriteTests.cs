@@ -71,8 +71,7 @@ public sealed class DbWriteTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -122,8 +121,7 @@ public sealed class DbWriteTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -159,8 +157,7 @@ public sealed class DbWriteTests : BaseTests
 
         logger.Information("Test: {@TestObject} testStr: {@TestStr:l}", testObject, "stringValue");
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(1, actualRowsCount);
     }
@@ -195,8 +192,7 @@ public sealed class DbWriteTests : BaseTests
 
         logger.Information("Test: {@TestObject} testStr: {@TestStr:l}", testObject, "stringValue");
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(1, actualRowsCount);
     }
@@ -243,8 +239,7 @@ public sealed class DbWriteTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(10000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -279,8 +274,7 @@ public sealed class DbWriteTests : BaseTests
 
         logger.Information("Test: {@TestObject} testStr: {@TestStr:l}", testObject, "stringValue");
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(1, actualRowsCount);
     }
@@ -330,8 +324,7 @@ public sealed class DbWriteTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -361,7 +354,7 @@ public sealed class DbWriteTests : BaseTests
                 testObject,
                 testObject2,
                 "stringValue"));
-        Log.CloseAndFlush();
+        logger.Dispose();
     }
 
     /// <summary>
@@ -412,8 +405,7 @@ public sealed class DbWriteTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(string.Empty, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -451,8 +443,7 @@ public sealed class DbWriteTests : BaseTests
 
         logger.Information("A test error occured.");
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
     }
 
     /// <summary>
@@ -488,7 +479,6 @@ public sealed class DbWriteTests : BaseTests
 
         logger.Information("A test error occured.");
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
     }
 }

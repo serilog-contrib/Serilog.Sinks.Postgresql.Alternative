@@ -74,8 +74,7 @@ public sealed class DbWriteWithSchemaTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(10000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -120,8 +119,7 @@ public sealed class DbWriteWithSchemaTests : BaseTests
             logger.Information("Test{TestNo}: {@TestObject} test2: {@TestObject2}", i, testObject, testObject2);
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(10000);
+        logger.Dispose();
         var rowsCount = await this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
         Assert.AreEqual(RowsCount, rowsCount);
     }
@@ -176,8 +174,7 @@ public sealed class DbWriteWithSchemaTests : BaseTests
                 "stringValue");
         }
 
-        Log.CloseAndFlush();
-        await Task.Delay(1000);
+        logger.Dispose();
         var actualRowsCount = await this.databaseHelper.GetTableRowsCount(SchemaName, TableName);
         Assert.AreEqual(RowsCount, actualRowsCount);
     }
@@ -211,6 +208,6 @@ public sealed class DbWriteWithSchemaTests : BaseTests
                 testObject,
                 testObject2,
                 "stringValue"));
-        Log.CloseAndFlush();
+        logger.Dispose();
     }
 }

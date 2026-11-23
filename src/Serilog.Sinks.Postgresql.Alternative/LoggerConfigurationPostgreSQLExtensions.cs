@@ -120,6 +120,86 @@ public static class LoggerConfigurationPostgreSqlExtensions
     }
 
     /// <summary>
+    ///     Adds a sink which writes to the PostgreSQL table and opens its connections from the given data source, for
+    ///     example to pick up a rotated password through the password provider of the data source.
+    /// </summary>
+    /// <param name="sinkConfiguration">The logger configuration.</param>
+    /// <param name="dataSource">The data source to open the connections from. The sink does not dispose it.</param>
+    /// <param name="tableName">Name of the table to store the events in.</param>
+    /// <param name="columnOptions">The column options.</param>
+    /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+    /// <param name="period">The time to wait between checking for event batches.</param>
+    /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
+    /// <param name="batchSizeLimit">The maximum number of events to include to single batch.</param>
+    /// <param name="queueLimit">The maximum number of events that should be stored in the batching queue.</param>
+    /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
+    /// <param name="useCopy">If true inserts data via COPY command, otherwise uses INSERT INTO statement.</param>
+    /// <param name="schemaName">The schema name.</param>
+    /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+    /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
+    /// <returns>Logger configuration, allowing configuration to continue.</returns>
+    public static LoggerConfiguration PostgreSQL(
+        this LoggerSinkConfiguration sinkConfiguration,
+        NpgsqlDataSource dataSource,
+        string tableName,
+        IDictionary<string, ColumnWriterBase>? columnOptions = null,
+        LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+        TimeSpan? period = null,
+        IFormatProvider? formatProvider = null,
+        int batchSizeLimit = DefaultBatchSizeLimit,
+        int queueLimit = DefaultQueueLimit,
+        LoggingLevelSwitch? levelSwitch = null,
+        bool useCopy = true,
+        string schemaName = "",
+        bool needAutoCreateTable = false,
+        bool needAutoCreateSchema = false,
+        Action<CreateTableEventArgs>? onCreateTableCallback = null,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
+        TimeSpan? retentionTime = null)
+    {
+        if (sinkConfiguration is null)
+        {
+            throw new ArgumentNullException(nameof(sinkConfiguration));
+        }
+
+        if (dataSource is null)
+        {
+            throw new ArgumentNullException(nameof(dataSource));
+        }
+
+        period ??= DefaultPeriod;
+
+        var optionsLocal = GetOptions(
+            dataSource.ConnectionString,
+            tableName,
+            columnOptions,
+            period.Value,
+            formatProvider,
+            batchSizeLimit,
+            queueLimit,
+            useCopy,
+            schemaName,
+            needAutoCreateTable,
+            needAutoCreateSchema,
+            onCreateTableCallback,
+            onCreateSchemaCallback,
+            retentionTime,
+            dataSource);
+
+        var batchingOptions = new BatchingOptions()
+        {
+            BatchSizeLimit = optionsLocal.BatchSizeLimit,
+            BufferingTimeLimit = optionsLocal.Period,
+            QueueLimit = optionsLocal.QueueLimit
+        };
+
+        return sinkConfiguration.Sink(new PostgreSqlSink(optionsLocal), batchingOptions, restrictedToMinimumLevel, levelSwitch);
+    }
+
+    /// <summary>
     /// Adds a sink which writes to the PostgreSQL table. The configuration for the sink can be taken from the JSON file.
     /// </summary>
     /// <param name="sinkConfiguration">The logger configuration.</param>
@@ -346,6 +426,70 @@ public static class LoggerConfigurationPostgreSqlExtensions
     }
 
     /// <summary>
+    ///     Adds a sink that writes log events to a table in a PostgreSQL table and opens its connections from the given
+    ///     data source, for example to pick up a rotated password through the password provider of the data source.
+    ///     LoggerAuditSinkConfiguration
+    /// </summary>
+    /// <param name="sinkConfiguration">The logger configuration.</param>
+    /// <param name="dataSource">The data source to open the connections from. The sink does not dispose it.</param>
+    /// <param name="tableName">Name of the table to store the events in.</param>
+    /// <param name="columnOptions">The column options.</param>
+    /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+    /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
+    /// <param name="levelSwitch">A switch allowing the pass-through minimum level to be changed at runtime.</param>
+    /// <param name="schemaName">The schema name.</param>
+    /// <param name="needAutoCreateTable">A <seealso cref="bool"/> value indicating whether the table should be auto created or not.</param>
+    /// <param name="needAutoCreateSchema">Specifies whether the schema should be auto-created if it does not already exist or not.</param>
+    /// <param name="onCreateTableCallback">The on create table callback.</param>
+    /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
+    /// <param name="retentionTime">The retention time of the log entries in the database.</param>
+    /// <returns>Logger configuration, allowing configuration to continue.</returns>
+    public static LoggerConfiguration PostgreSQL(
+        this LoggerAuditSinkConfiguration sinkConfiguration,
+        NpgsqlDataSource dataSource,
+        string tableName,
+        IDictionary<string, ColumnWriterBase>? columnOptions = null,
+        LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+        IFormatProvider? formatProvider = null,
+        LoggingLevelSwitch? levelSwitch = null,
+        string schemaName = "",
+        bool needAutoCreateTable = false,
+        bool needAutoCreateSchema = false,
+        Action<CreateTableEventArgs>? onCreateTableCallback = null,
+        Action<CreateSchemaEventArgs>? onCreateSchemaCallback = null,
+        TimeSpan? retentionTime = null)
+    {
+        if (sinkConfiguration is null)
+        {
+            throw new ArgumentNullException(nameof(sinkConfiguration));
+        }
+
+        if (dataSource is null)
+        {
+            throw new ArgumentNullException(nameof(dataSource));
+        }
+
+        var optionsLocal = GetOptions(
+            dataSource.ConnectionString,
+            tableName,
+            columnOptions,
+            TimeSpan.Zero,
+            formatProvider,
+            DefaultBatchSizeLimit,
+            DefaultQueueLimit,
+            false,
+            schemaName,
+            needAutoCreateTable,
+            needAutoCreateSchema,
+            onCreateTableCallback,
+            onCreateSchemaCallback,
+            retentionTime,
+            dataSource);
+
+        return sinkConfiguration.Sink(new PostgreSqlAuditSink(optionsLocal), restrictedToMinimumLevel, levelSwitch);
+    }
+
+    /// <summary>
     ///     Clears the quotation marks from the column options.
     /// </summary>
     internal static IDictionary<string, ColumnWriterBase> ClearQuotationMarksFromColumnOptions(
@@ -522,6 +666,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
     /// <param name="onCreateTableCallback">The on create table callback.</param>
     /// <param name="onCreateSchemaCallback">The on create schema callback.</param>
     /// <param name="retentionTime">The retention time of the log entries in the database.</param>
+    /// <param name="dataSource">The data source to open the connections from, or null to use the connection string.</param>
     internal static PostgreSqlOptions GetOptions(
         string connectionString,
         string tableName,
@@ -536,7 +681,8 @@ public static class LoggerConfigurationPostgreSqlExtensions
         bool needAutoCreateSchema,
         Action<CreateTableEventArgs>? onCreateTableCallback,
         Action<CreateSchemaEventArgs>? onCreateSchemaCallback,
-        TimeSpan? retentionTime = null)
+        TimeSpan? retentionTime = null,
+        NpgsqlDataSource? dataSource = null)
     {
         var columnOptionsLocal = ClearQuotationMarksFromColumnOptions(columnOptions ?? ColumnOptions.Default);
 
@@ -545,6 +691,7 @@ public static class LoggerConfigurationPostgreSqlExtensions
         return new PostgreSqlOptions
         {
             ConnectionString = connectionString,
+            DataSource = dataSource,
             TableName = tableName?.Replace("\"", string.Empty) ?? string.Empty,
             Period = period,
             FormatProvider = formatProvider,

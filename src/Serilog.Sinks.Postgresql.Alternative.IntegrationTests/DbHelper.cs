@@ -271,6 +271,27 @@ public sealed class DbHelper
     }
 
     /// <summary>
+    ///     Sets the password of a role.
+    /// </summary>
+    /// <param name="userName">The name of the role.</param>
+    /// <param name="password">The new password.</param>
+    public async Task SetPassword(string userName, string password)
+    {
+        var builder = new StringBuilder();
+        builder.Append("ALTER ROLE \"");
+        builder.Append(userName);
+        builder.Append("\" PASSWORD '");
+        builder.Append(password);
+        builder.Append("';");
+
+        using var connection = new NpgsqlConnection(this.connectionString);
+        await connection.OpenAsync();
+        using var command = connection.CreateCommand();
+        command.CommandText = builder.ToString();
+        await command.ExecuteNonQueryAsync();
+    }
+
+    /// <summary>
     ///     Clears the quotation marks from the column options.
     /// </summary>
     private static IDictionary<string, ColumnWriterBase> ClearQuotationMarksFromColumnOptions(

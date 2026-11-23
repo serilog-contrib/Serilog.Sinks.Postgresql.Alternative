@@ -46,7 +46,7 @@ public sealed class SinkHelper
     /// <param name="events">The events.</param>
     public async Task Emit(IEnumerable<LogEvent> events)
     {
-        using var connection = new NpgsqlConnection(this.SinkOptions.ConnectionString);
+        using var connection = this.SinkOptions.DataSource?.CreateConnection() ?? new NpgsqlConnection(this.SinkOptions.ConnectionString);
         await connection.OpenAsync().ConfigureAwait(false);
 
         if (this.SinkOptions.NeedAutoCreateSchema && !this.isSchemaCreated && !string.IsNullOrWhiteSpace(this.SinkOptions.SchemaName))

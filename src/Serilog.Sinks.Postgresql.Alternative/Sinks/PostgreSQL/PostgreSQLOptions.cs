@@ -20,6 +20,12 @@ public sealed class PostgreSqlOptions
     public string ConnectionString { get; set; } = string.Empty;
 
     /// <summary>
+    ///     Gets or sets the data source. If it is set, the connections are opened from it, so that its password
+    ///     provider is used, and the <see cref="ConnectionString"/> is ignored. The sink does not dispose it.
+    /// </summary>
+    public NpgsqlDataSource? DataSource { get; set; }
+
+    /// <summary>
     ///     Gets or sets the format provider.
     /// </summary>
     public IFormatProvider? FormatProvider { get; set; }

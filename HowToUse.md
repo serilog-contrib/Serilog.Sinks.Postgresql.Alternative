@@ -281,6 +281,26 @@ var logger = new LoggerConfiguration()
 
 Note that when using `SinglePropertyColumnWriter`, the ["l" format specifier](https://github.com/serilog/serilog/wiki/Formatting-Output#formatting-plain-text) switches off quoting of strings.
 
+## Rotating the password with an NpgsqlDataSource
+If the password of the database user changes at runtime, pass an `NpgsqlDataSource` instead of the connection string. The sink opens every connection from it, so the password provider of the data source is asked whenever a new physical connection is opened:
+
+```csharp
+var dataSourceBuilder = new NpgsqlDataSourceBuilder("User ID=serilog;Host=localhost;Port=5432;Database=Serilog;");
+dataSourceBuilder.UsePeriodicPasswordProvider(
+    async (_, cancellationToken) => await GetCurrentPasswordAsync(cancellationToken),
+    TimeSpan.FromMinutes(55),
+    TimeSpan.FromSeconds(5));
+var dataSource = dataSourceBuilder.Build();
+
+var logger = new LoggerConfiguration()
+	.WriteTo.PostgreSQL(dataSource, "logs", columnOptions, needAutoCreateTable: true)
+	.CreateLogger();
+```
+
+`GetCurrentPasswordAsync` stands for your own code that fetches the current password, for example from a secret store. `UsePasswordProvider` works as well if the password should be fetched for every new connection. Connections that are already open stay authenticated with the old password.
+
+The overload exists for `WriteTo` and `AuditTo` and takes the same parameters as the one with the connection string, except `appConfiguration`. It can only be used from code, not from a JSON configuration. The sink does not dispose the data source, dispose it yourself after the logger.
+
 ## Using the sink with NodaTime in .Net Core 2.2+
 For the use with [NodaTime](https://nodatime.org/) in .Net Core 2.2, you need to add a new column writer class for the `DateTimeOffset` values.
 Check the issue https://github.com/serilog-contrib/Serilog.Sinks.Postgresql.Alternative/issues/10, too.

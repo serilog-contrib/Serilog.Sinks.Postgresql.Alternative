@@ -64,6 +64,7 @@ The configuration via a JSON file allows the following `loggerColumnOptions`:
 * LevelAsText: Stores the log level as `Text`.
 * Timestamp: Stores the timestamp as `TimestampTz`.
 * LogEvent: Stores the log event as `Jsonb`.
+* LogEventUtc: Stores the log event as `Jsonb` with its timestamp converted to UTC.
 * Properties: Stores the properties as `Jsonb`.
 * Message: Stores the message template as `Text`.
 * RenderedMessage: Stores the rendered message as `Text`.
@@ -424,3 +425,5 @@ And `PropertiesColumnWriter` for the same event:
 ```
 
 If there is an exception, `LogEventSerializedColumnWriter` will have a property called `Exception` containing the stack trace, the same stack trace inside `ExceptionColumnWriter`.
+
+The `Timestamp` in the JSON carries the local offset of the process, like `+07:00` above. `new LogEventSerializedColumnWriter(true)` converts it to UTC first, so it ends in `+00:00`, the point in time stays the same. In a JSON configuration, use the name `LogEventUtc` instead of `LogEvent` for that.

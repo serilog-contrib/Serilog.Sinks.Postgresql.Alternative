@@ -280,6 +280,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
                     case "LogEvent":
                         columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order));
                         break;
+                    case "LogEventUtc":
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(true, order: columnOption.Value.Order));
+                        break;
                     case "Properties":
                         columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order));
                         break;
@@ -585,6 +588,9 @@ public static class LoggerConfigurationPostgreSqlExtensions
                         break;
                     case "LogEvent":
                         columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(order: columnOption.Value.Order));
+                        break;
+                    case "LogEventUtc":
+                        columns.Add(columnOption.Key, new LogEventSerializedColumnWriter(true, order: columnOption.Value.Order));
                         break;
                     case "Properties":
                         columns.Add(columnOption.Key, new PropertiesColumnWriter(order: columnOption.Value.Order));
